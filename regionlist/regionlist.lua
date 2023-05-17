@@ -38,6 +38,8 @@ function p._regionlist(args)
                 lat = (string, mayn't be there),
                 long = (string, mayn't be there),
                 zoom = (string, default: "auto"),
+                width = (string, default: ""),
+                height = (string, default: "")
             }
         ]]
         if args.mapframelat ~= nil or args.mapframelong ~= nil then
@@ -48,6 +50,13 @@ function p._regionlist(args)
             maps[long] = entity:getBestStatements('P625')[1].mainsnak.datavalue.value.longitude
         end
         maps[zoom] = args.mapframezoom or "auto"
+        maps[width] = args.mapframewidth or ""
+        maps[height] = args.mapframeheight or ""
+
+        if args.regionmap ~= nil then
+            --
+        end
+    end
 end
 
 function p.regionlist(frame)
