@@ -1,2 +1,2 @@
 {{documentation subpage}}
-[[Template:Reginlist|Regionlist]]のモジュールです。使用方法はテンプレートの解説ページをご覧ください。
+[[Template:Reginlist|Regionlist]]のモジュールです。使用方法はテンプレートの[[Template:Regionlist/doc|解説ページ]]をご覧ください。
