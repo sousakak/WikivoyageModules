@@ -98,7 +98,7 @@ end
 
 function p.regionlist(frame)
 	local args = getArgs(frame, {
-		wrappers = 'Template:Regionlist',
+		wrappers = config.settings.wrapperTemplate,
 		noOverwrite = true
 	})
 	p._regionlist(args)

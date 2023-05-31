@@ -5,6 +5,7 @@ return {
     },
     settings {
         mapAlign = "right",
-        mapDefaultDesc = "$1の地図"
+        mapDefaultDesc = "$1の地図",
+        wrapperTemplate = "Template:Regionlist"
     }
 }
