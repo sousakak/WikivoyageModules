@@ -4,6 +4,7 @@ return {
         mapNotFound = "地図の画像が見つかりません"
     },
     settings {
-        mapAlign = "right"
+        mapAlign = "right",
+        mapDefaultDesc = "$1の地図"
     }
 }

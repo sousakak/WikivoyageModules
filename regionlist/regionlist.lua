@@ -62,7 +62,7 @@ function p._maps(args)
         local obj = {}
         obj.file = file
         obj.size = size or "350px"
-        obj.text = text or mw.ustring.gsub("$1の地図", "$1", mw.title.getCurrentTitle().subpageText, 1)
+        obj.text = text or mw.ustring.gsub(config.settings.mapDefaultDesc, "$1", mw.title.getCurrentTitle().subpageText, 1)
         obj.name = self.file.text
         obj.getWikitext = function(self)
             return "[[" + self.file.fullText + "|thumb|" + config.settings.mapAlign + "|" + self.size + "|" + self.text + "]]"
