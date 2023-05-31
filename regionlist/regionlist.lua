@@ -28,7 +28,17 @@ local function rowargs(args)
 	return result
 end
 
-function p._regionlist(args)
+function p._maps(args)
+    maps = {}
+    --[[
+        maps = {
+            lat       string: mayn't be there
+            long      string: mayn't be there
+            zoom      string: (default: "auto")
+            width     string: (default: "")
+            height    string: (default: "")
+        }
+    ]]
     entity = mw.wikibase.getEntityIdForCurrentPage()
     staticMap = {
         --[[
@@ -52,7 +62,7 @@ function p._regionlist(args)
         local obj = {}
         obj.file = file
         obj.size = size or "350px"
-        obj.text = text or (mw.title.getCurrentTitle().subpageText + "の地図")
+        obj.text = text or mw.ustring.gsub("$1の地図", "$1", mw.title.getCurrentTitle().subpageText, 1)
         obj.name = self.file.text
         obj.getWikitext = function(self)
             return "[[" + self.file.fullText + "|thumb|" + config.settings.mapAlign + "|" + self.size + "|" + self.text + "]]"
@@ -60,17 +70,6 @@ function p._regionlist(args)
     end
     if entity ~= nil then existWikidata = true else existWikidata = false end
     if yesno(args.mapframe) == true then
-        maps = {}
-        --[[
-            maps = {
-                lat       string: mayn't be there
-                long      string: mayn't be there
-                zoom      string: (default: "auto")
-                width     string: (default: "")
-                height    string: (default: "")
-                static staticMap: A pseudo class defined above. When there isn't a static map, this will be nil.
-            }
-        ]]
         if args.mapframelat ~= nil or args.mapframelong ~= nil then
             if args.mapframelat ~= nil then maps[lat] = coord(args.mapframelat, "", 6).dec else error(config.error.coordNotFound + "lat") end
             if args.mapframelong ~= nil then maps[long] = coord(args.mapframelong, "", 6).dec else error(config.error.coordNotFound + "long") end
@@ -81,19 +80,27 @@ function p._regionlist(args)
         maps[zoom] = args.mapframezoom or "auto"
         maps[width] = args.mapframewidth or ""
         maps[height] = args.mapframeheight or ""
-
-        if args.regionmap ~= nil then
-            mapfile = mw.title.new( args.regionmap, 6 )
-            if not(mapfile.file.exists()) then
-                error(config.error.mapNotFound)
-            else
-                maps[static] = staticMap.new(mapfile, , ) -- 作り途中
+    end
+    if args.regionmap ~= nil then
+        mapfile = mw.title.new( args.regionmap, 6 )
+        if mapfile.file.exists() then
+            staticImage = staticMap.new(mapfile, args.regionmapsize, args.regionmaptext)
+        else
+            error(config.error.mapNotFound)
         end
     end
+    return maps, staticImage
+end
+
+function p._regionlist(args)
+    maps, staticImage = p._maps(args)
 end
 
 function p.regionlist(frame)
-    local args = getArgs(frame)
+    local args = getArgs(frame, {
+        wrappers = 'Template:Regionlist',
+        noOverwrite = true
+    })
     p._regionlist(args)
 end
 
