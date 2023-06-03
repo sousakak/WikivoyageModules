@@ -14,26 +14,8 @@ local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local yesno = require( 'Module:Yesno' )
 local config = require( 'Module:Regionlist/i18n' )
+local mFileLink = require( 'Module:File_link' )
 local coord = require( 'Module:Coordinates' ).toDec
-
-local function regionToTable(args)
-	local result = {}
-
-	for i = 1, #args do
-		local name, color, items, description = "region" + tostring(i) + "name", "region" + tostring(i) + "color", "region" + tostring(i) + "items", "region" + tostring(i) + "description"
-		if name ~= nil then
-			result[i] = {
-				name        = args[name],
-				color       = args[color],
-				items       = args[items],
-				description = args[description]
-			}
-        else
-            break
-        end
-	end
-	return result
-end
 
 function p._maps(args)
 	maps = {}
@@ -72,7 +54,15 @@ function p._maps(args)
 		obj.text = text or mw.ustring.gsub(config.settings.mapDefaultDesc, "$1", mw.title.getCurrentTitle().subpageText, 1)
 		obj.name = self.file.text
 		obj.getWikitext = function(self)
-			return "[[" + self.file.fullText + "|thumb|" + config.settings.mapAlign + "|" + self.size + "|" + self.text + "]]"
+            local wikitext = mFileLink._main(
+                file = self.file.fullText,
+                format = "thumb",
+                location = config.settings.mapAlign,
+                size = self.size,
+                caption = self.text,
+                class = "mw-file-element"
+            )
+			return wikitext
 		end
         return obj
 	end
@@ -98,6 +88,25 @@ function p._maps(args)
 		end
 	end
 	return maps, staticImage
+end
+
+local function regionToTable(args)
+	local result = {}
+
+	for i = 1, #args do
+		local name, color, items, description = "region" + tostring(i) + "name", "region" + tostring(i) + "color", "region" + tostring(i) + "items", "region" + tostring(i) + "description"
+		if name ~= nil then
+			result[i] = {
+				name        = args[name],
+				color       = args[color],
+				items       = args[items],
+				description = args[description]
+			}
+        else
+            break
+        end
+	end
+	return result
 end
 
 function p._regionlist(args)
