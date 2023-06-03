@@ -1,5 +1,5 @@
 --[[
-    
+
 ███╗░░░███╗░█████╗░██████╗░██╗░░░██╗██╗░░░░░███████╗██╗██████╗░███████╗░██████╗░██╗░█████╗░███╗░░██╗██╗░░░░░██╗░██████╗████████╗
 ████╗░████║██╔══██╗██╔══██╗██║░░░██║██║░░░░░██╔════╝╚═╝██╔══██╗██╔════╝██╔════╝░██║██╔══██╗████╗░██║██║░░░░░██║██╔════╝╚══██╔══╝
 ██╔████╔██║██║░░██║██║░░██║██║░░░██║██║░░░░░█████╗░░░░░██████╔╝█████╗░░██║░░██╗░██║██║░░██║██╔██╗██║██║░░░░░██║╚█████╗░░░░██║░░░
@@ -16,14 +16,21 @@ local yesno = require( 'Module:Yesno' )
 local config = require( 'Module:Regionlist/i18n' )
 local coord = require( 'Module:Coordinates' ).toDec
 
-local function rowargs(args)
+local function regionToTable(args)
 	local result = {}
-	local pattern = "arg%d+"
 
-	for arg in pairs(args) do
-		if string.match(arg, pattern) then
-			result[ #result + 1 ] = arg
-		end
+	for i = 1, #args do
+		local name, color, items, description = "region" + tostring(i) + "name", "region" + tostring(i) + "color", "region" + tostring(i) + "items", "region" + tostring(i) + "description"
+		if name ~= nil then
+			result[i] = {
+				name        = args[name],
+				color       = args[color],
+				items       = args[items],
+				description = args[description]
+			}
+        else
+            break
+        end
 	end
 	return result
 end
@@ -67,6 +74,7 @@ function p._maps(args)
 		obj.getWikitext = function(self)
 			return "[[" + self.file.fullText + "|thumb|" + config.settings.mapAlign + "|" + self.size + "|" + self.text + "]]"
 		end
+        return obj
 	end
 	if entity ~= nil then existWikidata = true else existWikidata = false end
 	if yesno(args.mapframe) == true then
@@ -94,6 +102,7 @@ end
 
 function p._regionlist(args)
 	maps, staticImage = p._maps(args)
+    regions = regionToTable(args)
 end
 
 function p.regionlist(frame)
