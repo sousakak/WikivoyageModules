@@ -69,8 +69,8 @@ function p._maps(args)
 	if entity ~= nil then existWikidata = true else existWikidata = false end
 	if yesno(args.mapframe) == true then
 		if args.mapframelat ~= nil or args.mapframelong ~= nil then
-			if args.mapframelat ~= nil then maps[lat] = coord(args.mapframelat, "", 6).dec else error(config.error.coordNotFound + "lat") end
-			if args.mapframelong ~= nil then maps[long] = coord(args.mapframelong, "", 6).dec else error(config.error.coordNotFound + "long") end
+			if args.mapframelat ~= nil then maps[lat] = coord(args.mapframelat, "", 6).dec else error(config.error.coordNotFound .. "lat") end
+			if args.mapframelong ~= nil then maps[long] = coord(args.mapframelong, "", 6).dec else error(config.error.coordNotFound .. "long") end
 		elseif existWikidata and entity:getBestStatements('P625')[1] ~= nil then
 			maps[lat] = entity:getBestStatements('P625')[1].mainsnak.datavalue.value.latitude
 			maps[long] = entity:getBestStatements('P625')[1].mainsnak.datavalue.value.longitude
@@ -94,8 +94,8 @@ local function regionToTable(args)
 	local result = {}
 
 	for i = 1, #args do
-		local name, color, items, description = "region" + tostring(i) + "name", "region" + tostring(i) + "color", "region" + tostring(i) + "items", "region" + tostring(i) + "description"
-		if name ~= nil then
+		local name, color, items, description = "region" .. tostring(i) .. "name", "region" .. tostring(i) .. "color", "region" .. tostring(i) .. "items", "region" .. tostring(i) .. "description"
+		if args[name] ~= nil then
 			result[i] = {
 				name        = args[name],
 				color       = args[color],
@@ -110,8 +110,8 @@ local function regionToTable(args)
 end
 
 function p._regionlist(args)
-	maps, staticImage = p._maps(args)
-    regions = regionToTable(args)
+	local maps, staticImage = p._maps(args)
+    local regions = regionToTable(args)
 end
 
 function p.regionlist(frame)
