@@ -37,11 +37,14 @@ function p._maps(args)
 
 			args
 			- self.file mw.title: Required
-			- self.size string: (default: 350px)
-			- self.text string: (default: "{{BASEPAGENAME}}の地図")
+			- self.size   string: (default: 350px)
+			- self.text   string: (default: "{{BASEPAGENAME}}の地図")
 
 			vars
-			- self.name string: Name of the map. Not contain a namespace prefix.
+            - self.file mw.title: A title object of the file page.
+            - self.size   string: File size; 350px in default. Please note the type (string).
+            - self.text   string: The caption text of the map. By default, this is mapDefaultDesc in i18n.
+			- self.name   string: Name of the map. Not contain a namespace prefix.
 
 			funcs
 			- self.getWikitext: Get a wikitext which show the map on the page.
@@ -78,6 +81,8 @@ function p._maps(args)
 		maps[zoom] = args.mapframezoom or "auto"
 		maps[width] = args.mapframewidth or ""
 		maps[height] = args.mapframeheight or ""
+    else
+        maps = nil
 	end
 	if args.regionmap ~= nil then
 		mapfile = mw.title.new( args.regionmap, 6 )
@@ -86,11 +91,13 @@ function p._maps(args)
 		else
 			error(config.error.mapNotFound)
 		end
+    else
+        staticImage = nil
 	end
 	return maps, staticImage
 end
 
-local function regionToTable(args)
+function p.region_to_table(args)
 	local result = {}
 
 	for i = 1, #args do
@@ -103,6 +110,7 @@ local function regionToTable(args)
 				description = args[description]
 			}
         else
+            if args["region" .. tostring(i + 1) .. "name"] ~= nil then error(config.error.intermittentRegionNum) end
             break
         end
 	end
@@ -110,8 +118,30 @@ local function regionToTable(args)
 end
 
 function p._regionlist(args)
+    local regionlist = {}
+
 	local maps, staticImage = p._maps(args)
-    local regions = regionToTable(args)
+    local regions = p.region_to_table(args)
+
+    if maps ~= nil then
+        regionlist[dynamic] = true
+        regionlist[lat] = maps.lat
+        regionlist[long] = maps.long
+        regionlist[mapZoom] = maps.zoom
+        regionlist[mapWidth] = maps.width
+        regionlist[mapHeight] = maps.height
+    else
+        regionlist[dynamic] = false
+    end
+    if staticImage ~= nil then
+        regionlist[static] = true
+        regionlist[mapImage] = staticImage.name
+        regionlist[mapCaption] = staticImage.text
+        regionlist[mapImageSize] = staticImage.size
+    else
+        regionlist[static] = false
+    end
+    -- 以下 Regionlist
 end
 
 function p.regionlist(frame)

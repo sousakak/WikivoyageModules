@@ -1,6 +1,6 @@
 local p = {}
 
-function hslToRgb(h, s, l)
+function hsl_to_rgb(h, s, l)
 	-- h is a frequency system, and s and l are percentages
 	h = h / 360
 	s = s / 100
@@ -33,7 +33,7 @@ function hslToRgb(h, s, l)
 	return r * 255, g * 255, b * 255
 end
 
-function p.getColor(qty)
+function p.get_color(qty)
 	local colors = {
         --[[
             colors = { {r, g, b}, {r, g, b}, {r, g, b}, ..., {r, g, b} }
@@ -51,7 +51,7 @@ function p.getColor(qty)
     while i ~= qty do
         i = i + 1
         local lightness = light or lightUnit * i
-        r, g, b = hslToRgb(unit * i, 50, lightness)
+        r, g, b = hsl_to_rgb(unit * i, 50, lightness)
         table.insert(colors, {r, g, b})
     end
 
