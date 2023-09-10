@@ -24,7 +24,7 @@ end
 
 function p.rd(frame)
     local infos = p._rd(frame)
-    local images
+    local images = ''
     for i = 1, #infos do
         images = images .. infos[i][1] .. '|' .. infos[i][2] .. '\n'
         i = i + 1
