@@ -23,13 +23,17 @@ function p._rd(frame)
 end
 
 function p.rd(frame)
-    local infos = p._rd()
-    local wikitext = '<gallery mode="slideshow" caption="[[Wikivoyage:おすすめの旅行先|おすすめの旅行先]]" class="mainpage-content">\n'
+    local infos = p._rd(frame)
+    local images
     for i = 1, #infos do
-        wikitext = wikitext .. infos[i][1] .. '|' .. infos[i][2] .. '\n'
+        images = images .. infos[i][1] .. '|' .. infos[i][2] .. '\n'
         i = i + 1
     end
-    wikitext = wikitext .. '</gallery>'
+    local wikitext = mw.html.create():wikitext(frame:extensionTag{
+        name = 'gallery',
+        content = '\n' .. images,
+        args = {mode = 'slideshow', caption='[[Wikivoyage:おすすめの旅行先|おすすめの旅行先]]', class='mainpage-content'}
+    })
     return wikitext
 end
 
