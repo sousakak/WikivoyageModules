@@ -14,7 +14,7 @@
     ░╚════╝░╚═╝░░╚═╝╚══════╝░░░╚═╝░░░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░╚═╝░░░░░╚═╝╚═╝░░╚═╝╚═╝░░░░░
 
 	Maintainer: Tmv@meta.wikimedia.org
-	Repository: https://github.com/sousakak/WikivoyageModules/jaEventMap
+	Repository: https://github.com/sousakak/WikivoyageModules/blob/master/jaEventMap/jaEventMap.lua
 ]]
 local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
