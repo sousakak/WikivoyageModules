@@ -1,3 +1,5 @@
 {{documentation subpage}}
+{{lua|listOfStations}}
+{{css}}
 
 <includeonly>{{デフォルトソート:えきいちらん}}<!-- ここにカテゴリを追加 --></includeonly>
