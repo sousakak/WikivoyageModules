@@ -28,6 +28,7 @@ end
 
 function p.stalist(frame)
     local args = getArgs(frame)
+    local titletext = args.title or title
 
     local wikitext = mw.html.create()
         :wikitext( frame:extensionTag{ name = 'templatestyles', args = {src = i18n.css} } ):done()
@@ -37,7 +38,7 @@ function p.stalist(frame)
                     :attr( "colspan", 4 )
                     :addClass( "wikitable voy-stalist-title" )
                     :css( "border-bottom-color", args.color )
-                    :wikitext( args.title or title )
+                    :wikitext( titletext )
                     :done()
                 :done()
             :tag( "tr" )
