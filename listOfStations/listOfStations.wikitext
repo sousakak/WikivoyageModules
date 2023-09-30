@@ -1,1 +1,1 @@
-{{#invoke:listOfStations|main}}<noinclude>{{documentation}}</noinclude>
+{{#invoke:listOfStations|stalist}}<noinclude>{{documentation}}</noinclude>

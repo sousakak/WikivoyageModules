@@ -26,7 +26,7 @@ local function split(str, div)
     return result
 end
 
-function p.main(frame)
+function p.stalist(frame)
     local args = getArgs(frame)
 
     local wikitext = mw.html.create()
