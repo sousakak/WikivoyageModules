@@ -1,4 +1,3 @@
-
 local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
@@ -26,9 +25,11 @@ local function split(str, div)
     return result
 end
 
+p.title = title
+
 function p.stalist(frame)
     local args = getArgs(frame)
-    local titletext = args.title or title
+    local titletext = args.title or title(frame)
 
     local wikitext = mw.html.create()
         :wikitext( frame:extensionTag{ name = 'templatestyles', args = {src = i18n.css} } ):done()
@@ -47,7 +48,8 @@ function p.stalist(frame)
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
                 :done()
-            for i = 1, args[i] ~= nil do
+            i = 1
+            while args[i] ~= nil do
                 local datas = split(args[i], ",")
                 if datas[4] == nil then
                     error( i .. i18n.unexpected_value )
@@ -58,6 +60,7 @@ function p.stalist(frame)
                     :tag( "td" ):wikitext( datas[3] ):done()
                     :tag( "td" ):wikitext( datas[4] ):done()
                     :done()
+                i = i + 1
             end
         wikitext = wikitext:done()
     return wikitext
