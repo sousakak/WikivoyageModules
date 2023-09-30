@@ -25,8 +25,6 @@ local function split(str, div)
     return result
 end
 
-p.title = title
-
 function p.stalist(frame)
     local args = getArgs(frame)
     local titletext = args.title or title(frame)
