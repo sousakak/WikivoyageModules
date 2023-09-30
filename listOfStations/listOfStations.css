@@ -1,0 +1,9 @@
+/* Stylesheet for Template:駅一覧 */
+.voy-stalist {
+    width: 90%;
+    margin: 1em 5%;
+}
+
+.voy-stalist-title {
+    border-bottom: 1px rgb(200, 204, 209) solid;
+}
