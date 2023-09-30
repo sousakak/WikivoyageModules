@@ -3,7 +3,7 @@ local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
 
-/* i18n */
+-- i18n
 local i18n = {
     css = '駅一覧/styles.css',
     header_num = "駅番号",
