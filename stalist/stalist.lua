@@ -58,19 +58,23 @@ function p.stalist(frame)
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
                 :done()
-            i = 1
-            while args[i] ~= nil do
-                local datas = split(args[i], ",")
-                if datas[4] == nil then
-                    error( i .. i18n.unexpected_value )
+            if args[i] ~= nil do
+                i = 1
+                while args[i] ~= nil do
+                    local datas = split(args[i], ",")
+                    if datas[4] == nil then
+                        error( i .. i18n.unexpected_value )
+                    end
+                    wikitext = wikitext:tag( "tr" )
+                        :tag( "td" ):wikitext( datas[1] ):done()
+                        :tag( "td" ):wikitext( datas[2] ):done()
+                        :tag( "td" ):wikitext( datas[3] ):done()
+                        :tag( "td" ):wikitext( datas[4] ):done()
+                        :done()
+                    i = i + 1
                 end
-                wikitext = wikitext:tag( "tr" )
-                    :tag( "td" ):wikitext( datas[1] ):done()
-                    :tag( "td" ):wikitext( datas[2] ):done()
-                    :tag( "td" ):wikitext( datas[3] ):done()
-                    :tag( "td" ):wikitext( datas[4] ):done()
-                    :done()
-                i = i + 1
+            else wikibase.getEntity()['claims']
+                wikibase.getEntity()
             end
         wikitext = wikitext:done()
     return wikitext
