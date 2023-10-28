@@ -7,3 +7,7 @@
 .voy-stalist-title {
     border-bottom: 1px rgb(200, 204, 209) solid;
 }
+
+.voy-stalist-unit {
+    text-align: center;
+}
