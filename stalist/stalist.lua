@@ -27,6 +27,10 @@ local i18n = {
     unexpected_value = "列目のデータが不正です"
 }
 
+function p.main(frame)
+    return p.stalist(frame)
+end
+
 function p.stalist(frame)
     local args = getArgs(frame)
     local titletext = args.title or title(frame)
