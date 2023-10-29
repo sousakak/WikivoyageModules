@@ -1,2 +1,9 @@
 * stalist.css
 * stalist.lua
+
+TODO
+* Narrow down the station code (station number) using P642
+* Search text as well as image in station code
+* Fix a bug in the display of transfer lines
+* Implementation of edit icon
+* Create Editor: JavaScript?
