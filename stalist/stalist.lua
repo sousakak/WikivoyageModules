@@ -24,10 +24,21 @@ local i18n = {
     header_spot = "周辺のスポット",
     property_num = "P154",
     property_tfr = {"P81", "P1192"},
-    err_noitem = "ウィキデータIDが指定されていません",
+    property_filter = "P642",
+    err_nowditem = "ウィキデータIDが指定されていません",
     err_wrongid = "$1番目のウィキデータIDが不正です"
 }
 
+--[[ utility functions ]]--
+local function tableLength(tbl)
+    local n = 0
+    for _ in pairs (tbl) do
+        n = n + 1
+    end
+    return n
+end
+
+--[[ main functions ]]--
 function p.main(frame)
     return p.stalist(frame)
 end
@@ -53,24 +64,35 @@ function p.stalist(frame)
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
                 :done()
-    assert( args[i], i18n.err_noitem )
+    assert( args[1], i18n.err_nowditem )
     i = 1
     while args[i] ~= nil do
 
-        /* define vars */
+        --[[ define vars ]]--
         local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- check the arg
         local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
         local value_num
         local value_tfr = ""
+        local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datatype"]["datavalue"]["value"]["id"] end
 
-        /* get data from Wikidata */
-        if item["claims"][i18n.property_num] ~= nil then
-            value_num = fileLink {
-                file    = item["claims"][i18n.property_num][1]["mainsnak"]["datavalue"]["value"],
-                size    = "50px",
-                link    = "",
-                caption = item:getLabel('ja')
-            }
+        --[[ get data from Wikidata ]]--
+        if item:getBestStatements(i18n.property_num) ~= nil then
+            for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
+                local err, value = xpcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
+                    checkLine,
+                    debug.traceback,
+                    item:getBestStatements(i18n.property_num)[f]
+                )
+                if err and value == mw.wikibase.getEntityIdForCurrentPage() then
+                    value_num = fileLink {
+                        file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
+                        size    = "50px",
+                        link    = "",
+                        caption = item:getLabel('ja')
+                    }
+                    break
+                end
+            end
         else
             value_num = ""
         end
