@@ -9,13 +9,24 @@
 
 	Maintainer: Tmv@ja.wikivoyage.org
 	Repository: https://github.com/sousakak/WikivoyageModules/tree/master/stalist
+
+    ----------
+
+    features: 
+        main    (func) : same as "stalist"
+
+        stalist (func) : create a list of stations in the train route.
+            1, 2, ... (args) : set Wikidata id of each stations. These must be in order, and don't remove "Q" in the initial
+            title     (args) : the title of the table (Default: `{{BASICPAGENAME}}`)
+            color     (args) : color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
+            wikidata  (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
 ]]
 local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
 local fileLink = require( 'Module:File_link' )._main
 
--- i18n
+--[[ i18n ]]--
 local i18n = {
     css = '駅一覧/styles.css',
     header_num = "駅番号",
@@ -72,18 +83,18 @@ function p.stalist(frame)
         local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- check the arg
         local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
         local value_num
+        local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
+        local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
         local value_tfr = ""
-        local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datatype"]["datavalue"]["value"]["id"] end
 
         --[[ get data from Wikidata ]]--
         if item:getBestStatements(i18n.property_num) ~= nil then
             for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
-                local err, value = xpcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
+                local err, value = pcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
                     checkLine,
-                    debug.traceback,
-                    item:getBestStatements(i18n.property_num)[f]
+                    item:getBestStatements(i18n.property_num)[1]
                 )
-                if err and value == mw.wikibase.getEntityIdForCurrentPage() then
+                if err and value == criterion then
                     value_num = fileLink {
                         file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
