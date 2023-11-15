@@ -10,7 +10,7 @@
 In 2023, we Japanese community decided to replace Listing templates to vCard, which is a new version that is fully compatible. You can see the local discussion at the [project chat](https://w.wiki/89x5), and here is the code storage of files of vCard and related ones. This also includes modules' documentation pages and some of JavaScript linked to vCard.
 
 ## Progress
-There are many tasks, such as translations, localizations, and so on. The tree showing the progress is below:
+There are many tasks, such as translations, localizations, and so on. The original page of the alteration is as follows:
 
 - [ ] core
   - [ ] [vCard/Cards](core/Cards.lua)
