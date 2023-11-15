@@ -16,10 +16,11 @@
         main    (func) : same as "stalist"
 
         stalist (func) : create a list of stations in the train route.
-            1, 2, ... (args) : set Wikidata id of each stations. These must be in order, and don't remove "Q" in the initial
-            title     (args) : the title of the table (Default: `{{BASICPAGENAME}}`)
-            color     (args) : color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
-            wikidata  (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
+            title            (args) : the title of the table (Default: `{{BASICPAGENAME}}`)
+            wikidata         (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
+            color            (args) : color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
+            1, 2, ...        (args) : set Wikidata id of each stations. These must be in order, and don't remove "Q" in the initial
+            spot1, spot2 ... (args) : spots around the station; watch out for the order
 ]]
 local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
@@ -107,10 +108,10 @@ function p.stalist(frame)
         else
             value_num = ""
         end
-        for p = 1, #i18n.property_tfr do
-            if item["claims"][i18n.property_tfr[p]] ~= nil then
-                for value = 1, #item["claims"][i18n.property_tfr[p]] do
-                    value_tfr = value_tfr .. item["claims"][i18n.property_tfr[p]][value]["mainsnak"]["datavalue"]["value"]["id"] .. "、"
+        for p = 1, tableLength(i18n.property_tfr) do
+            if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
+                for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
+                    value_tfr = value_tfr .. item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"] .. "、"
                 end
             end
         end
