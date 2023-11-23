@@ -13,8 +13,9 @@ There are many tasks, such as translations, localizations, and so on. The origin
 
 - [ ] core *t*, *l*
   - [ ] [Module:VCard/Cards](core/Cards.lua) *t*
-  - [ ] [Module:VCard/i18n](core/i18n.lua) *t*
+  - [x] [Module:VCard/i18n](core/i18n.lua) ~~*t*~~ ~~*l*~~
   - [ ] [Module:VCard/Params](core/Params.lua) *t*
+  - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
 - [ ] Marker
   - [x] [Module:Marker utilities](Marker/MarkerUtilities.lua)
   - [ ] [Module:Marker utilities/i18n](Marker/i18n.lua) *t*
@@ -23,9 +24,14 @@ There are many tasks, such as translations, localizations, and so on. The origin
 |    Status    |                Content                |
 |:-------------|:--------------------------------------|
 |    Unimpl    |       Translations (see above)        |
-|  Under disc  | Display of links to external services |
+|    On hold   | Display of links to external services |
 |    Unimpl    |        Impl of Listing Editor         |
 |    Unimpl    |         Impl of Listing Info          |
+
+### Unclearness
+- What do lines 126-130 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua) mean?
+- The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))
+- The WD ID [Q2145615](https://www.wikidata.org/w/index.php?title=Q2145615) was merged into [Q7673285](https://www.wikidata.org/w/index.php?title=Q7673285), [Q11964531](https://www.wikidata.org/w/index.php?title=Q11964531) was merged into [Q1210069](https://www.wikidata.org/w/index.php?title=Q1210069) and [Q1824143](https://www.wikidata.org/w/index.php?title=Q1824143) was merged into [Q2334804](https://www.wikidata.org/w/index.php?title=Q2334804), so I think these need to be upded (on l.32, 36 and 68 of [Module:VCard/Qualifiers](core/Qualifiers.lua))
 
 ## Lisence
 All modules in this storage are from German Wikivoyage, and these all are imported and edited under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) ([full text](../LICENSE)).
@@ -36,3 +42,4 @@ Here are all of the import sources:
 - [Module:VCard/Cards](https://w.wiki/89xq): revision as of 02:07, 27 September 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/i18n](https://w.wiki/89zS): revision as of 17:18, 8 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Params](https://w.wiki/89zb): revision as of 14:43, 4 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:VCard/Qualifiers](https://w.wiki/8ErD): Revision as of 19:57, 29 October 2023 by [DerFussi](https://de.wikivoyage.org/wiki/User:DerFussi)

@@ -21,11 +21,11 @@ return {
 		address         = '',
 		addressLang     = '',
 		addressLocal    = '',
-		agoda           = true, -- Agoda.com
+--		agoda           = true, -- Agoda.com
 		alt             = '',
 		auto            = '',
 		before          = '',
-		booking         = true, -- Booking.com
+--		booking         = true, -- Booking.com
 		checkin         = '',
 		checkout        = '',
 		color           = '',   -- internal use
@@ -34,32 +34,33 @@ return {
 		content         = '',
 		copyMarker      = '',
 		country         = '',
-		dav             = true, -- Alpenverein.de
+--		dav             = true, -- Alpenverein.de
 		description     = '',
 		directions      = '',
 		directionsLocal = '',
 		email           = '',
-		expedia         = true, -- Expedia.com
+--		expedia         = true, -- Expedia.com
 		facebook        = '',
 		fax             = '',
 		flickr          = '',
-		foursquare      = true, -- Foursquare.com
-		googlemaps      = true, -- Maps.Google.com
+--		foursquare      = true, -- Foursquare.com
+--		googlemaps      = true, -- Maps.Google.com
 		group           = '',
-		histhotelsAm    = true, -- HistoricHotels.org
-		histhotelsEu    = true, -- HistoricHotelsOfEurope.com
-		histhotelsWw    = true, -- HistoricHotelsWorldwide.com
-		hostelworld     = true, -- Hostelworld.com
-		hotels          = true, -- Hotels.com
+--		histhotelsAm    = true, -- HistoricHotels.org
+--		histhotelsEu    = true, -- HistoricHotelsOfEurope.com
+--		histhotelsWw    = true, -- HistoricHotelsWorldwide.com
+--		hostelworld     = true, -- Hostelworld.com
+--		hotels          = true, -- Hotels.com
 		hours           = '',
 		iata            = mi.options.showIata,
 		icao            = mi.options.showIcao,
 		image           = true,
-		instagram       = '',
-		kayak           = true, -- Kayak.com
+--		instagram       = '',
+--		kayak           = true, -- Kayak.com
 		lastedit        = '',
 		lat             = '',
-		leadingHotels   = true, -- LHW.com
+--		leadingHotels   = true, -- LHW.com
+        link            = '', -- unique to Japanese Wikivoyage
 		long            = '',
 		mapGroup        = '',
 		mobile          = '',
@@ -68,37 +69,37 @@ return {
 		nameLatin       = '',
 		nameLocal       = '',
 		nameMap         = '',
-		oeav            = true, -- Alpenverein.at
+--		oeav            = true, -- Alpenverein.at
 		payment         = '',
 		phone           = '',
-		preferredHotels = true, -- PreferredHotels.com
+--		preferredHotels = true, -- PreferredHotels.com
 		price           = '',
-		pzs             = true, -- PZS.si (Slovenia)
-		recreation      = true, -- Recreation.gov
-		relaisChateaux  = true, -- RelaisChateaux.com
+--		pzs             = true, -- PZS.si (Slovenia)
+--		recreation      = true, -- Recreation.gov
+--		relaisChateaux  = true, -- RelaisChateaux.com
 		rss             = true, -- web feed
-		sac             = true, -- SAC-CAS.ch
+--		sac             = true, -- SAC-CAS.ch
 		show            = mi.options.defaultShow,
 		skype           = '',
-		skyscanner      = true, -- Skyscanner.com
+--		skyscanner      = true, -- Skyscanner.com
 		status          = '',
 		styles          = '',
 		subtype         = '',
 		subtypeAdd      = true, -- internal use
 		symbol          = '',   -- internal use
 		text            = '',   -- internal use
-		tiktok          = '',
+--		tiktok          = '',
 		tollfree        = '',
-		trip            = true, -- Trip.com
-		tripadvisor     = true, -- Tripadvisor.com
-		twitter         = '',
+--		trip            = true, -- Trip.com
+--		tripadvisor     = true, -- Tripadvisor.com
+--		twitter         = '',
 		type            = '',
 		unesco          = mi.options.showUnesco,
 		url             = '',
 		useIcon         = '',   -- internal use
 		wikidata        = '',
 		wikipedia       = '',   -- deprecated
-		youtube         = '',
+--		youtube         = '',
 		zoom            = '',
 
 		date            = '',   -- for events
@@ -134,47 +135,47 @@ return {
 	--]]
 
 	ParWD = {
-		agoda        = { p = 'P6008' },
-		booking      = { p = 'P3607' },
+--		agoda        = { p = 'P6008' },
+--		booking      = { p = 'P3607' },
 		checkin      = { p = 'P8745', v = 'idl' },
 		checkout     = { p = 'P8746', v = 'idl' },
-		dav          = { p = 'P5757' },
+--		dav          = { p = 'P5757' },
 		directions   = { p = 'P2795', v = 'il', l = 'wiki' },
 		directionsLocal = { p = 'P2795', v = 'il', l = 'local' },
 		email        = { p =  'P968', v = 'vq', c = 5 },
-		expedia      = { p = 'P5651' },
-		facebook     = { p = { { p = 'P2013', f = 'https://www.facebook.com/%s', l = true },
-					     { p = 'P1997', f = 'https://www.facebook.com/pages/-/%s', l = true },
-					     { p = 'P4003', f = 'https://www.facebook.com/pages/%s', l = true } } },
+--		expedia      = { p = 'P5651' },
+--		facebook     = { p = { { p = 'P2013', f = 'https://www.facebook.com/%s', l = true },
+--					     { p = 'P1997', f = 'https://www.facebook.com/pages/-/%s', l = true },
+--					     { p = 'P4003', f = 'https://www.facebook.com/pages/%s', l = true } } },
 		fax          = { p = 'P2900', v = 'vq', c = 3 },
-		flickr       = { p = 'P3267', f = 'https://www.flickr.com/photos/%s', l = true },
-		foursquare   = { p = 'P1968' },
-		googlemaps   = { p = 'P3749' },
-		histhotelsAm = { p = 'P5734' },
-		histhotelsEu = { p = 'P5774' },
-		histhotelsWw = { p = 'P5735' },
-		hostelworld  = { p = 'P10442' },
-		hotels       = { p = 'P3898' },
+--		flickr       = { p = 'P3267', f = 'https://www.flickr.com/photos/%s', l = true },
+--		foursquare   = { p = 'P1968' },
+--		googlemaps   = { p = 'P3749' },
+--		histhotelsAm = { p = 'P5734' },
+--		histhotelsEu = { p = 'P5774' },
+--		histhotelsWw = { p = 'P5735' },
+--		hostelworld  = { p = 'P10442' },
+--		hotels       = { p = 'P3898' },
 		iata         = { p =  'P238', c = 3 },
 		icao         = { p =  'P239' },
 		image        = { p =   'P18' },
-		instagram    = { p = { { p = 'P2003', f = 'https://www.instagram.com/%s/' },
-		                  { p = 'P4173', f = 'https://www.instagram.com/explore/locations/%s/' } } },
-		kayak        = { p = 'P10547' },
-		leadingHotels = { p = 'P5834' },
+--		instagram    = { p = { { p = 'P2003', f = 'https://www.instagram.com/%s/' },
+--		                  { p = 'P4173', f = 'https://www.instagram.com/explore/locations/%s/' } } },
+--		kayak        = { p = 'P10547' },
+--		leadingHotels = { p = 'P5834' },
 		mobile       = { p = 'P1329', v = 'vq', c = 5, t = 'mobile' },
-		oeav         = { p = 'P5759' },
+--		oeav         = { p = 'P5759' },
 		payment      = { p = 'P2851', v = 'id', c = 50, m = 'no' },
 		phone        = { p = 'P1329', v = 'vq', c = 5, t = 'landline' },
-		preferredHotels = { p = 'P5890' },
+--		preferredHotels = { p = 'P5890' },
 		price        = { p = 'P2555', v = 'au', c = 10, le = true }, -- fee
-		pzs          = { p = 'P5758' },
-		recreation   = { p = 'P3714' },
-		relaisChateaux = { p = 'P5836' },
+--		pzs          = { p = 'P5758' },
+--		recreation   = { p = 'P3714' },
+--		relaisChateaux = { p = 'P5836' },
 		rss          = { p = 'P1019' },
-		sac          = { p = 'P5761' },
-		skype        = { p = 'P2893', f = 'skype:%s', m = '; ' },
-		skyscanner   = { p = 'P10487' },
+--		sac          = { p = 'P5761' },
+--		skype        = { p = 'P2893', f = 'skype:%s', m = '; ' },
+--		skyscanner   = { p = 'P10487' },
 		subtypeAdd   = { p = { { p = 'P912', v = 'iq', c = 50 }, -- has facility
 		                  { p = 'P166', v = 'iq', c = 5, q = { 'Q2976556', 'Q20824563' } },
 		                      -- awards received (hotel rating, Michelin etc.)
@@ -184,14 +185,14 @@ return {
 		                  { p = 'P2846', v = 'iq' }, -- wheelchair
 		                  { p = 'P2848', v = 'iq' }, -- WLAN
 		                  { p = 'P5023', v = 'iqp', c = 10 }	}, c = 100, m = 'no' }, -- activity policies
-		tiktok       = { p = 'P7085', f = 'https://www.tiktok.com/@%s', l = true },
-		trip         = { p = 'P10425' },
-		tripadvisor  = { p = 'P3134' },
-		twitter      = { p = 'P2002', f = 'https://twitter.com/%s', l = true },
+--		tiktok       = { p = 'P7085', f = 'https://www.tiktok.com/@%s', l = true },
+--		trip         = { p = 'P10425' },
+--		tripadvisor  = { p = 'P3134' },
+--		twitter      = { p = 'P2002', f = 'https://twitter.com/%s', l = true },
 		type         = { p =   'P31', c = mi.p31Limit, v = 'id' },
 		unesco       = { p =  'P757' },
 		url          = { p =  'P856', l = true },
-		youtube      = { p = 'P2397', f = 'https://www.youtube.com/channel/%s', l = true }
+--		youtube      = { p = 'P2397', f = 'https://www.youtube.com/channel/%s', l = true }
 	},
 	
 	-- additional parameters for auto = y

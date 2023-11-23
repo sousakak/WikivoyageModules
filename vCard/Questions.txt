@@ -1,0 +1,8 @@
+Questions to managers of vCard on devoy.
+
+/// Implementation-Related ///
+See also the "Unclearness" section in README.md.
+* Some WD IDs in Qualifiers.lua were merged, so I guess we should upd the module.
+
+/// Personal ///
+* Why is the name "vCard"? I heard that vCard is a format of (digital) business card, and on the other hand hCard is a format to markup to HTML.
