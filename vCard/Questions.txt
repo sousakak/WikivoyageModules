@@ -6,3 +6,4 @@ See also the "Unclearness" section in README.md.
 
 /// Personal ///
 * Why is the name "vCard"? I heard that vCard is a format of (digital) business card, and on the other hand hCard is a format to markup to HTML.
+* There are many modules for the access to Wikidata in javoy, so can we integrate those?

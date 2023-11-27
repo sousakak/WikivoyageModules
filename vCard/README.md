@@ -17,8 +17,15 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [ ] [Module:VCard/Params](core/Params.lua) *t*
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
 - [ ] Marker
-  - [x] [Module:Marker utilities](Marker/MarkerUtilities.lua)
-  - [ ] [Module:Marker utilities/i18n](Marker/i18n.lua) *t*
+  - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
+  - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
+  - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
+- [x] Coordinates
+  *Already exist in javoy*
+  - [x] [Module:Coordinates](https://w.wiki/8HiE)
+  - [x] [Module:Coordinates/i18n](https://w.wiki/8HiG)
+- [ ] Wikidata utilities
+  - [ ] [Module:Wikidata_utilities](Wikidata_utilities/Wikidata_utilities.lua)
 
 ### Tasks
 |    Status    |                Content                |
@@ -39,7 +46,13 @@ All modules in this storage are from German Wikivoyage, and these all are import
 Here are all of the import sources: 
 - [Module:Marker utilities](https://w.wiki/89y2): revision as of 14:38, 6 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Marker utilities/i18n](https://w.wiki/89$N): revision as of 13:29, 5 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Marker Utilities/Maki icons](https://w.wiki/8HiA): Revision as of 14:56, 25 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Cards](https://w.wiki/89xq): revision as of 02:07, 27 September 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/i18n](https://w.wiki/89zS): revision as of 17:18, 8 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Params](https://w.wiki/89zb): revision as of 14:43, 4 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Qualifiers](https://w.wiki/8ErD): Revision as of 19:57, 29 October 2023 by [DerFussi](https://de.wikivoyage.org/wiki/User:DerFussi)
+- [Module:Wikidata_utilities](https://w.wiki/8Hib): Revision as of 13:58, 13 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+
+Some modules below already exist in javoy:
+- [Module:Coordinates](https://w.wiki/8HiE)
+  - [Module:Coordinates/i18n](https://w.wiki/8HiG)
