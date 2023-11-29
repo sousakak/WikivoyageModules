@@ -16,14 +16,22 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:VCard/i18n](core/i18n.lua) ~~*t*~~ ~~*l*~~
   - [ ] [Module:VCard/Params](core/Params.lua) *t*
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
+  - [ ] [Module:VCard/Subtypes](core/Subtypes.lua) *l*
+  - [ ] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~ *l*
+- [x] Coordinates
+  (*Already exist in javoy*)
+  - [x] [Module:Coordinates](https://w.wiki/8HiE)
+  - [x] [Module:Coordinates/i18n](https://w.wiki/8HiG)
+- [ ] CountryData
+  - [ ] [Module:CountryData](CountryData/CountryData.lua)
+  - [ ] [Module:CountryData/Geography](CountryData/Geography.lua) *t*
+  - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
+- [ ] Exchange rate
+  (*Compete with local ones*)
 - [ ] Marker
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
-- [x] Coordinates
-  *Already exist in javoy*
-  - [x] [Module:Coordinates](https://w.wiki/8HiE)
-  - [x] [Module:Coordinates/i18n](https://w.wiki/8HiG)
 - [ ] Wikidata utilities
   - [ ] [Module:Wikidata_utilities](Wikidata_utilities/Wikidata_utilities.lua)
 
@@ -39,6 +47,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
 - What do lines 126-130 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua) mean?
 - The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))
 - The WD ID [Q2145615](https://www.wikidata.org/w/index.php?title=Q2145615) was merged into [Q7673285](https://www.wikidata.org/w/index.php?title=Q7673285), [Q11964531](https://www.wikidata.org/w/index.php?title=Q11964531) was merged into [Q1210069](https://www.wikidata.org/w/index.php?title=Q1210069) and [Q1824143](https://www.wikidata.org/w/index.php?title=Q1824143) was merged into [Q2334804](https://www.wikidata.org/w/index.php?title=Q2334804), so I think these need to be upded (on l.32, 36 and 68 of [Module:VCard/Qualifiers](core/Qualifiers.lua))
+- We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 
 ## Lisence
 All modules in this storage are from German Wikivoyage, and these all are imported and edited under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) ([full text](../LICENSE)).
@@ -51,6 +60,11 @@ Here are all of the import sources:
 - [Module:VCard/i18n](https://w.wiki/89zS): revision as of 17:18, 8 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Params](https://w.wiki/89zb): revision as of 14:43, 4 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Qualifiers](https://w.wiki/8ErD): Revision as of 19:57, 29 October 2023 by [DerFussi](https://de.wikivoyage.org/wiki/User:DerFussi)
+- [Module:VCard/Subtypes](https://w.wiki/8K9q): Revision as of 13:47, 12 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:VCard/Unesco](https://w.wiki/8KAr): Revision as of 23:51, 18 February 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:CountryData](https://w.wiki/8KAy): Revision as of 14:17, 7 July 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:CountryData/Geography](https://w.wiki/8KB8): Revision as of 13:55, 7 July 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:CountryData/Currencies](https://w.wiki/8KBT): Revision as of 17:02, 29 June 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Wikidata_utilities](https://w.wiki/8Hib): Revision as of 13:58, 13 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 
 Some modules below already exist in javoy:
