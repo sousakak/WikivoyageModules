@@ -17,14 +17,14 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:VCard/Params](core/Params.lua) ~~*t*~~ ~~*l*~~
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
   - [ ] [Module:VCard/Subtypes](core/Subtypes.lua) *l*
-  - [x] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~d
+  - [x] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~
 - [x] Coordinates
   (*Already exist in javoy*)
   - [x] [Module:Coordinates](https://w.wiki/8HiE)
   - [x] [Module:Coordinates/i18n](https://w.wiki/8HiG)
 - [x] CountryData
   - [x] [Module:CountryData](CountryData/CountryData.lua)
-  - [x] [Module:CountryData/Geography](CountryData/Geography.lua) *t*
+  - [x] [Module:CountryData/Geography](CountryData/Geography.lua) ~~*t*~~
   - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
 - [ ] Exchange rate
   (*Compete with local ones*)
