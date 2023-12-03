@@ -12,12 +12,12 @@ In 2023, we Japanese community decided to replace Listing templates to vCard, wh
 There are many tasks, such as translations, localizations, and so on. The original page of the alteration is as follows (*t*: translation; *l*: localization):
 
 - [ ] core *t*, *l*
-  - [ ] [Module:VCard/Cards](core/Cards.lua) *t*
+  - [x] [Module:VCard/Cards](core/Cards.lua) ~~*t*~~
   - [x] [Module:VCard/i18n](core/i18n.lua) ~~*t*~~ ~~*l*~~
-  - [ ] [Module:VCard/Params](core/Params.lua) *t*
+  - [x] [Module:VCard/Params](core/Params.lua) ~~*t*~~ ~~*l*~~
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
   - [ ] [Module:VCard/Subtypes](core/Subtypes.lua) *l*
-  - [ ] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~ *l*
+  - [x] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~d
 - [x] Coordinates
   (*Already exist in javoy*)
   - [x] [Module:Coordinates](https://w.wiki/8HiE)
