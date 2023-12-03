@@ -20,11 +20,12 @@ return {
 	fileExtensions   = { 'tif', 'tiff', 'gif', 'png', 'jpg', 'jpeg', 'jpe',
 	                     'webp', 'xcf', 'ogg', 'ogv', 'svg', 'pdf', 'stl',
 	                     'djvu', 'webm', 'mpg', 'mpeg' },
-	months           = { 'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
-	                     'August', 'September', 'Oktober', 'November', 'Dezember' },
+	months           = { '1月', '2月', '3月', '4月', '5月', '6月', '7月',
+	                     '8月', '9月', '10月', '11月', '12月' },
 	monthAbbr        = { 'Jan%.?', 'Feb%.?', 'Mär%.?', 'Apr%.?', 'Mai%.?', 'Jun%.?',
 	                      'Jul%.?', 'Aug%.?', 'Sep%.?', 'Okt%.?', 'Nov%.?', 'Dez%.?' },
-
+        --月略語なんて日本語に存在するのだろうか
+	
 	-- Map related constants
 	coordURL          = 'https://ja.wikivoyage.org/w/index.php?title=特別:MapSources&params=',
 	defaultDmsFormat  = 'f1', -- see: Module:Coordinates/i18n
@@ -263,7 +264,7 @@ return {
 	},
 
 	iconTitles = {
-		commons    = '%s im Medienverzeichnis Wikimedia Commons',
+		commons    = 'Wikimedia Commonsにあるメディア',
 		facebook   = 'facebookで%sをみる',
 		flickr     = 'Flickrで%sをみる',
 		instagram  = 'Instagramで%sをみる',
@@ -289,17 +290,17 @@ return {
 
 	-- status symbols
 	statuses = {
-		none    = { alias = "class-0", label = "Ohne Einstufung" },
-		stub    = { alias = "class-1", label = "Stub" },
+		none    = { alias = "class-0", label = "分類なし" },
+		stub    = { alias = "class-1", label = "スタブ" },
 		outline = { alias = "class-2", label = "Artikelentwurf" },
-		usable  = { alias = "class-3", label = "Brauchbarer Artikel" },
-		guide   = { alias = "class-4", label = "Vollständiger Artikel" },
-		star    = { alias = "class-5", label = "Empfehlenswerter Artikel" },
+		usable  = { alias = "class-3", label = "役立つ記事" },
+		guide   = { alias = "class-4", label = "完全な記事" },
+		star    = { alias = "class-5", label = "おすすめ記事" },
 		
-		['top-hotel']  = { label = "Top-Hotel" },
-		['top-restaurant']  = { label = "Top-Restaurant" },
-		['top-sight']  = { label = "Top-Sehenswürdigkeit" },
-		recommendation = { label = "Empfehlung" }
+		['top-hotel']  = { label = "トップ宿泊施設" },
+		['top-restaurant']  = { label = "トップ飲食店" },
+		['top-sight']  = { label = "トップ観光地" },
+		recommendation = { label = "おすすめ" }
 	},
 
 	-- Marker name styles
