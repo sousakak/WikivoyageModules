@@ -28,11 +28,16 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
 - [ ] Exchange rate
   (*Compete with local ones*)
+- [ ] Hours
+  - [x] [Module:Hours](Hours/Hours.lua)
+  - [ ] [Module:Hours/i18n.lua](Hours/i18n.lua)
 - [x] [Module:Languages](./Languages.lua)
 - [ ] Marker
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
+  - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua)
   - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
+  - [ ] [Module:Marker utilities/Tyoes](MarkerUtilities/Types.lua)
 - [ ] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
 
 ### Tasks
@@ -49,6 +54,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
 - The WD ID [Q2145615](https://www.wikidata.org/w/index.php?title=Q2145615) was merged into [Q7673285](https://www.wikidata.org/w/index.php?title=Q7673285), [Q11964531](https://www.wikidata.org/w/index.php?title=Q11964531) was merged into [Q1210069](https://www.wikidata.org/w/index.php?title=Q1210069) and [Q1824143](https://www.wikidata.org/w/index.php?title=Q1824143) was merged into [Q2334804](https://www.wikidata.org/w/index.php?title=Q2334804), so I think these need to be upded (on l.32, 36 and 68 of [Module:VCard/Qualifiers](core/Qualifiers.lua))
 - We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - [Module:Languages](./Languages.lua) is not in the list "Wikivoyage:VCard/Installation#Localization": doesn't this need to be translated?
+- Module:LinkSkype is not required in javoy, since we decided not to use links to external services. Can I remove lines 1121-1126 of [Module:VCard](core/VCard.lua)?
 
 ## Lisence
 All modules in this storage are from German Wikivoyage, and these all are imported and edited under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) ([full text](../LICENSE)).
@@ -56,7 +62,10 @@ All modules in this storage are from German Wikivoyage, and these all are import
 Here are all of the import sources: 
 - [Module:Marker utilities](https://w.wiki/89y2): revision as of 14:38, 6 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Marker utilities/i18n](https://w.wiki/89$N): revision as of 13:29, 5 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
-- [Module:Marker Utilities/Maki icons](https://w.wiki/8HiA): Revision as of 14:56, 25 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Marker Utilities/Maki icons](https://w.wiki/8HiA): revision as of 14:56, 25 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Marker utilities/Groups](https://w.wiki/8MuD): revision as of 18:34, 6 May 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Marker utilities/Types](https://w.wiki/8MuF): Revision as of 00:42, 24 November 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:VCard](https://w.wiki/8MuP): revision as of 17:22, 25 November 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Cards](https://w.wiki/89xq): revision as of 02:07, 27 September 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/i18n](https://w.wiki/89zS): revision as of 17:18, 8 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Params](https://w.wiki/89zb): revision as of 14:43, 4 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
@@ -68,6 +77,8 @@ Here are all of the import sources:
 - [Module:CountryData/Currencies](https://w.wiki/8KBT): Revision as of 17:02, 29 June 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Wikidata_utilities](https://w.wiki/8Hib): Revision as of 13:58, 13 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Languages](https://w.wiki/8Mrj): Revision as of 13:54, 11 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Hours](https://w.wiki/8Mtw): Revision as of 00:07, 23 October 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Hours/i18n](https://w.wiki/8Mu5): Revision as of 14:46, 21 November 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 
 Some modules below already exist in javoy:
 - [Module:Coordinates](https://w.wiki/8HiE)
