@@ -206,7 +206,7 @@ return {
 		Q10179  = 'zu'
 	},
 
-	scripts = {
+	scripts = { -- This is not in the list "Wikivoyage:VCard/Installation#Localization": does this need to be translated?
 		Q8196    = 'アラビア文字',
 		Q8201    = '漢字（中国）',
 		Q8209    = 'キリル文字',
