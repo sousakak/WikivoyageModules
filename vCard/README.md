@@ -28,12 +28,12 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
 - [ ] Exchange rate
   (*Compete with local ones*)
+- [x] [Module:Languages](./Languages.lua)
 - [ ] Marker
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
-- [ ] Wikidata utilities
-  - [ ] [Module:Wikidata_utilities](Wikidata_utilities/Wikidata_utilities.lua)
+- [ ] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
 
 ### Tasks
 |    Status    |                Content                |
@@ -66,6 +66,7 @@ Here are all of the import sources:
 - [Module:CountryData/Geography](https://w.wiki/8KB8): Revision as of 13:55, 7 July 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:CountryData/Currencies](https://w.wiki/8KBT): Revision as of 17:02, 29 June 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Wikidata_utilities](https://w.wiki/8Hib): Revision as of 13:58, 13 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Languages](https://w.wiki/8Mrj): Revision as of 13:54, 11 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 
 Some modules below already exist in javoy:
 - [Module:Coordinates](https://w.wiki/8HiE)
