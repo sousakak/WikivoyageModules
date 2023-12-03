@@ -9,7 +9,7 @@
 In 2023, we Japanese community decided to replace Listing templates to vCard, which is a new version that is fully compatible. You can see the local discussion at the [project chat](https://w.wiki/89x5), and here is the code storage of files of vCard and related ones. This also includes modules' documentation pages and some of JavaScript linked to vCard.
 
 ## Progress
-There are many tasks, such as translations, localizations, and so on. The original page of the alteration is as follows (*t*: translation; *l*: localization):
+There are many tasks, such as translations, localizations, and so on. The original page of the alteration is as follows (*t*: translation; *l*: customization):
 
 - [ ] core *t*, *l*
   - [x] [Module:VCard/Cards](core/Cards.lua) ~~*t*~~
@@ -18,6 +18,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
   - [ ] [Module:VCard/Subtypes](core/Subtypes.lua) *l*
   - [x] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~
+  - [x] [Module:VCard/styles.css](core/styles.css)
 - [x] Coordinates
   (*Already exist in javoy*)
   - [x] [Module:Coordinates](https://w.wiki/8HiE)
@@ -30,15 +31,15 @@ There are many tasks, such as translations, localizations, and so on. The origin
   (*Compete with local ones*)
 - [ ] Hours
   - [x] [Module:Hours](Hours/Hours.lua)
-  - [ ] [Module:Hours/i18n.lua](Hours/i18n.lua)
+  - [ ] [Module:Hours/i18n.lua](Hours/i18n.lua) *t*
 - [x] [Module:Languages](./Languages.lua)
 - [ ] Marker
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
-  - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua)
+  - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
   - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
   - [ ] [Module:Marker utilities/Tyoes](MarkerUtilities/Types.lua)
-- [ ] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
+- [x] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
 
 ### Tasks
 |    Status    |                Content                |
@@ -72,6 +73,7 @@ Here are all of the import sources:
 - [Module:VCard/Qualifiers](https://w.wiki/8ErD): Revision as of 19:57, 29 October 2023 by [DerFussi](https://de.wikivoyage.org/wiki/User:DerFussi)
 - [Module:VCard/Subtypes](https://w.wiki/8K9q): Revision as of 13:47, 12 October 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:VCard/Unesco](https://w.wiki/8KAr): Revision as of 23:51, 18 February 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:VCard/styles.css](https://w.wiki/8Mwf): Revision as of 20:55, 28 August 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:CountryData](https://w.wiki/8KAy): Revision as of 14:17, 7 July 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:CountryData/Geography](https://w.wiki/8KB8): Revision as of 13:55, 7 July 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:CountryData/Currencies](https://w.wiki/8KBT): Revision as of 17:02, 29 June 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)

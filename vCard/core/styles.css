@@ -1,0 +1,356 @@
+/*
+	vCard and Marker styles
+	Version: 2023-08-28
+*/
+
+/*
+	Styles for Marker and vCard templates
+*/
+
+div.vCard {
+	margin-top: 0.5em;
+}
+li div.vCard {
+	margin-top: 0;
+}
+.listing-outdent {
+	margin-left: 22px;
+	text-indent: -22px;
+}
+li .listing-outdent {
+	margin-left: 0;
+	text-indent: -22px;
+}
+.listing-name {
+	font-weight: bold;
+}
+.listing-name-latin, .listing-comment, .listing-directions, .listing-phone-exception {
+	font-style: italic;
+}
+.listing-hours, .listing-checkin, .listing-checkout, .listing-price,
+.listing-payment, .listing-subtype {
+	color: #606060;
+}
+.listing-phone-number {
+	white-space: nowrap;
+}
+.listing-add-contact {
+	display: none;
+}
+.vCard .voy-flag-icon {
+	position: relative;
+	top: 2px;
+}
+
+/*
+	Status and listing icons
+*/
+
+.listing-icon {
+	white-space: nowrap;
+}
+.listing-icon + .listing-icon:before {
+	content: ' ';
+	white-space: normal;
+}
+.listing-icon + .listing-sister-wikidata:before {
+	content: none;
+}
+.listing-icon-with-space {
+	white-space: normal !important;
+}
+.listing-status-item {
+	list-style-type: none;
+	list-style-image: none;
+	text-indent: -20px;
+}
+.vcard span, .vcard div.listing-content {
+	text-indent: 0;
+}
+.listing-status + .listing-status {
+	margin-left: 4px;
+}
+.listing-status, .listing-icon span {
+    display: inline-block;
+    position: relative;
+    top: 2px;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    white-space: nowrap;
+    padding-left: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+    color: transparent;
+}
+/* .vcard .listing-social-media-youtube span {
+    top: 0.5px;
+} */
+
+/* status icons */
+.listing-status-none, .listing-status-stub {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Symbol_plain_grey.svg/64px-Symbol_plain_grey.svg.png');
+}
+.listing-status-outline {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Start-icon.svg/64px-Start-icon.svg.png');
+}
+.listing-status-usable {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Symbol_keep_vote.svg/64px-Symbol_keep_vote.svg.png');
+}
+.listing-status-guide {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/9/94/Symbol_support_vote.svg/64px-Symbol_support_vote.svg.png');
+}
+.listing-status-star, .listing-status-recommendation {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Symbol_star_gold.svg/64px-Symbol_star_gold.svg.png');
+}
+.listing-status-top-sight, .listing-status-top-hotel, .listing-status-top-restaurant {
+    background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Symbol_star2.svg/64px-Symbol_star2.svg.png');
+}
+/* Wikimedia sister site icons */
+.listing-sister-commons span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Commons-logo.svg/64px-Commons-logo.svg.png');
+	background-size: auto 16px;
+	width: 12px;
+	padding-left: 12px;
+}
+.listing-sister-wikidata span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Wikidata-logo-without-paddings.svg/64px-Wikidata-logo-without-paddings.svg.png');
+    background-position: 0 4px;
+}
+.listing-sister-wikipedia span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Antu_wikipedia.svg/64px-Antu_wikipedia.svg.png');
+}
+.listing-sister-wikivoyage span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Wikivoyage-Logo-v3-icon.svg/64px-Wikivoyage-Logo-v3-icon.svg.png');
+}
+/* social-media site icons */
+.listing-social-media-facebook span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/b/b8/2021_Facebook_icon.svg/64px-2021_Facebook_icon.svg.png');
+}
+.listing-social-media-flickr span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/4/44/Flickr.svg/64px-Flickr.svg.png');
+}
+.listing-social-media-instagram span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/64px-Instagram_logo_2022.svg.png');
+}
+.listing-social-media-rss span, .listing-rss span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/4/43/Feed-icon.svg/64px-Feed-icon.svg.png');
+}
+.listing-social-media-tiktok span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Iconoir_tiktok.svg/64px-Iconoir_tiktok.svg.png');
+}
+.listing-social-media-twitter span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/c/ce/X_logo_2023.svg/64px-X_logo_2023.svg.png');
+    background-position: 0 2px;
+}
+.listing-social-media-youtube span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Logoyoutube2011favicon.svg/64px-Logoyoutube2011favicon.svg.png');
+    background-position: 0 3px;
+}
+/* additional icons */
+.listing-url span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/7/70/Applications-internet.svg/64px-Applications-internet.svg.png');
+}
+.listing-unesco span {
+	background-image: url('//upload.wikimedia.org/wikipedia/commons/thumb/f/fd/WV-Unesco-icon-small.svg/64px-WV-Unesco-icon-small.svg.png');
+}
+
+/* Wikidata icon is shown only for logged-in users. The class voy-user-login in
+   body tag is set by [[MediaWiki:InitListingTools.js]] script. */
+.listing-sister-wikidata a, .listing-icon-with-space {
+	display: none;
+}
+body.voy-user-login .listing-sister-wikidata a, body.voy-user-login .listing-icon-with-space {
+	display: inline;
+}
+.listing-subtype-icon + .listing-subtype-icon {
+	margin-left: 2px;
+}
+.listing-icon .external, .listing-url .external, .listing-rss .external {
+	background: none;  /* unterdrücke Link-Symbol bei sozialen Medien */
+	padding-right: 0;
+}
+.listing-content {
+	margin-top: 0.5em;
+}
+.listing-content .listing-next-paragraph { /* br-tag formatting */
+	display: block;
+	content: "";
+	margin-top: 0.5em;
+}
+.listing-next-paragraph + div, .listing-next-paragraph + style + div {
+	margin-top: 0 !important;
+}
+
+/*
+	Meta data
+*/
+
+.listing-metadata {
+	font-size: 0.8em;
+	color: #969696;
+}
+.listing-metadata-item {
+	display: inline-block;
+	white-space: nowrap;
+}
+.listing-outdated {
+	display: inline;
+	white-space: normal;
+}
+.listing-item-dummy {
+	display: none;
+}
+.listing-metadata-item:first-child:before,
+.listing-item-dummy + .listing-metadata-item:before {
+	content: "  (";
+}
+.listing-metadata-item:after {
+	content: " |  ";
+}
+.listing-metadata-item:last-child:after {
+	content: ")";
+}
+
+.listing-inline .listing-metadata-item:before,
+.listing-inline .listing-metadata-item:after {
+	content: "";
+}
+.listing-inline .listing-metadata-item {
+	box-sizing: border-box;
+}
+/* lastedit is not shown if the listing template is used within a text block.
+   listing-inline is set in case of vCard parameter show = inline is set. */
+.listing-inline .listing-lastedit {
+	display: none;
+}
+@media print {
+	.listing-lastedit:after {
+		content: ")";
+	}
+	.listing-inline .listing-lastedit:after {
+		content: "";
+	}
+}
+
+.listing-metadata-item button {
+	display: inline-block;
+	color: #969696;
+	border: none;
+	background: transparent;
+	font-family: sans-serif;
+	font-size: 1em;
+	cursor: pointer;
+	padding: 0;
+}
+.listing-metadata-item button:hover, .listing-metadata-item button:focus,
+.listing-metadata-item button:active {
+	text-decoration: underline;
+}
+.listing-inline .listing-metadata-item button {
+	display: inline;
+	color: transparent;
+}
+.listing-edit-button button {
+	position: relative;
+	padding-left: 15px;
+}
+.listing-edit-button button:before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 100%;
+	width: 15px;
+	background-image: url( "//upload.wikimedia.org/wikipedia/commons/thumb/9/9a/OOjs_UI_icon_edit-ltr-gray.svg/48px-OOjs_UI_icon_edit-ltr-gray.svg.png" );
+	background-repeat: no-repeat;
+	background-position: 0 25%;
+	background-size: 12px;
+}
+.listing-inline .listing-edit-button {
+	width: 1.5em;
+	padding-left: 2px;
+
+	/* Workaround for overflow: clip */
+	clip-path: polygon(0 0, 1.5em 0, 1.5em 100%, 0% 100%);
+}
+.listing-info-button button:before {
+	content: 'ℹ';
+	font-size: 130%;
+	padding-left: 1px;
+	padding-right: 3px;
+	font-family: serif;
+	color: #969696;
+}
+.listing-inline .listing-info-button {
+	width: 1.5em;
+	padding-left: 5px;
+	clip-path: polygon(0 0, 1.5em 0, 1.5em 100%, 0% 100%);
+}
+@media print {
+	.listing-info-button, .listing-edit-button {
+		display: none;
+	}
+}
+
+/*
+	CSS properties for marker-symbol wrapper
+*/
+
+.listing-map {
+	display: inline-block;
+	border-radius: 3px;
+	line-height: 1.15em;
+	padding: 0 1px;
+	background-color: fuchsia;
+	top: -1px;
+}
+
+.listing-map a.external:link, .listing-map a.external:visited, .listing-map a.external:hover,
+.listing-map a.external:active {
+	text-decoration: none;
+}
+.listing-map .mw-kartographer-maplink {
+	display: inline-block;
+	min-width: 1.5em;
+	height: 1.3em;
+	line-height: 1.3em;
+	padding: 0;
+	color: #fff !important;
+
+	/* for marker-copy */
+	top: 0;
+	position: relative;
+	font-size: 0.85em;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
+.listing-map-inverse .mw-kartographer-maplink, .mw-kartographer-maplink.listing-map-inverse {
+	color: #000 !important;
+}
+
+/*
+	For media with missing or limited pointer capabilities, i.e. for mobile
+	devices etc. Secondary devices are considered, too.
+	See: https://www.w3.org/TR/mediaqueries-4/#any-input
+*/
+.listing-tooltip-mobile .mw-kartographer-maplink {
+		min-width: 3em;
+}
+@media print {
+	.listing-map .mw-kartographer-maplink {
+		min-width: 1.5em;
+	}
+}
+
+body.skin-minerva .listing-map .mw-kartographer-maplink,
+body.skin-timeless .listing-map .mw-kartographer-maplink {
+	vertical-align: 10%;
+}
+.mw-kartographer-maplink img {
+	vertical-align: -15%;
+}
