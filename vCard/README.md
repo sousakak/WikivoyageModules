@@ -9,6 +9,7 @@
 In 2023, we Japanese community decided to replace Listing templates to vCard, which is a new version that is fully compatible. You can see the local discussion at the [project chat](https://w.wiki/89x5), and here is the code storage of files of vCard and related ones. This also includes modules' documentation pages and some of JavaScript linked to vCard.
 
 ## Progress
+### Module Implementation
 There are many tasks, such as translations, localizations, and so on. The original page of the alteration is as follows (*t*: translation; *l*: customization):
 
 - [ ] core *t*, *l*
@@ -33,15 +34,23 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:Hours](Hours/Hours.lua)
   - [ ] [Module:Hours/i18n.lua](Hours/i18n.lua) *t*
 - [x] [Module:Languages](./Languages.lua)
-- [ ] Marker
+- [ ] Link utilities
+  - [x] [Module:Link utilities](LinkUtilities/Link_utilities.lua)
+  - [x] [Module:Link utilities/i18n](LinkUtilities/i18n.lua)
+  - [x] [Module:LinkMail](LinkUtilities/LinkMail.lua)
+  - [x] [Module:LinkPhone](LinkUtilities/LinkPhone.lua)
+- [ ] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
   - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
-  - [ ] [Module:Marker utilities/Tyoes](MarkerUtilities/Types.lua)
+  - [ ] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
+- [x] UrlCheck
+  - [x] [Module:UrlCheck](UrlCheck/UrlCheck.lua)
+  - [x] [Module:UrlCheck/i18n](UrlCheck/i18n.lua)
 - [x] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
 
-### Tasks
+#### Tasks
 |    Status    |                Content                |
 |:-------------|:--------------------------------------|
 |    Unimpl    |       Translations (see above)        |
@@ -49,13 +58,20 @@ There are many tasks, such as translations, localizations, and so on. The origin
 |    Unimpl    |        Impl of Listing Editor         |
 |    Unimpl    |         Impl of Listing Info          |
 
-### Unclearness
+#### Unclearness
 - What do lines 126-130 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua) mean?
 - The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))
 - The WD ID [Q2145615](https://www.wikidata.org/w/index.php?title=Q2145615) was merged into [Q7673285](https://www.wikidata.org/w/index.php?title=Q7673285), [Q11964531](https://www.wikidata.org/w/index.php?title=Q11964531) was merged into [Q1210069](https://www.wikidata.org/w/index.php?title=Q1210069) and [Q1824143](https://www.wikidata.org/w/index.php?title=Q1824143) was merged into [Q2334804](https://www.wikidata.org/w/index.php?title=Q2334804), so I think these need to be upded (on l.32, 36 and 68 of [Module:VCard/Qualifiers](core/Qualifiers.lua))
 - We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - [Module:Languages](./Languages.lua) is not in the list "Wikivoyage:VCard/Installation#Localization": doesn't this need to be translated?
+- We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - Module:LinkSkype is not required in javoy, since we decided not to use links to external services. Can I remove lines 1121-1126 of [Module:VCard](core/VCard.lua)?
+
+### Script Implementation
+- Listing Editor
+- Listing Info
+
+### Giving Documentation
 
 ## Lisence
 All modules in this storage are from German Wikivoyage, and these all are imported and edited under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en) ([full text](../LICENSE)).
@@ -81,6 +97,12 @@ Here are all of the import sources:
 - [Module:Languages](https://w.wiki/8Mrj): Revision as of 13:54, 11 June 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Hours](https://w.wiki/8Mtw): Revision as of 00:07, 23 October 2022 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 - [Module:Hours/i18n](https://w.wiki/8Mu5): Revision as of 14:46, 21 November 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Link utilities](https://w.wiki/8SQC): Revision as of 21:00, 9 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:Link utilities/i18n](https://w.wiki/8SQQ): Revision as of 21:00, 9 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:LinkMail](https://w.wiki/8SQq): Revision as of 15:31, 8 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:LinkPhone](https://w.wiki/8SQv): Revision as of 21:02, 9 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:UrlCheck](https://w.wiki/8SRB): Revision as of 15:52, 2 November 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+- [Module:UrlCheck/i18n](https://w.wiki/8SRC): Revision as of 14:22, 2 June 2021 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
 
 Some modules below already exist in javoy:
 - [Module:Coordinates](https://w.wiki/8HiE)
