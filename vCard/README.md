@@ -30,15 +30,16 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
 - [ ] Exchange rate
   (*Compete with local ones*)
-- [ ] Hours
+- [x] Hours
   - [x] [Module:Hours](Hours/Hours.lua)
-  - [ ] [Module:Hours/i18n.lua](Hours/i18n.lua) *t*
+  - [x] [Module:Hours/i18n.lua](Hours/i18n.lua) *t*
 - [x] [Module:Languages](./Languages.lua)
-- [ ] Link utilities
+- [x] Link utilities
   - [x] [Module:Link utilities](LinkUtilities/Link_utilities.lua)
   - [x] [Module:Link utilities/i18n](LinkUtilities/i18n.lua)
   - [x] [Module:LinkMail](LinkUtilities/LinkMail.lua)
-  - [x] [Module:LinkPhone](LinkUtilities/LinkPhone.lua)
+  - [x] [Module:LinkPhone](LinkUtilities/LinkPhone.lua) 
+      (*Compete with local ones*)
 - [ ] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
