@@ -19,22 +19,22 @@ return {
 	types = {
 		-- journey and mobility
 
-		aerialway = { group = "go", wd = { "Q1424016" }, label = "Seilbahn" },
-		airline = { group = "go", wd = { "Q46970" }, label = "Fluggesellschaft" },
-		airport = { group = "go", wd = { "Q1248784", "Q62447", "Q644371" }, useIATA = "1", label = "Flughafen" },
-		airport_service = { group = "go", label = "Flughafendienst" },
-		bicycle_parking = { group = "go", wd = { "Q16243822" }, label = "Fahrradparkplatz" },
-		bicycle_rental = { alias = "bicycle_share", group = "go", wd = { "Q10611118", "Q1358919" }, label = "Fahrradverleih", icon = "bicycle-share" },
-		boat_sharing = { group = "go", wd = { "Q4931514" }, label = "Boot-Sharing, Boot-Charter" },
-		boat_trip = { group = "go", wd = { "Q25040412" }, label = "Bootsfahrt, Schiffstour" },
-		border_control = { group = "go", wd = { "Q218719" }, label = "Grenzkontrolle" },
-		bus = { alias = "bus_stop", group = "go", wd = { "Q953806", "Q494829" }, label = "Bushaltestelle" },
-		car_rental = { group = "go", wd = { "Q291240" }, label = "Autoverleih, Autovermietung" },
-		car_repair = { group = "go", wd = { "Q1310967" }, label = "Autowerkstatt" },
-		car_sharing = { group = "go", wd = { "Q847201" }, label = "Carsharing" },
-		charging_station = { group = "go", wd = { "Q2140665", "Q55956304" }, label = "Ladestation, Stromtankstelle" },
-		cycle_track = { group = "go", wd = { "Q25037910", "Q221722" }, label = "Radweg" },
-		ferry = { group = "go", wd = { "Q100355757", "Q25653", "Q1478783" }, label = "Fähranleger" },
+		aerialway = { group = "go", wd = { "Q1424016" }, label = "ケーブルカー" },
+		airline = { group = "go", wd = { "Q46970" }, label = "航空会社" },
+		airport = { group = "go", wd = { "Q1248784", "Q62447", "Q644371" }, useIATA = "1", label = "空港" },
+		airport_service = { group = "go", label = "空港サービス" },
+		bicycle_parking = { group = "go", wd = { "Q16243822" }, label = "駐輪場" },
+		bicycle_rental = { alias = "bicycle_share", group = "go", wd = { "Q10611118", "Q1358919" }, label = "レンタサイクル", icon = "bicycle-share" },
+		boat_sharing = { group = "go", wd = { "Q4931514" }, label = "ボートシェアリング" },
+		boat_trip = { group = "go", wd = { "Q25040412" }, label = "船旅" },
+		border_control = { group = "go", wd = { "Q218719" }, label = "出入国管理" },
+		bus = { alias = "bus_stop", group = "go", wd = { "Q953806", "Q494829" }, label = "バス停" },
+		car_rental = { group = "go", wd = { "Q291240" }, label = "レンタカー" },
+		car_repair = { group = "go", wd = { "Q1310967" }, label = "自動車修理工場" },
+		car_sharing = { group = "go", wd = { "Q847201" }, label = "カーシェアリング" },
+		charging_station = { group = "go", wd = { "Q2140665", "Q55956304" }, label = "充電ステーション" },
+		cycle_track = { group = "go", wd = { "Q25037910", "Q221722" }, label = "自転車道" },
+		ferry = { group = "go", wd = { "Q100355757", "Q25653", "Q1478783" }, label = "フェリー乗り場" },
 		fuel = { group = "go", wd = { "Q205495" }, label = "Tankstelle" },
 		funicular = { group = "go", wd = { "Q142031" }, label = "Standseilbahnstation" },
 		harbor = { alias = "port", group = "go", wd = { "Q44782", "Q283202" }, label = "Hafen" },
@@ -640,6 +640,6 @@ return {
 
 		-- error
 		
-		error = { group = "error", wd = { "Q29485" }, label = "Fehler" }
+		error = { group = "error", wd = { "Q29485" }, label = "エラー" }
 	}
 }
