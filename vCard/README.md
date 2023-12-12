@@ -43,7 +43,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
 - [ ] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
-  - [ ] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
+  - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
   - [ ] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
 - [x] UrlCheck
