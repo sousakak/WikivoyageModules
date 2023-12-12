@@ -54,10 +54,11 @@ There are many tasks, such as translations, localizations, and so on. The origin
 #### Tasks
 |    Status    |                Content                |
 |:-------------|:--------------------------------------|
-|    Unimpl    |       Translations (see above)        |
+|   Un-impl    |       Translations (see above)        |
 |    On hold   | Display of links to external services |
-|    Unimpl    |        Impl of Listing Editor         |
-|    Unimpl    |         Impl of Listing Info          |
+|   Un-impl    |        Impl of Listing Editor         |
+|   Un-impl    |         Impl of Listing Info          |
+Module:Marker utilities/Groups will be localized after the task of Module:Marker utilities/Types is done.
 
 #### Unclearness
 - What do lines 126-130 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua) mean?
