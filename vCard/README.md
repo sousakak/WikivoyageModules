@@ -72,6 +72,7 @@ Module:Marker utilities/Groups will be localized after the task of Module:Marker
 ### Script Implementation
 - Listing Editor
 - Listing Info
+- Edit Toolbar
 
 ### Giving Documentation
 
