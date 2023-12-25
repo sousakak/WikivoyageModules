@@ -54,10 +54,11 @@ There are many tasks, such as translations, localizations, and so on. The origin
 #### Tasks
 |    Status    |                Content                |
 |:-------------|:--------------------------------------|
-|   Un-impl    |       Translations (see above)        |
+|     WIP      |       Translations (see above)        |
 |    On hold   | Display of links to external services |
 |   Un-impl    |        Impl of Listing Editor         |
 |   Un-impl    |         Impl of Listing Info          |
+|   Un-impl    |    Impl of Edit toolbar for vCard     |
 Module:Marker utilities/Groups will be localized after the task of Module:Marker utilities/Types is done.
 
 #### Unclearness
