@@ -50,6 +50,8 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:UrlCheck](UrlCheck/UrlCheck.lua)
   - [x] [Module:UrlCheck/i18n](UrlCheck/i18n.lua)
 - [x] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
+- ListingEditor
+  - [ ] [MediaWiki:Gadget-ListingEditor.js](ListingEditor/ListingEditor.js)
 
 #### Tasks
 |    Status    |                Content                |
@@ -111,3 +113,6 @@ Here are all of the import sources:
 Some modules below already exist in javoy:
 - [Module:Coordinates](https://w.wiki/8HiE)
   - [Module:Coordinates/i18n](https://w.wiki/8HiG)
+
+The sources of imported gadgets are below:
+- [MediaWiki:Gadget-ListingEditor.js](https://w.wiki/8dxB): Revision as of 00:59, 27 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
