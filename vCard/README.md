@@ -116,3 +116,7 @@ Some modules below already exist in javoy:
 
 The sources of imported gadgets are below:
 - [MediaWiki:Gadget-ListingEditor.js](https://w.wiki/8dxB): Revision as of 00:59, 27 December 2023 by [RolandUnger](https://de.wikivoyage.org/wiki/User:RolandUnger)
+
+### Contributors for Japanese customization
+- Tmv ([javoy](https://w.wiki/_uPgG), [GitHub](https://github.com/sousakak))
+- Chqaz ([javoy](https://w.wiki/_uPgD), [GitHub](https://github.com/ChqazWiki))
