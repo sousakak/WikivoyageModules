@@ -124,11 +124,11 @@ return {
 
 	-- strings
 	texts = {
-		asOf           = 'Stand %s',
-		from           = 'ab %s',
+		asOf           = '%s時点',
+		from           = '%sから',
 		fromTo         = '%s–%s',
-		to             = 'bis %s',
-		fromTo2        = '%s bis %s',
+		to             = '%sまで',
+		fromTo2        = '%sから%sまで',
 
 		-- General
 		closeX         = '[[File:Close x - white.png|15px|link=|class=noviewer|不明なマーカー記号]]',
@@ -292,7 +292,7 @@ return {
 	statuses = {
 		none    = { alias = "class-0", label = "分類なし" },
 		stub    = { alias = "class-1", label = "スタブ" },
-		outline = { alias = "class-2", label = "Artikelentwurf" },
+		outline = { alias = "class-2", label = "骨格記事" },
 		usable  = { alias = "class-3", label = "役立つ記事" },
 		guide   = { alias = "class-4", label = "完全な記事" },
 		star    = { alias = "class-5", label = "おすすめ記事" },

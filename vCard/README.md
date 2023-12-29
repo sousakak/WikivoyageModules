@@ -64,13 +64,10 @@ There are many tasks, such as translations, localizations, and so on. The origin
 Module:Marker utilities/Groups will be localized after the task of Module:Marker utilities/Types is done.
 
 #### Unclearness
-- What do lines 126-130 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua) mean?
-- The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))
-- The WD ID [Q2145615](https://www.wikidata.org/w/index.php?title=Q2145615) was merged into [Q7673285](https://www.wikidata.org/w/index.php?title=Q7673285), [Q11964531](https://www.wikidata.org/w/index.php?title=Q11964531) was merged into [Q1210069](https://www.wikidata.org/w/index.php?title=Q1210069) and [Q1824143](https://www.wikidata.org/w/index.php?title=Q1824143) was merged into [Q2334804](https://www.wikidata.org/w/index.php?title=Q2334804), so I think these need to be upded (on l.32, 36 and 68 of [Module:VCard/Qualifiers](core/Qualifiers.lua))
+- ~~The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))~~
 - We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
-- [Module:Languages](./Languages.lua) is not in the list "Wikivoyage:VCard/Installation#Localization": doesn't this need to be translated?
 - We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
-- Module:LinkSkype is not required in javoy, since we decided not to use links to external services. Can I remove lines 1121-1126 of [Module:VCard](core/VCard.lua)?
+- We do not add links to external services such as X (Twitter), Instagram, Youtube, and so on. What do we need to do to remove this part?
 
 ### Script Implementation
 - Listing Editor
