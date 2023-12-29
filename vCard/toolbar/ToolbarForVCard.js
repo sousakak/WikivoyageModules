@@ -1,3 +1,67 @@
+var vCardTypes = function(){
+    return {
+        dialogs: {
+            vCardTypes: {
+                titleMsg: "タイプを選択",
+                id: 'wikieditor-toolbar-vCardTypes-dialog',
+                class: '',
+                html: '<div class="voy-toolbar-vCardTypes-container"></div>',
+                init: function(){},
+                dialog: {
+                    resizable: false,
+                    dialogClass: 'wikiEditor-toolbar-dialog',
+                    width: 590,
+                    buttons: [
+                        {
+                            text: "決定",
+                            click: function() {
+                                pass
+                            }
+                        },
+                        {
+                            text: "キャンセル",
+                            click: function() {
+                                $( this ).dialog( 'close' );
+                            }
+                        }
+                    ],
+                    open: function() {
+                        pass
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+mw.hook( 'wikiEditor.toolbarReady' ).add( function ( $textarea ) {
+    $textarea.wikiEditor( 'addModule', vCardTypes());
+    $textarea.wikiEditor( 'addToToolbar', {
+        sections: {
+            listings: {
+                type: 'toolbar',
+                label: リスト
+            }
+        }
+    });
+    $textarea.wikiEditor( 'addToToolbar', {
+        section: 'listings',
+        groups: {
+            templates: {
+                label: リスティング
+            }
+        }
+    });
+    window.setTimeout(changeToolbar, 500);
+});
+
+
+
+
+
+
+
 const dialogTrigger = pass;
 
 mw.loader.using( '@wikimedia/codex' ).then( function( require ) {
