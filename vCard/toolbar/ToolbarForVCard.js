@@ -1,73 +1,78 @@
-var vCardTypes = function(){
-    return {
-        dialogs: {
-            vCardTypes: {
-                titleMsg: "タイプを選択",
-                id: 'wikieditor-toolbar-vCardTypes-dialog',
-                class: '',
-                html: '<div class="voy-toolbar-vCardTypes-container"></div>',
-                init: function(){},
-                dialog: {
-                    resizable: false,
-                    dialogClass: 'wikiEditor-toolbar-dialog',
-                    width: 590,
-                    buttons: [
-                        {
-                            text: "決定",
-                            click: function() {
-                                pass
+mw.loader.using( '@wikimedia/codex' ).then( function( require ) {
+    const Vue = require( 'vue' );
+	const Codex = require( '@wikimedia/codex' );
+	const mountPoint = document.body;
+
+    var see = function() {
+        return {
+            dialogs: {
+                see: {
+                    titleMsg: "タイプを選択",
+                    id: 'wikieditor-toolbar-vCardTypes-dialog',
+                    class: 'voy-vCardTypes voy-dialog voy-vCardTypes-see',
+                    html: '<div class="voy-toolbar-vCardTypes-container"></div>',
+                    init: function(){},
+                    dialog: {
+                        resizable: false,
+                        dialogClass: 'wikiEditor-toolbar-dialog',
+                        width: 590,
+                        buttons: [
+                            {
+                                text: "決定",
+                                click: function() {
+                                    $( this ).dialog( 'close' );
+                                    $.wikiEditor.modules.toolbar.fn.doAction(
+                                        $( this ).data( 'context' ),
+                                        {
+                                            type: 'encapsulate',
+                                            options: {
+                                                pre: "{{vCard | type=" + "\n| name=",
+                                                post: '',                    // !!! HERE !!!
+                                                ownline: true
+                                            }
+                                        },
+                                        $( this )
+                                    );
+                                }
+                            },
+                            {
+                                text: "キャンセル",
+                                click: function() {
+                                    $( this ).dialog( 'close' );
+                                }
                             }
-                        },
-                        {
-                            text: "キャンセル",
-                            click: function() {
-                                $( this ).dialog( 'close' );
-                            }
+                        ],
+                        open: function() {
+                            pass
                         }
-                    ],
-                    open: function() {
-                        pass
                     }
                 }
             }
         }
     }
-}
 
 
-mw.hook( 'wikiEditor.toolbarReady' ).add( function ( $textarea ) {
-    $textarea.wikiEditor( 'addModule', vCardTypes());
-    $textarea.wikiEditor( 'addToToolbar', {
-        sections: {
-            listings: {
-                type: 'toolbar',
-                label: リスト
+    mw.hook( 'wikiEditor.toolbarReady' ).add( function ( $textarea ) {
+        $textarea.wikiEditor( 'addModule', vCardTypes());
+        $textarea.wikiEditor( 'addToToolbar', {
+            sections: {
+                listings: {
+                    type: 'toolbar',
+                    label: リスト
+                }
             }
-        }
-    });
-    $textarea.wikiEditor( 'addToToolbar', {
-        section: 'listings',
-        groups: {
-            templates: {
-                label: リスティング
+        });
+        $textarea.wikiEditor( 'addToToolbar', {
+            section: 'listings',
+            groups: {
+                templates: {
+                    label: リスティング
+                }
             }
-        }
+        });
+        window.setTimeout(changeToolbar, 500);
     });
-    window.setTimeout(changeToolbar, 500);
-});
 
-
-
-
-
-
-
-const dialogTrigger = pass;
-
-mw.loader.using( '@wikimedia/codex' ).then( function( require ) {
-	const Vue = require( 'vue' );
-	const Codex = require( '@wikimedia/codex' );
-	const mountPoint = document.body.appendChild( document.createElement( 'div' ) );
     const types = {
         see: [
             {
@@ -115,6 +120,10 @@ mw.loader.using( '@wikimedia/codex' ).then( function( require ) {
 				this.count--;
 			},
             onInput( value ) {
+                if ( !value ) {
+                    menuItems.value = [];
+                    return;
+                }
                 if ( value ) {
                     menuItems.value = types.filter( ( item ) =>
                         item.label.includes( value )
@@ -122,12 +131,6 @@ mw.loader.using( '@wikimedia/codex' ).then( function( require ) {
                 }
             }
 		},
-		mounted() {
-			dialogTrigger.addEventListener( 'click', this.openDialog );
-		},
-		unMounted() {
-			dialogTrigger.removeEventListener( this.openDialog );
-		}
 	}).component( 'cdx-lookup', Codex.CdxLookup )
 	.component( 'cdx-dialog', Codex.CdxDialog )
 	.mount( mountPoint );
