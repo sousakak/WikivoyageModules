@@ -59,6 +59,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
 |   Un-impl    |        Impl of Listing Editor         |
 |   Un-impl    |         Impl of Listing Info          |
 |   Un-impl    |    Impl of Edit toolbar for vCard     |
+
 Module:Marker utilities/Groups will be localized after the task of Module:Marker utilities/Types is done.
 
 #### Unclearness
