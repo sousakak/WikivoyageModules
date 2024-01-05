@@ -17,7 +17,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:VCard/i18n](core/i18n.lua) ~~*t*~~ ~~*l*~~
   - [x] [Module:VCard/Params](core/Params.lua) ~~*t*~~ ~~*l*~~
   - [x] [Module:VCard/Qualifiers](core/Qualifiers.lua) ~~*t*~~
-  - [x] [Module:VCard/Subtypes](core/Subtypes.lua) *l*
+  - [x] [Module:VCard/Subtypes](core/Subtypes.lua) ~~*l*~~
   - [x] [Module:VCard/Unesco](core/Unesco.lua) ~~*t*~~
   - [x] [Module:VCard/styles.css](core/styles.css)
 - [x] Coordinates
@@ -32,7 +32,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   (*Compete with local ones*)
 - [x] Hours
   - [x] [Module:Hours](Hours/Hours.lua)
-  - [x] [Module:Hours/i18n.lua](Hours/i18n.lua) *t*
+  - [x] [Module:Hours/i18n.lua](Hours/i18n.lua) ~~*t*~~
 - [x] [Module:Languages](./Languages.lua)
 - [x] Link utilities
   - [x] [Module:Link utilities](LinkUtilities/Link_utilities.lua)
@@ -42,8 +42,8 @@ There are many tasks, such as translations, localizations, and so on. The origin
       (*Compete with local ones*)
 - [ ] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
-  - [x] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
-  - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
+  - [x] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) ~~*l*~~
+  - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) ~~*t*~~
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
   - [ ] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
 - [x] UrlCheck
