@@ -66,7 +66,7 @@ Module:Marker utilities/Groups will be localized after the task of Module:Marker
 - We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - We do not add links to external services such as X (Twitter), Instagram, Youtube, and so on. What do we need to do to remove this part?
-There's one more thing... can't remember.
+- We have some original features such as a parameter "link" and a link "detail"; I wonder if these are added to all vCard modules because these features (especially the latter) can be useful for other Wikivoyages?
 
 ### Script Implementation
 - ListingEditor
