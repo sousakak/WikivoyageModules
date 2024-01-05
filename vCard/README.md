@@ -50,8 +50,6 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:UrlCheck](UrlCheck/UrlCheck.lua)
   - [x] [Module:UrlCheck/i18n](UrlCheck/i18n.lua)
 - [x] [Module:Wikidata_utilities](./Wikidata_utilities.lua)
-- ListingEditor
-  - [ ] [MediaWiki:Gadget-ListingEditor.js](ListingEditor/ListingEditor.js)
 
 #### Tasks
 |    Status    |                Content                |
@@ -71,7 +69,8 @@ Module:Marker utilities/Groups will be localized after the task of Module:Marker
 There's one more thing... can't remember.
 
 ### Script Implementation
-- Listing Editor
+- ListingEditor
+  - [ ] [MediaWiki:Gadget-ListingEditor.js](ListingEditor/ListingEditor.js)
 - Listing Info
 - Edit Toolbar
 
