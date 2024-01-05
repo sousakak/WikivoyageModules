@@ -42,7 +42,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
       (*Compete with local ones*)
 - [ ] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
-  - [ ] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
+  - [x] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) *l*
   - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) *t*
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
   - [ ] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
@@ -68,6 +68,7 @@ Module:Marker utilities/Groups will be localized after the task of Module:Marker
 - We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
 - We do not add links to external services such as X (Twitter), Instagram, Youtube, and so on. What do we need to do to remove this part?
+There's one more thing... can't remember.
 
 ### Script Implementation
 - Listing Editor
