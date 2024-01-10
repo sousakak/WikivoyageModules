@@ -1,21 +1,21 @@
--- This module contains the parameter tables. The translated values
--- are stored in Module:vCard/i18n.
+-- This module contains the parameter tables and definitions. Do not modify this
+-- module. The translated values are stored in Module:vCard/i18n.
 	
 -- module import
-local mi = require( 'Module:Marker utilities/i18n' )
+local vi = require( 'Module:VCard/i18n' ) -- additional vCard options
 
 return {	
 	-- administration
 	moduleInterface =  {
 		suite  = 'vCard',
 		sub    = 'Params',
-		serial = '2023-10-04',
+		serial = '2024-01-10',
 		item   = 65455743
 	},
 
 	-- complete table of parameters
-	-- true: get in from Wikidata in any case
-	-- for parameter translations see Modul:VCard/i18n
+	-- true: get it from Wikidata in any case
+	-- for parameter translations see Module:VCard/i18n
 	
 	ParMap = {
 		address         = '',
@@ -52,8 +52,8 @@ return {
 		hostelworld     = '', -- Hostelworld.com
 		hotels          = '', -- Hotels.com
 		hours           = '',
-		iata            = mi.options.showIata,
-		icao            = mi.options.showIcao,
+		iata            = vi.options.showIata,
+		icao            = vi.options.showIcao,
 		image           = true,
 		instagram       = '',
 		kayak           = '', -- Kayak.com
@@ -79,7 +79,7 @@ return {
 		relaisChateaux  = '', -- RelaisChateaux.com
 		rss             = '', -- web feed
 		sac             = '', -- SAC-CAS.ch
-		show            = mi.options.defaultShow,
+		show            = vi.options.defaultShow,
 		skype           = '',
 		skyscanner      = '', -- Skyscanner.com
 		status          = '',
@@ -93,8 +93,8 @@ return {
 		trip            = '', -- Trip.com
 		tripadvisor     = '', -- Tripadvisor.com
 		twitter         = '',
-		type            = '',
-		unesco          = mi.options.showUnesco,
+		type            = true,
+		unesco          = vi.options.showUnesco,
 		url             = '',
 		useIcon         = '',   -- internal use
 		wikidata        = '',
@@ -113,6 +113,8 @@ return {
 	},
 	
 	--[[
+	Wikidata properties and definitions for vCard parameters
+
 	p property or set of properties
 	f formatter string
 	c maximum count of results, default = 1
@@ -158,7 +160,8 @@ return {
 		hotels       = { p = 'P3898' },
 		iata         = { p =  'P238', c = 3 },
 		icao         = { p =  'P239' },
-		image        = { p =   'P18' },
+		image        = { p = { { p =   'P18' },
+		                  { p = 'P5775' } } }, -- interior image
 		instagram    = { p = { { p = 'P2003', f = 'https://www.instagram.com/%s/' },
 		                  { p = 'P4173', f = 'https://www.instagram.com/explore/locations/%s/' } } },
 		kayak        = { p = 'P10547' },
@@ -189,7 +192,7 @@ return {
 		trip         = { p = 'P10425' },
 		tripadvisor  = { p = 'P3134' },
 		twitter      = { p = 'P2002', f = 'https://twitter.com/%s', l = true },
-		type         = { p =   'P31', c = mi.p31Limit, v = 'id' },
+		type         = { p =   'P31', c = vi.options.p31Limit, v = 'id' },
 		unesco       = { p =  'P757' },
 		url          = { p =  'P856', l = true },
 		youtube      = { p = 'P2397', f = 'https://www.youtube.com/channel/%s', l = true }
@@ -250,6 +253,15 @@ return {
 		tripadvisor     = 'data-tripadvisor-com'
 	},
 
+	-- check if event
+	
+	checkEvent = { 'date', 'month', 'year', 'endDate', 'endMonth', 'endYear',
+		'frequency', 'location' },
+
+	-- prevent local data if wiki language == country language
+
+	localData = { 'nameLocal', 'addressLocal', 'directionsLocal' },
+
 	-- phone numbers for fetching country data
 
 	phones = { 'phone', 'fax', 'mobile', 'tollfree' },
@@ -263,12 +275,14 @@ return {
 		inline        = 1,
 		noairport     = 1,
 		none          = 1,
+		noperiod      = 1,
 		nositelinks   = 1,
 		nosocialmedia = 1,
 		nosubtype     = 1,
 		nowdsubtype   = 1,
 		outdent       = 1,
 		poi           = 1,
-		symbol        = 1
+		symbol        = 1,
+		wikilink      = 1
 	}
 }
