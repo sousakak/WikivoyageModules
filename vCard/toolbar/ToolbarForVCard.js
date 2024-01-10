@@ -1,6 +1,21 @@
-mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
+// <source lang="javascript">
+// 完成状況 : 校正段階
+// 当スクリプトは校正段階です。使用できますが、予期せぬ挙動をする可能性があります。
+/******************************************************************************/
+// ja>>ButtonsVCard
+//   >>デスクトップ版でソース編集をする時に、vCardを簡単に追加できるボタンを実装
+//   >>
+//   >>作者    : Tmv
+//   >>URL     : https://ja.wikivoyage.org/w/index.php?title=User:Tmv/custom/ButtonsVCard.js
+//   >>
+//   >>使用方法
+//   >>[[Special:MyPage/common.js]]に以下のコードを追加 : 
+//   >>mw.loader.load('//ja.wikivoyage.org/w/index.php?title=User:Tmv/custom/ButtonsVCard.js&action=raw&ctype=text/javascript');
+/******************************************************************************/
+
+mw.loader.using(['vue', '@wikimedia/codex' ]).then( ( require ) => {
     const { ref } = require( 'vue' );
-	const { CdxLookup, CdxDialog } = require( '@wikimedia/codex' );
+	const { CdxLookup, CdxDialog, CdxCheckbox } = require( '@wikimedia/codex' );
     const i18n = {
         dialogTitle: "タイプを検索",
         dialogSubtitle: "$1のタイプを検索中",
@@ -9,6 +24,9 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
         cancelButtonLabel: "中止",
         lookupPlaceholder: "日本語で入力",
         lookupValueLabel: "入力",
+        inlinedCheckboxLabel: "インライン",
+        bulletedCheckboxLabel: "箇条書き",
+
         goLabel: "行く",
         goIcon: "//upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Pictograms-nps-airport.svg/22px-Pictograms-nps-airport.svg.png",
         religionLabel: "信仰",
@@ -37,7 +55,7 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
         areaIcon: "//upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Bootstrap_compass.svg/22px-Bootstrap_compass.svg.png",
         otherLabel: "その他",
         otherIcon: "//upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Italian_traffic_signs_-_icona_informazioni_%28figura_II_108%29.svg/22px-Italian_traffic_signs_-_icona_informazioni_%28figura_II_108%29.svg.png"
-    }
+    };
     const TYPES = {
         go: [],
         religion: [],
@@ -73,7 +91,84 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
             },
             {
                 label: "船舶昇降機",
-            }
+                value: "boat_lift"
+            },
+            {
+                label: "橋",
+                value: "bridge"
+            },
+            {
+                label: "建造物",
+                value: "building"
+            },
+            {
+                label: "建築複合体",
+                value: "building_complex"
+            },
+            {
+                label: "掩体壕",
+                value: "bunker"
+            },
+            {
+                label: "キャノン砲",
+                value: "cannon"
+            },
+            {
+                label: "城",
+                value: "castle"
+            },
+            {
+                label: "地下室",
+                value: "cellar"
+            },
+            {
+                label: "墓地",
+                value: "cemetery"
+            },
+            {
+                label: "シャトー",
+                value: "chateau"
+            },
+            {
+                label: "副都心",
+                value: "city_center"
+            },
+            {
+                label: "市壁",
+                value: ""
+            },
+            {
+                label: "作品集",
+                value: "collection"
+            },
+            {
+                label: "柱、塔",
+                value: "column"
+            },
+            {
+                label: "通信塔",
+                value: "communication_tower"
+            },
+            {
+                label: "火葬場",
+                value: "crematorium"
+            },
+            {
+                label: "文化遺産",
+                value: "cultural_heritage"
+            },
+            {
+                label: "ダム",
+                value: "dam"
+            },
+            {
+                label: "フィルダム",
+                value: "embankment_dam"
+            },
+            {
+                label: "展覧会",
+                value: "exhibition"
+            },
         ],
         do: [],
         buy: [],
@@ -85,9 +180,9 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
         view: [],
         area: [],
         other: []
-    }
+    };
 
-    var currentLastEditDate = function () {
+    const currentLastEditDate = () => {
         // return the date as "2015-01-15"
         var d = new Date();
         var year = d.getFullYear();
@@ -98,9 +193,9 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
         if (day < 10) day = '0' + day;
         return year + '-' + month + '-' + day;
     };
-    var post_text = " | name-local= | name-latin= | alt= | comment=\n| address= | address-local= | directions= | directions-local= | lat= | long=\n| wikidata= | commons= | url=\n| image= | phone= | tollfree= | mobile= | fax= | email=\n| hours= | checkin= | checkout=\n| payment= | price=\n| content=\n| lastedit=" + currentLastEditDate() + "\n}}"
+    let post_text = " | name-local= | name-latin= | alt= | comment=\n| address= | address-local= | directions= | directions-local= | lat= | long=\n| wikidata= | commons= | url=\n| image= | phone= | tollfree= | mobile= | fax= | email=\n| hours= | checkin= | checkout=\n| payment= | price=\n| content=\n| lastedit=" + currentLastEditDate() + "\n}}";
 
-    function selectType( group ) {
+    const selectType = ( context, group ) => {
         const dialog = {
             template: `
                 <cdx-dialog
@@ -125,14 +220,25 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
                             <strong>{{ menuItem.label }}</strong> (` + i18n.lookupValueLabel + `: {{ menuItem.value }})
                         </template>
                     </cdx-lookup>
+                    <cdx-checkbox
+                        v-model="inlined"
+                    >
+                        ` + i18n.inlinedCheckboxLabel + `
+                    </cdx-checkbox>
+                    <cdx-checkbox
+                        v-model="bulleted"
+                    >
+                        ` + i18n.bulletedCheckboxLabel + `
+                    </cdx-checkbox>
                 </cdx-dialog>
             `,
             components: {
                 CdxLookup,
-                CdxDialog
+                CdxDialog,
+                CdxCheckbox
             },
             setup() {
-                const   open = false,
+                const   open = ref( true ),
                         primaryAction = {
                             label: i18n.insertButtonLabel,
                             actionType: 'progressive',
@@ -145,23 +251,34 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
                         menuItems = ref( [] ),
                         menuConfig = {
                             visibleItemLimit: null
-                        }
+                        },
+                        inlined = ref( false ),
+                        bulleted = ref( true );
 
-                function insertVCard() {
+                const insertVCard = () => {
                     open.value = false;
+                    post = post_text
+                    pre = "{{vCard | type=" + selection.value + "\n| name="
+                    if (inlined.value) {
+                        post = post.replace(/\n/g, " ")
+                        pre = pre.replace(/\n/g, " ")
+                    }
+                    if (bulleted.value) {
+                        pre = "* " + pre
+                    }
                     $.wikiEditor.modules.toolbar.fn.doAction(
-                        $(this).data( 'context' ),
+                        context,
                         {
                             type: 'encapsulate',
                             options: {
-                                pre: "{{vCard | type=" + value.name + "\n| name=",
-                                post: post_text
+                                pre: pre,
+                                post: post
                             }
                         }
-                    )
+                    );
                 }
 
-                function onInput( value ) {
+                const onInput = ( value ) => {
                     if ( !value ) {
                         menuItems.value = [];
                         return;
@@ -170,7 +287,7 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
                         menuItems.value = TYPES[group].filter( ( item ) =>
                             item.label.includes( value )
                         );
-                        primaryAction.disabled = false
+                        primaryAction.disabled = false;
                     }
                 }
 
@@ -182,15 +299,17 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
                     selection,
                     menuItems,
                     menuConfig,
-                    onInput
-                }
+                    onInput,
+                    inlined,
+                    bulleted
+                };
             }
-        }
-        Vue.createMwApp( dialog ).mount( 'body' );
+        };
+        $( 'body' ).prepend( '<div class="voy-buttonsVCard-dialog voy-buttonsVCard"></div>' );
+        Vue.createMwApp( dialog ).mount( '.voy-buttonsVCard-dialog' );
     }
 
-    mw.hook( 'wikiEditor.toolbarReady' ).add( function ( $textarea ) {
-        $textarea.wikiEditor( 'addModule', vCardTypes());
+    mw.hook( 'wikiEditor.toolbarReady' ).add( ( $textarea ) => {
         $textarea.wikiEditor( 'addToToolbar', {
             sections: {
                 listings: {
@@ -211,164 +330,161 @@ mw.loader.using(['vue', '@wikimedia/codex' ]).then( function( require ) {
             section: 'listings',
             group: 'templates',
             tools: {
-                Listing: [
-                    {
-                        label: i18n.goLabel,
-                        type: 'button',
-                        icon: i18n.goIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "go" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.religionLabel,
-                        type: 'button',
-                        icon: i18n.religionIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "religion" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.natureLabel,
-                        type: 'button',
-                        icon: i18n.natureIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "nature" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.seeLabel,
-                        type: 'button',
-                        icon: i18n.seeIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "see" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.doLabel,
-                        type: 'button',
-                        icon: i18n.doIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "do" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.buyLabel,
-                        type: 'button',
-                        icon: i18n.buyIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "buy" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.eatLabel,
-                        type: 'button',
-                        icon: i18n.eatIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "eat" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.drinkLabel,
-                        type: 'button',
-                        icon: i18n.drinkIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "drink" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.sleepLabel,
-                        type: 'button',
-                        icon: i18n.sleepIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "sleep" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.healthLabel,
-                        type: 'button',
-                        icon: i18n.healthIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "health" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.populatedLabel,
-                        type: 'button',
-                        icon: i18n.populatedIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "populated" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.viewLabel,
-                        type: 'button',
-                        icon: i18n.viewIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "view" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.areaLabel,
-                        type: 'button',
-                        icon: i18n.areaIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "area" )
-                            }
-                        }
-                    },
-                    {
-                        label: i18n.otherLabel,
-                        type: 'button',
-                        icon: i18n.otherIcon,
-                        action: {
-                            type: 'callback',
-                            execute: function( context ){
-                                selectType( "other" )
-                            }
+                go: {
+                    label: i18n.goLabel,
+                    type: 'button',
+                    icon: i18n.goIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "go" );
                         }
                     }
-                ]
+                },
+                religion: {
+                    label: i18n.religionLabel,
+                    type: 'button',
+                    icon: i18n.religionIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "religion" );
+                        }
+                    }
+                },
+                nature: {
+                    label: i18n.natureLabel,
+                    type: 'button',
+                    icon: i18n.natureIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "nature" );
+                        }
+                    }
+                },
+                see: {
+                    label: i18n.seeLabel,
+                    type: 'button',
+                    icon: i18n.seeIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "see" );
+                        }
+                    }
+                },
+                do: {
+                    label: i18n.doLabel,
+                    type: 'button',
+                    icon: i18n.doIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "do" );
+                        }
+                    }
+                },
+                buy: {
+                    label: i18n.buyLabel,
+                    type: 'button',
+                    icon: i18n.buyIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "buy" );
+                        }
+                    }
+                },
+                eat: {
+                    label: i18n.eatLabel,
+                    type: 'button',
+                    icon: i18n.eatIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "eat" );
+                        }
+                    }
+                },
+                drink: {
+                    label: i18n.drinkLabel,
+                    type: 'button',
+                    icon: i18n.drinkIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "drink" );
+                        }
+                    }
+                },
+                sleep: {
+                    label: i18n.sleepLabel,
+                    type: 'button',
+                    icon: i18n.sleepIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "sleep" );
+                        }
+                    }
+                },
+                health: {
+                    label: i18n.healthLabel,
+                    type: 'button',
+                    icon: i18n.healthIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "health" );
+                        }
+                    }
+                },
+                populated: {
+                    label: i18n.populatedLabel,
+                    type: 'button',
+                    icon: i18n.populatedIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "populated" );
+                        }
+                    }
+                },
+                view: {
+                    label: i18n.viewLabel,
+                    type: 'button',
+                    icon: i18n.viewIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "view" );
+                        }
+                    }
+                },
+                area: {
+                    label: i18n.areaLabel,
+                    type: 'button',
+                    icon: i18n.areaIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "area" );
+                        }
+                    }
+                },
+                other: {
+                    label: i18n.otherLabel,
+                    type: 'button',
+                    icon: i18n.otherIcon,
+                    action: {
+                        type: 'callback',
+                        execute: ( context ) => {
+                            selectType( context, "other" );
+                        }
+                    }
+                }
             }
         });
-        window.setTimeout(changeToolbar, 500);
     });
 });
