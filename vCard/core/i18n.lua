@@ -11,7 +11,7 @@ return {
 	moduleInterface = {
 		suite  = 'vCard',
 		sub    = 'i18n',
-		serial = '2023-10-08',
+		serial = '2024-01-10',
 		item   = 65455749
 	},
 
@@ -32,29 +32,28 @@ return {
 		directions      = 'directions',
 		directionsLocal = 'directions-local',
 		email           = 'email',
---  	facebook        = 'facebook',
+--		facebook        = 'facebook',
 		fax             = 'fax',
---  	flickr          = 'flickr',
+--		flickr          = 'flickr',
 		group           = 'group',
 		hours           = 'hours',
 		image           = 'image',
---  	instagram       = 'instagram',
+--		instagram       = 'instagram',
 		lastedit        = 'lastedit',
-		lat             = { 'lat', 'coord' },
-        link            = 'link', -- unique to Japanese Wikivoyage
-		long            = 'long',
+		lat             = { 'lat', 'latitude', 'coord' },
+		long            = { 'long', 'lon', 'longitude' },
 		mapGroup        = 'map-group',
 		mobile          = 'mobile',
 		name            = 'name',
 --		nameExtra       = 'name-extra',
-        nameLatin       = 'name-latin',
+		nameLatin       = 'name-latin',
 		nameLocal       = 'name-local',
 		nameMap         = 'name-map',
 		payment         = 'payment',
 		phone           = 'phone',
 		price           = 'price',
 		show            = 'show',
---      skype           = 'skype',
+--		skype           = 'skype',
 		status          = 'status',
 		styles          = 'styles',
 		subtype         = { 'subtype', 'subtypes' },
@@ -64,7 +63,7 @@ return {
 		type            = { 'type', 'types' },
 		url             = 'url',
 		wikidata        = 'wikidata',
---		wikipedia       = 'wikipedia', -- deprecated
+		wikipedia       = 'wikipedia', -- deprecated, but removed comment as it is used in Listing in javoy
 --		youtube         = 'youtube',
 		zoom            = 'zoom',
 
@@ -76,5 +75,17 @@ return {
 		endYear         = 'endyear',
 		frequency       = 'frequency',
 		location        = 'location'
+	},
+
+	-- additional vCard options
+	options = {
+		defaultAuto   = true,  -- vCard default auto mode
+		defaultShow   = 'poi',
+		lasteditHours = true,
+		p31Limit      = 3,
+		showIata      = true,  -- possible values true, false
+		showIcao      = true,
+		showUnesco    = true,
+		useMobile     = true   -- distinguish landline and mobile phones
 	}
 }

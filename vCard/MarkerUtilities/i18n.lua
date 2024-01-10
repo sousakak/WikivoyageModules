@@ -90,7 +90,7 @@ return {
 	-- Display and performance options for vCard / Listing module
 	options = {
 		defaultAuto     = true,  -- vCard default auto mode
-		defaultShow     = 'poi',
+		defaultShow     = 'poi, nosocialmedia',
 		lasteditHours   = true,
 		noStarParams    = { 'nameLocal', 'alt', 'comment' },
 		noTypeMsgs      = false, -- prevents display of maintenance( typeFromWD, typeIsGroup )
