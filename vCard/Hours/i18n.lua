@@ -5,7 +5,7 @@ return {
 	moduleInterface = {
 		suite  = "Hours",
 		sub    = "Hours/i18n",
-		serial = "2023-11-21",
+		serial = "2023-01-11",
 		item   = 99744685
 	},
 
@@ -84,10 +84,11 @@ return {
 		closed      = "閉店：%s",
 		format      = "営業：%s",
 
-		comment     = "(%s)",
-		joiner      = " ",  -- between days and times
-		separator   = ", ", -- several dates
-		delimiter   = "; ", -- several statesments
+        -- punctuation
+		parentheses = "(%s)",
+		space       = " ",  -- for instance between days and times
+		comma       = "、", -- several dates
+		semicolon   = "；", -- several statesments
 
 		from        = "%sから",
 		fromTo      = "%s-%s",
@@ -120,9 +121,9 @@ return {
 	-- Category names
 	categories = {
 		fallbackLabel      = "[[Category:VCard:英語表記の営業時間]] <span class=\"listing-check-recommended\" style=\"display:none;\">英語表記の営業時間</span>",
-		fromWikidata       = "[[Category:VCard:ウィキデータ由来の営業時間]]",
+		hoursFromWikidata  = "[[Category:VCard:ウィキデータ由来の営業時間]]",
 		invalidId          = "[[Category:Hours:無効なウィキデータID]] <span class=\"error\">無効なウィキデータID</span>",
-		labelFromWikidata  = "[[Category:VCard:ウィキデータ由来の開業時間]] <span class=\"listing-check-recommended\" style=\"display:none;\">ウィキデータ由来の開業時間</span>",
+		hoursLabelFromWikidata = "[[Category:VCard:ウィキデータ由来の営業時間ラベル]] <span class=\"listing-check-recommended\" style=\"display:none;\">ウィキデータ由来の営業時間ラベル</span>",
 		properties         = "[[Category:プロパティ%sを使用しているページ]]",
 		unknownError       = "[[Category:VCard:誤差のある開業時間]] <span class=\"listing-check-recommended\" style=\"display:none;\">誤差のある開業時間</span>",
 		unknownParams      = "[[Category:Hours:不明なパラメータ]] <span class=\"error\">不明なパラメータ：%s</span>",
@@ -339,6 +340,8 @@ return {
 		Q2703710   = "12月25日", -- Christmas Day
 		Q2761      = "12月26日",
 		Q15113728  = "12月26日",
+        Q2862      = "12月29日",
+		Q2901      = "12月30日",
 		Q2912      = "12月31日", -- do not remove this item because it is used in Lua script
 		Q11269     = "12月31日",
 

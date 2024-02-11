@@ -5,7 +5,7 @@ return {
 	moduleInterface  = {
 		suite  = 'Marker utilities',
 		sub    = 'i18n',
-		serial = '2023-10-05',
+		serial = '2024-01-25',
 		item   = 65441686
 	},
 
@@ -15,7 +15,8 @@ return {
 	                     mmdd     = { p = '^[01]?%d%-[0-3]?%d$', f = 'j. M' },
 	                     dd       = { p = '^[0-3]?%d%.?$', f = 'j.' },
 	                     mm       = { p = '^[01]?%d%.?$', f = 'M' },
-	                     lastedit = { f = 'M Y' }
+                         lastedit = { f = 'M Y' },
+	                     asOf     = { f = 'n/Y' }
 	                   },
 	fileExtensions   = { 'tif', 'tiff', 'gif', 'png', 'jpg', 'jpeg', 'jpe',
 	                     'webp', 'xcf', 'ogg', 'ogv', 'svg', 'pdf', 'stl',
@@ -23,19 +24,17 @@ return {
 	months           = { '1月', '2月', '3月', '4月', '5月', '6月', '7月',
 	                     '8月', '9月', '10月', '11月', '12月' },
 	monthAbbr        = { 'Jan%.?', 'Feb%.?', 'Mär%.?', 'Apr%.?', 'Mai%.?', 'Jun%.?',
-	                      'Jul%.?', 'Aug%.?', 'Sep%.?', 'Okt%.?', 'Nov%.?', 'Dez%.?' },
+	                     'Jul%.?', 'Aug%.?', 'Sep%.?', 'Okt%.?', 'Nov%.?', 'Dez%.?' },
         --月略語なんて日本語に存在するのだろうか
 	
 	-- Map related constants
-	coordURL          = 'https://ja.wikivoyage.org/w/index.php?title=特別:MapSources&params=',
-	defaultDmsFormat  = 'f1', -- see: Module:Coordinates/i18n
-	defaultSiteType   = 'type:landmark_globe:earth',
-	defaultZoomLevel  = 17,
-	maxZoomLevel      = 19,   -- also to set in Module:GeoData, Module:Mapshape utilities/i18n
-
-	-- Wikidata related constants
-	p31Limit          = 3, -- maximum count of P31 values to analyse
-	searchLimit       = 4, -- count of levels for P31-P279 search
+	map = {
+        coordURL          = 'https://ja.wikivoyage.org/w/index.php?title=特別:MapSources&params=',
+        defaultDmsFormat  = 'f1', -- see: Module:Coordinates/i18n
+        defaultSiteType   = 'type:landmark_globe:earth',
+        defaultZoomLevel  = 17,
+        maxZoomLevel      = 19,   -- also to set in Module:GeoData, Module:Mapshape utilities/i18n
+    }
 
 	-- Wikidata properties
 	properties = {
@@ -46,7 +45,7 @@ return {
 		centerCoordinates = 'P5140',
 		commonsCategory   = 'P373',
 		coordinates       = 'P625',
-		endTime           = 'P582',
+		endTime           = 'P582',  -- time
 		image             = 'P18',
 		instanceOf        = 'P31',
 		iso4217           = 'P498',
@@ -63,7 +62,7 @@ return {
 		quantity          = 'P1114',
 		retrieved         = 'P813',
 		roomNumber        = 'P8733',
-		startTime         = 'P580',
+		startTime         = 'P580',  -- time, for fees
 		streetAddress     = 'P6375',
 		subclassOf        = 'P279',
 		unitSymbol        = 'P5061',
@@ -75,7 +74,7 @@ return {
 	propTable = {
 		contactComments = { 'P366', 'P518', 'P642', 'P1001', 'P1559', 'P106' },
 		feeComments     = { 'P5314', 'P518', 'P6001', 'P1264', 'P585', 'P2899',
-		                    'P4135', 'P642' },
+		                    'P4135', 'P642', 'P580' },
 		policyComments  = { 'P518', 'P1001', 'P6001' },
 		quantity        = { 'P1114', 'P1083' }
 	},
@@ -87,22 +86,24 @@ return {
 		roomNumber  = 'Q180516'
 	},
 
-	-- Display and performance options for vCard / Listing module
+	-- Languages for fallbacks, except wiki language
+	langs = { 'en' }, -- array can be empty
+
+    -- Display and performance options for vCard / Listing and Marker modules
+	-- additional options in Module:VCard/i18n
 	options = {
-		defaultAuto     = true,  -- vCard default auto mode
-		defaultShow     = 'poi, nosocialmedia',
-		lasteditHours   = true,
+        normalizeValues = { 'type', 'subtype', 'show', 'status', 'symbol' },
 		noStarParams    = { 'nameLocal', 'alt', 'comment' },
 		noTypeMsgs      = false, -- prevents display of maintenance( typeFromWD, typeIsGroup )
 		parameters      = { 'wikipedia' }, -- parameter is used
-		showIata        = true,  -- possible values true, false
 		showIcao        = true,
 		showLocalData   = true,  -- names, addresses, directions
 		showSisters     = true,  -- possible values true, false, 'atEnd'
-		showUnesco      = true,
-		useMobile       = true,  -- distinguish landline and mobile phones
-		usePropertyCateg= true,  -- for Wikidata properties
-		useTypeCateg    = true,  -- for marker types
+        usePropertyCateg= true,  -- create maintenance categories for Wikidata properties
+		useTypeCateg    = true,  -- create maintenance categories for marker types
+
+        -- Wikidata related constants
+        searchLimit     = 4,     -- count of levels for P31-P279 search
 
 		-- useful but not necessary function calls
 		WDmediaCheck    = false, -- check file names retrieved from Wikidata
@@ -113,31 +114,38 @@ return {
 		skipPathCheck   = false  -- for URL check, see Module:UrlCheck
 	},
 
-	-- Languages for fallbacks, except wiki language
-	langs = { 'en' }, -- array can be empty
-
-	-- Formatting numbers: replacement patterns
-	formatnum = {
-		decimalPoint   = ',',
-		groupSeparator = '.'
-	},
-
 	-- strings
 	texts = {
-		asOf           = '%s時点',
+		asOf           = '；%s時点', -- with semicolon separator
 		from           = '%sから',
 		fromTo         = '%s–%s',
 		to             = '%sまで',
 		fromTo2        = '%sから%sまで',
 
-		-- General
+		-- General, i18n
 		closeX         = '[[File:Close x - white.png|15px|link=|class=noviewer|不明なマーカー記号]]',
-		comma          = '<span class="listing-comma">, ​</span>', -- zero-width space
 		missingName    = '名前なし',
+        -- In case of CJK languages no spaces are used with punctuation
+		-- Enumeration commas. listing-comma is used for alt names only
+		comma          = '<span class="listing-comma">, ​</span>', -- with zero-width space
+		commaSeparator = '、',
+		period         = '。',
+		periodSeparator= '。',
+		-- Space following a punctuation mark
+		space          = '　',
+		parentheses    = '（%s）',
+		emph           = "「%s」",
+
+        -- Formatting numbers: replacement patterns
+		decimalPoint   = '.',
+		groupSeparator = '.',
+
+		-- Anchor id
+		anchor         = 'vCard_%s %s',
 
 		-- Marker
 		CategoryNS     = { '[Cc]ategory', 'カテゴリ' },
-		FileNS         = { '[Ff]ile', '[Ii]mage', 'ファイル' },
+		FileNS         = { '[Ff]ile', '[Ii]mage', 'ファイル', '画像' },
 		latitude       = '緯度',
 		longitude      = '経度',
 		tooltip        = 'マーカーをクリックして地図を直接開きます',
@@ -204,13 +212,11 @@ return {
 		currencyTooltip= { category = 'VCard:通貨ツールチップあり' },
 		dmsCoordinate  = { category = 'VCard:度分秒形式の座標', hint = '度分秒形式の座標' },
 		duplicateAliases = { category = 'VCard:重複した別名', err = '重複した別名：%s' },
-		groupIsColor   = { category = 'VCard:色が指定されたグループ', hint = '色が指定されたグループ' },
 		groupUsed      = { category = 'VCard:パラメータgroupあり' },
 		illegalCtrls   = { category = 'VCard:不正な制御文字を含むパラメータ', err = '不正な制御文字を含むパラメータ' },
-		urlIsSocialMedia = { category = 'VCard:SNSから取得されたURL', err = 'SNSから取得されたURL' },
 		labelFromWD    = { category = 'VCard:ウィキデータ由来のラベル', hint = 'ウィキデータ由来のラベル' },
+        linkIsRedirect = { category = 'VCard: 転送ページへのリンク' },
 		linkToOtherWV  = { category = 'VCard:他言語版へのリンクあり' },
-		localNameFromWD = { category = 'VCard:ウィキデータ由来の現地名' },
 		malformedName  = { category = 'VCard:誤った名前', err = '誤った名前' },
 		missingImg     = { category = 'VCard:存在しないファイル', err = '存在しないファイル：%s' },
 		missingNameMsg = { category = 'VCard:パラメータnameなし', err = '名前なし' },
@@ -220,7 +226,8 @@ return {
 		outdated       = { category = 'VCard:終了したイベント', err = '終了したイベント' },
 		parameterUsed  = { category = 'VCard:パラメータ%sあり' },
 		deleteShowCopy = { category = 'VCard:show=copyあり', hint = 'show=copyは削除されました' },
-		showPoiUsed    = { category = 'VCard:show=poiあり' },
+        showInlineUsed = { category = 'VCard:show=inline' },
+		showPoiUsed    = { category = 'VCard:show=poi' },
 		typeFromWDchain= { category = 'VCard:ウィキデータ由来のtype', hint = 'ウィキデータ由来のtype' },
 		typeIsGroup    = { category = 'VCard:グループ名が指定されたタイプ', hint = 'タイプがグループ名です' },
 		typeIsColor    = { category = 'VCard:色が指定されたタイプ', hint = 'タイプが色の名前です' },
@@ -232,6 +239,8 @@ return {
 		unknownPropertyLanguage= { category = 'VCard:不明なプロパティの言語', hint = '不明なプロパティの言語' },
 		unknownStatus  = { category = 'VCard:不明なステータス', err = 'ステータスが不明です' },
 		unknownType    = { category = 'VCard:不明なタイプ', err = 'タイプが不明です' },
+        unusedRedirect = { category = 'VCard:未使用の転送ページへのリンク' },
+		urlIsSocialMedia = { category = 'VCard:SNSから取得されたURL', err = 'SNSから取得されたURL' },
 		wikidata       = { category = 'VCard:ウィキデータを使用' },
 		wrongCoord     = { category = 'VCard:誤った座標', err = '誤った座標' },
 		wrongImgName   = { category = 'VCard:間違ったメディアファイル名', err = 'メディアファイル名に誤りがあります' },
@@ -240,14 +249,10 @@ return {
 		-- Marker module
 		missingCoord   = { category = 'Marker:座標なし', err = 'Länge und/oder Breite fehlt' },
 		numberUsed     = { category = 'Marker:手動で割り当てられた番号' },
-		showNoneUsed   = { category = 'Marker:show=noneあり' },
 		unknownIcon    = { category = 'Marker:不明なアイコン' },
 
 		-- vCard / Listing module
-		commentFromWD  = { category = 'VCard:ウィキデータ由来のcomment' },
 		countryFromWD  = { category = 'VCard:ウィキデータ由来の国コード' },
-		descrDiv       = { category = 'VCard:divタグ内の説明' },
-		inlineSelected = { category = 'VCard:show=inlineあり' },
 		missingCoordVc = { category = 'VCard:座標なし' },
 		paymentUsed    = { category = 'VCard:パラメータpaymentあり' },
 		socialUrlUsed  = { category = 'VCard:SNSのURLあり', hint = '%sのURLが使用されています' },

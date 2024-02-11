@@ -5,7 +5,7 @@ return {
 	moduleInterface = {
 		suite  = 'Link utilities',
 		sub    = 'i18n',
-		serial = '2023-12-09',
+		serial = '2023-01-07',
 		item   = 104200158
 	},
 
@@ -21,8 +21,35 @@ return {
 		parentheses = '()'
 	},
 
-	-- patterns for delimiters except ','
+	-- patterns for delimiters except ',' (en)
 	delimiters      = { ' [aA][nN][dD] ', ' [oO][rR] ' },
+
+    -- patterns for phone extensions (en)
+	extensions = {
+		';?[Ee][Xx][Tt]%.?[ =]+%d+', -- ext. #### (en, intl)
+		                             -- including RFC 3966 syntax ";ext=####"
+		'x%d+',                      -- x#### (en, intl)
+	},
+
+	-- phone number options
+	options = {
+		withCountryCode    = false, -- add country calling code in output in any case
+		preventLeadZero    = false, -- remove lead zero from output
+
+		-- enable formatting of phone numbers retrieved from Wikidata
+		formattingWikidata = true,  -- format phone numbers retrieved from Wikidata
+		addZeros           = true,  -- add trunc prefix (0)
+	},
+
+	-- Skype query parameters
+	params = {
+		add       = '',
+		call      = '',
+		chat      = '',
+		sendfile  = '',
+		userinfo  = '',
+		voicemail = ''
+	},
 
 	-- error categories. Leading [[Category: is added in modules
 	categories = {
@@ -36,16 +63,6 @@ return {
 		nonASCII     = '連絡先:Unicode文字を含んだメールアドレス]] <span class="listing-check-recommended" style="display:none;">メールアドレスにUnicode文字が含まれています</span>',
 
 		invalidSkype = '連絡先:無効なSkypeユーザー名]] <span class="error">Skypeのユーザー名が無効です</span>',
-	},
-
-	-- Skype query parameters
-	params = {
-		add       = '',
-		call      = '',
-		chat      = '',
-		sendfile  = '',
-		userinfo  = '',
-		voicemail = ''
 	},
 
 	-- LinkISBN support

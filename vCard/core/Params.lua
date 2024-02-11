@@ -9,7 +9,7 @@ return {
 	moduleInterface =  {
 		suite  = 'vCard',
 		sub    = 'Params',
-		serial = '2024-01-10',
+		serial = '2024-01-29',
 		item   = 65455743
 	},
 
@@ -130,8 +130,8 @@ return {
 		pau:   quantity consisting of amount (for P8733)
 		vq:    string or table value with qualifiers ids and references
 	q table of qualifiers allowed, for value type id
-	l = true: language dependent
-	l = wiki / local: monolingual text by wiki or local language
+	l = lang: language dependent
+	    wiki / local: monolingual text by wiki or local language
 	le = true: use date for lastedit parameter
 	t = phone type (landline, mobile)
 	--]]
@@ -146,11 +146,11 @@ return {
 		directionsLocal = { p = 'P2795', v = 'il', l = 'local' },
 		email        = { p =  'P968', v = 'vq', c = 5 },
 		expedia      = { p = 'P5651' },
-		facebook     = { p = { { p = 'P2013', f = 'https://www.facebook.com/%s', l = true },
-					     { p = 'P1997', f = 'https://www.facebook.com/pages/-/%s', l = true },
-					     { p = 'P4003', f = 'https://www.facebook.com/pages/%s', l = true } } },
+		facebook     = { p = { { p = 'P2013', f = 'https://www.facebook.com/%s' },
+					     { p = 'P1997', f = 'https://www.facebook.com/pages/-/%s' },
+					     { p = 'P4003', f = 'https://www.facebook.com/pages/%s' } } },
 		fax          = { p = 'P2900', v = 'vq', c = 3 },
-		flickr       = { p = 'P3267', f = 'https://www.flickr.com/photos/%s', l = true },
+		flickr       = { p = 'P3267', f = 'https://www.flickr.com/photos/%s' },
 		foursquare   = { p = 'P1968' },
 		googlemaps   = { p = 'P3749' },
 		histhotelsAm = { p = 'P5734' },
@@ -188,14 +188,13 @@ return {
 		                  { p = 'P2846', v = 'iq' }, -- wheelchair
 		                  { p = 'P2848', v = 'iq' }, -- WLAN
 		                  { p = 'P5023', v = 'iqp', c = 10 }	}, c = 100, m = 'no' }, -- activity policies
-		tiktok       = { p = 'P7085', f = 'https://www.tiktok.com/@%s', l = true },
+		tiktok       = { p = 'P7085', f = 'https://www.tiktok.com/@%s' },
 		trip         = { p = 'P10425' },
 		tripadvisor  = { p = 'P3134' },
-		twitter      = { p = 'P2002', f = 'https://twitter.com/%s', l = true },
-		type         = { p =   'P31', c = vi.options.p31Limit, v = 'id' },
+		twitter      = { p = 'P2002', f = 'https://twitter.com/%s' },
 		unesco       = { p =  'P757' },
-		url          = { p =  'P856', l = true },
-		youtube      = { p = 'P2397', f = 'https://www.youtube.com/channel/%s', l = true }
+		url          = { p =  'P856', l = 'lang' },
+		youtube      = { p = 'P2397', f = 'https://www.youtube.com/channel/%s' }
 	},
 	
 	-- additional parameters for auto = y

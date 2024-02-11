@@ -5,7 +5,7 @@ return {
 	moduleInterface = {
 		suite  = 'CountryData',
 		sub    = 'Geography',
-		serial = '2023-07-07',
+		serial = '2023-01-08',
 		item   = 65433242
 	},
 
@@ -39,7 +39,8 @@ return {
 	},
 
 	-- countries list sorted by ISO 3166 code
-	-- de-wiki: exceptions: at, ch, de, it: , show = "poi, inline"
+	-- add contains additional show parameters link all, inline
+    -- de-wiki: exceptions: at, ch, de, it: show = "inline"
 	countries = {
 		Q244165  = { cont = "as", iso_3166 = "", cc = "+37447", lang = "hy", currency = "Q130498", country = "アルツァフ共和国" }, -- Bergkarabach
 		Q228     = { cont = "eu", iso_3166 = "AD", cc = "+376", lang = "ca", currency = "Q4916", country = "アンドラ" },
@@ -52,7 +53,7 @@ return {
 		Q1555938 = { cont = "an", iso_3166 = "AQ", cc = "", lang = "en", currency = "", country = "南極" },
 		Q21590062= { id = "Q1555938" },
 		Q414     = { cont = "sa", iso_3166 = "AR", cc =  "+54", lang = "es", currency = "Q199578", country = "アルゼンチン" },
-		Q40      = { cont = "eu", iso_3166 = "AT", cc =  "+43", lang = "de", currency = "Q4916", show = "poi, inline", country = "オーストリア" },
+		Q40      = { cont = "eu", iso_3166 = "AT", cc =  "+43", lang = "de", currency = "Q4916", show = "inline", country = "オーストリア" },
 		Q408     = { cont = "au", iso_3166 = "AU", cc =  "+61", lang = "en", currency = "Q259502", country = "オーストラリア" },
 		Q227     = { cont = "as", iso_3166 = "AZ", cc = "+994", lang = "az", currency = "Q483725", country = "アゼルバイジャン" },
 		Q225     = { cont = "eu", iso_3166 = "BA", cc = "+387", lang = "bs", currency = "Q179620", country = "ボスニアヘルツェゴビナ" },
@@ -76,7 +77,7 @@ return {
 		Q974     = { cont = "af", iso_3166 = "CD", cc = "+243", lang = "fr", currency = "Q4734", country = "コンゴ民主共和国" },
 		Q929     = { cont = "af", iso_3166 = "CF", cc = "+236", lang = "fr", currency = "Q847739", country = "中央アフリカ共和国" },
 		Q971     = { cont = "af", iso_3166 = "CG", cc = "+242", lang = "fr", currency = "Q847739", country = "コンゴ共和国" },
-		Q39      = { cont = "eu", iso_3166 = "CH", cc =  "+41", lang = "de", currency = "Q25344", show = "poi, inline", country = "スイス" },
+		Q39      = { cont = "eu", iso_3166 = "CH", cc =  "+41", lang = "de", currency = "Q25344", show = "inline", country = "スイス" },
 		Q1008    = { cont = "af", iso_3166 = "CI", cc = "+225", lang = "fr", currency = "Q861690", country = "コートジボワール" },
 		Q26988   = { cont = "oc", iso_3166 = "CK", cc = "+682", lang = "en", currency = "Q1472704", country = "クック諸島" },
 		Q298     = { cont = "sa", iso_3166 = "CL", cc =  "+56", lang = "es", currency = "Q200050", country = "チリ" },
@@ -88,7 +89,7 @@ return {
 		Q1011    = { cont = "af", iso_3166 = "CV", cc = "+238", lang = "pt", currency = "Q4591", country = "カーボベルデ" },
 		Q229     = { cont = "eu", iso_3166 = "CY", cc = "+357", lang = "el", currency = "Q4916", country = "キプロス" },
 		Q213     = { cont = "eu", iso_3166 = "CZ", cc = "+420", lang = "cs", currency = "Q131016", country = "チェコ" },
-		Q183     = { cont = "eu", iso_3166 = "DE", cc =  "+49", lang = "de", currency = "Q4916", show = "poi, inline", country = "ドイツ" },
+		Q183     = { cont = "eu", iso_3166 = "DE", cc =  "+49", lang = "de", currency = "Q4916", show = "inline", country = "ドイツ" },
 		Q977     = { cont = "af", iso_3166 = "DJ", cc = "+253", lang = "fr", currency = "Q4594", country = "ジブチ" },
 		Q35      = { cont = "eu", iso_3166 = "DK", cc =  "+45", lang = "da", currency = "Q25417", country = "デンマーク" },
 		Q756617  = { id = "Q35" },
@@ -132,7 +133,7 @@ return {
 		Q796     = { cont = "as", iso_3166 = "IQ", cc = "+964", lang = "ar", currency = "Q193094", country = "イラク" },
 		Q794     = { cont = "as", iso_3166 = "IR", cc =  "+98", lang = "fa", currency = "Q188608", country = "イラン" },
 		Q189     = { cont = "eu", iso_3166 = "IS", cc = "+354", lang = "is", currency = "Q131473", country = "アイスランド" },
-		Q38      = { cont = "eu", iso_3166 = "IT", cc =  "+39", lang = "it", currency = "Q4916", show = "poi, inline", country = "イタリア" },
+		Q38      = { cont = "eu", iso_3166 = "IT", cc =  "+39", lang = "it", currency = "Q4916", show = "inline", country = "イタリア" },
 		Q766     = { cont = "na", iso_3166 = "JM", cc = "+1-876", lang = "en", currency = "Q209792", country = "ジャマイカ" },
 		Q810     = { cont = "as", iso_3166 = "JO", cc = "+962", lang = "ar", currency = "Q203722", country = "ヨルダン" },
 		Q17      = { cont = "as", iso_3166 = "JP", cc =  "+81", lang = "ja", currency = "Q8146", country = "日本" },

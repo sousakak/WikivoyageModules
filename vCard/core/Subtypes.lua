@@ -6,7 +6,7 @@ return {
 	moduleInterface = {
 		suite  = 'vCard',
 		sub    = 'Subtypes',
-		serial = '2023-10-12',
+		serial = '2023-02-06',
 		item   = 65455756
 	},
 
@@ -93,7 +93,7 @@ return {
 		wheelchair_with_help = { g = 4, wd = "Q24192068", n = "介助者がいれば車いす対応", f = "Wheelchair-yellow3.png" },
 		wheelchair_partially = { g = 4, wd = "Q63731120", n = "一部車いす対応" },
 		wheelchair_partially_with_help = { g = 4, wd = "Q63731151", n = "介助者がいれば一部車いす対応" },
-		wlan       = { g = 4, wd =  "Q6452715", n = "Wi-Fi" }, -- yes
+		wlan       = { g = 4, wd =  { "Q6452715", "Q29643"}, n = "Wi-Fi" }, -- yes
 
 		-- hotel facilities
 
@@ -113,6 +113,7 @@ return {
 		buy        = { g = 5, wd =  "Q1369832", n = "お店" },
 		cafe       = { g = 5, wd =    "Q30022", n = "カフェ" },
 		casino     = { g = 5, wd =   "Q133215", n = "カジノ" },
+        change_machine = { g = 5, wd =  "Q5071849", n = "両替機" },
 		cinema     = { g = 5, wd =    "Q41253", n = "映画館" },
 		cloakroom  = { g = 5, wd =   "Q965173", n = "洋服戸棚" },
 		conference = { g = 5, wd = { "Q625994", "Q1207465" }, n = "会議室" },
@@ -274,7 +275,8 @@ return {
 		hunan      = { g = 8, wd =  "Q1156889", n = "湖南料理" },
 		hungarian  = { g = 8, wd =   "Q264327", n = "ハンガリー料理" },
 		indian     = { g = 8, wd =   "Q192087", n = "インド料理" },
-		international = { g = 8, wd = "Q99522230", n = "international cuisine" },
+        indonesian = { g = 8, wd =   "Q787497", n = "インドネシア料理" },
+		international = { g = 8, wd = "Q99522230", n = "国際料理" },
 		iranian    = { g = 8, wd =  "Q1342397", n = "イラン料理" },
 		irish      = { g = 8, wd =  "Q1068545", n = "アイルランド料理" },
 		italian    = { g = 8, wd =   "Q192786", n = "イタリア料理" },
@@ -328,6 +330,7 @@ return {
 		dessert    = { g = 9, wd =   "Q182940", n = "デザート" },
 		donut      = { g = 9, wd =   "Q192783", n = "ドーナッツ" },
 		empanada   = { g = 9, wd =   "Q747457", n = "エンパナーダ" },
+        fish       = { g = 9, wd =      "Q152", n = "Fisch" },
 		fish_and_chips = { g = 9, wd =   "Q203925", n = "フィッシュアンドチップス" },
 		fried_food = { g = 9, wd =   "Q300472", n = "フライ" },
 		friture    = { g = 9, wd =   "Q854618", n = "揚げ物" },
@@ -443,15 +446,16 @@ return {
 	},
 
 	exclude = { -- do not translate
-		Q1031873 = "aircraft catapult",
-		Q573970  = "apron",
+		Q116168276 = "10. Superior Deluxe",
+		Q1031873   = "aircraft catapult",
+		Q573970    = "apron",
 		Q104123038 = "bilingual street name sign",
-		Q918324  = "control tower",
-		Q192375  = "hangar",
-		Q464020  = "instrument landing system",
-		Q1061299 = "jet bridge",
-		Q774583  = "solar panel",
-		Q5191724 = "steeple",
-		Q35473   = "window"
+		Q918324    = "control tower",
+		Q192375    = "hangar",
+		Q464020    = "instrument landing system",
+		Q1061299   = "jet bridge",
+		Q774583    = "solar panel",
+		Q5191724   = "steeple",
+		Q35473     = "window"
 	}
 }
