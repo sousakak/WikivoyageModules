@@ -93,11 +93,19 @@ function p.stalist(frame)
             for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
                 local err, value = pcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
                     checkLine,
-                    item:getBestStatements(i18n.property_num)[1]
+                    item:getBestStatements(i18n.property_num)[f]
                 )
                 if err and value == criterion then
                     value_num = fileLink {
                         file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
+                        size    = "50px",
+                        link    = "",
+                        caption = item:getLabel('ja')
+                    }
+                    break
+                elseif #item:getBestStatements(i18n.property_num) == 1 then
+                    value_num = fileLink {
+                        file    = item:getBestStatements(i18n.property_num)[1]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
                         link    = "",
                         caption = item:getLabel('ja')
