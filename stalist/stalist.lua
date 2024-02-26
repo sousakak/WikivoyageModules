@@ -16,13 +16,13 @@
         main    (func) : same as "stalist"
 
         stalist (func) : create a list of stations in the train route.
-            title            (args) : the title of the table (Default: `{{BASICPAGENAME}}`)
-            wikidata         (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
-            color            (args) : color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
-            1, 2, ...        (args) : set Wikidata id of each stations and this can also contains a customized image and name of the station if needed.
-                                        These args must be in order, and don't remove "Q" in the initial.
-                                        If this args contain customized names or images, the order is: `id,image,name`
-            spot1, spot2 ... (args) : spots around the station; watch out for the order
+            title               (args) : The title of the table (Default: `{{BASICPAGENAME}}`)
+            wikidata            (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
+            color               (args) : Color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
+            1, 2, ...           (args) : Set Wikidata id of each stations and this can also contains a customized image and name of the station if needed. These args must be in order, and don't remove "Q" in the initial.
+            image1, image2, ... (args) : Optional. Retrieved from Wikidata by default
+            name1, name2, ...   (args) : Optional. Retrieved from Wikidata by default
+            spot1, spot2 ...    (args) : Spots around the station; watch out for the order
 ]]
 local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
@@ -92,14 +92,11 @@ function p.stalist(frame)
     assert( args[1], i18n.err_nowditem )
     i = 1
     while args[i] ~= nil do
-        --[[ handle args ]]--
-        args_table = split(args[i], ",")
-        local qid = string.match(args_table[1], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
-        local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
-        local staimage = args_table[2] or nil
-        local staname = args_table[3] or item:getLabel('ja')
-
         --[[ define vars ]]--
+        local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+        local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
+        local staimage = args["image" .. i] or nil
+        local staname = args["name" .. i] or item:getLabel('ja')
         local value_num
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
         local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
