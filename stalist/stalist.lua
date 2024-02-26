@@ -60,7 +60,7 @@ local function split(str, ts)
         table[i] = piece
         i = i + 1
     end
-    return t
+    return table
 end
 
 --[[ main functions ]]--
@@ -94,12 +94,12 @@ function p.stalist(frame)
     while args[i] ~= nil do
         --[[ handle args ]]--
         args_table = split(args[i], ",")
-        local qid = string.match(args_table[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+        local qid = string.match(args_table[1], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+        local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
         local staimage = args_table[2] or nil
         local staname = args_table[3] or item:getLabel('ja')
 
         --[[ define vars ]]--
-        local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
         local value_num
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
         local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
