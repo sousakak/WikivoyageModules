@@ -19,7 +19,9 @@
             title            (args) : the title of the table (Default: `{{BASICPAGENAME}}`)
             wikidata         (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
             color            (args) : color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
-            1, 2, ...        (args) : set Wikidata id of each stations. These must be in order, and don't remove "Q" in the initial
+            1, 2, ...        (args) : set Wikidata id of each stations and this can also contains a customized image and name of the station if needed.
+                                        These args must be in order, and don't remove "Q" in the initial.
+                                        If this args contain customized names or images, the order is: `id,image,name`
             spot1, spot2 ... (args) : spots around the station; watch out for the order
 ]]
 local p = {}
@@ -50,6 +52,17 @@ local function tableLength(tbl)
     return n
 end
 
+local function split(str, ts)
+    if ts == nil then return {} end
+    local table = {}
+    i = 1
+    for piece in string.gmatch(str, '([^' .. ts .. ']+)') do
+        table[i] = piece
+        i = i + 1
+    end
+    return t
+end
+
 --[[ main functions ]]--
 function p.main(frame)
     return p.stalist(frame)
@@ -57,7 +70,7 @@ end
 
 function p.stalist(frame)
     local args = getArgs(frame)
-    local titletext = args.title or mw.title.getCurrentTitle()
+    local titletext = args.title or mw.title.getCurrentTitle().text
 
     local wikitext = mw.html.create()
         :wikitext( frame:extensionTag{ name = 'templatestyles', args = {src = i18n.css} } ):done()
@@ -79,9 +92,13 @@ function p.stalist(frame)
     assert( args[1], i18n.err_nowditem )
     i = 1
     while args[i] ~= nil do
+        --[[ handle args ]]--
+        args_table = split(args[i], ",")
+        local qid = string.match(args_table[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+        local staimage = args_table[2] or nil
+        local staname = args_table[3] or item:getLabel('ja')
 
         --[[ define vars ]]--
-        local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- check the arg
         local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
         local value_num
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
@@ -89,7 +106,15 @@ function p.stalist(frame)
         local value_tfr = ""
 
         --[[ get data from Wikidata ]]--
-        if item:getBestStatements(i18n.property_num) ~= nil then
+        if staimage ~= nil then
+            value_num = fileLink {
+                file    = staimage,
+                size    = "50px",
+                link    = "",
+                caption = staname
+            }
+            break
+        elseif item:getBestStatements(i18n.property_num) ~= nil then
             for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
                 local err, value = pcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
                     checkLine,
@@ -100,7 +125,7 @@ function p.stalist(frame)
                         file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
                         link    = "",
-                        caption = item:getLabel('ja')
+                        caption = staname
                     }
                     break
                 elseif #item:getBestStatements(i18n.property_num) == 1 then
@@ -108,7 +133,7 @@ function p.stalist(frame)
                         file    = item:getBestStatements(i18n.property_num)[1]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
                         link    = "",
-                        caption = item:getLabel('ja')
+                        caption = staname
                     }
                     break
                 end
@@ -126,7 +151,7 @@ function p.stalist(frame)
         value_tfr = value_tfr[#value_tfr - 1] -- remove the last punctuation mark
         wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
             :tag( "td" ):wikitext( value_num ):done()
-            :tag( "td" ):wikitext( item:getLabel('ja') ):done()
+            :tag( "td" ):wikitext( staname ):done()
             :tag( "td" ):wikitext( value_tfr ):done()
             :tag( "td" ):wikitext( args["spot" .. i] ):done()
             :done()
