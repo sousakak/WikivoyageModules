@@ -94,7 +94,7 @@ function p.stalist(frame)
     while args[i] ~= nil do
         --[[ define vars ]]--
         local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
-        local item = mw.wikibase.getEntity(qid) -- this is expensive and possibly stop by $wgExpensiveParserFunctionLimit
+        local item = mw.wikibase.getEntity(qid) -- this is expensive
         local staimage = args["image" .. i] or nil
         local staname = args["name" .. i] or item:getLabel('ja')
         local value_num
@@ -138,14 +138,18 @@ function p.stalist(frame)
         else
             value_num = ""
         end
+        local tfr_num = 0
         for p = 1, tableLength(i18n.property_tfr) do
             if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
                 for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
                     value_tfr = value_tfr .. item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"] .. "、"
                 end
             end
+            tfr_num = p
         end
-        value_tfr = value_tfr[#value_tfr - 1] -- remove the last punctuation mark
+        value_tfr = mw.ustring.sub(value_tfr, 1, #value_tfr - 1 - (2 * tfr_num)) -- remove the last punctuation mark
+                                                                           -- double the number of line feed characters are inserted for each item,
+                                                                           -- so (tfr_num * p) to correct for that error. Fundamental solution are needed
         wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
             :tag( "td" ):wikitext( value_num ):done()
             :tag( "td" ):wikitext( staname ):done()
