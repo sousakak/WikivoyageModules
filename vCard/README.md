@@ -45,7 +45,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) ~~*l*~~
   - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) ~~*t*~~
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
-  - [ ] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
+  - [x] [Module:Marker utilities/Types](MarkerUtilities/Types.lua)
 - [x] UrlCheck
   - [x] [Module:UrlCheck](UrlCheck/UrlCheck.lua)
   - [x] [Module:UrlCheck/i18n](UrlCheck/i18n.lua)
@@ -118,3 +118,4 @@ The sources of imported gadgets are below:
 ### Contributors for Japanese customization
 - Tmv ([javoy](https://w.wiki/_uPgG), [GitHub](https://github.com/sousakak))
 - Chqaz ([javoy](https://w.wiki/_uPgD), [GitHub](https://github.com/ChqazWiki))
+- Omotecho ([javoy](https://w.wiki/_tisJ))
