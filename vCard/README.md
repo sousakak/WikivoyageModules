@@ -40,7 +40,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:LinkMail](LinkUtilities/LinkMail.lua)
   - [x] [Module:LinkPhone](LinkUtilities/LinkPhone.lua) 
       (*Compete with local ones*)
-- [ ] Marker utilities
+- [x] Marker utilities
   - [x] [Module:Marker utilities](MarkerUtilities/Marker_utilities.lua)
   - [x] [Module:Marker utilities/Groups](MarkerUtilities/Groups.lua) ~~*l*~~
   - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) ~~*t*~~
