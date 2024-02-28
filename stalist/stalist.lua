@@ -101,6 +101,7 @@ function p.stalist(frame)
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
         local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
         local value_tfr = ""
+        local tfr_table = {}
 
         --[[ get data from Wikidata ]]--
         if staimage ~= nil then
@@ -142,14 +143,22 @@ function p.stalist(frame)
         for p = 1, tableLength(i18n.property_tfr) do
             if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
                 for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
-                    value_tfr = value_tfr .. item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"] .. "、"
+                    local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
+                    local tfr_text
+                    if tfr_id ~= criterion then
+                        if tfr_table[tfr_id] ~= nil then
+                            tfr_text = tfr_table[tfr_id]
+                        else
+                            tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
+                            tfr_table[tfr_id] = tfr_text
+                        end
+                        value_tfr = value_tfr .. tfr_text .. "、"
+                    end
                 end
             end
             tfr_num = p
         end
-        value_tfr = mw.ustring.sub(value_tfr, 1, #value_tfr - 1 - (2 * tfr_num)) -- remove the last punctuation mark
-                                                                           -- double the number of line feed characters are inserted for each item,
-                                                                           -- so (tfr_num * p) to correct for that error. Fundamental solution are needed
+        if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
         wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
             :tag( "td" ):wikitext( value_num ):done()
             :tag( "td" ):wikitext( staname ):done()
