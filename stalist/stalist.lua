@@ -1,11 +1,11 @@
 --[[
 
-███╗░░░███╗░█████╗░██████╗░██╗░░░██╗██╗░░░░░███████╗██╗░██████╗████████╗░█████╗░██╗░░░░░██╗░██████╗████████╗
-████╗░████║██╔══██╗██╔══██╗██║░░░██║██║░░░░░██╔════╝╚═╝██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║██╔════╝╚══██╔══╝
-██╔████╔██║██║░░██║██║░░██║██║░░░██║██║░░░░░█████╗░░░░░╚█████╗░░░░██║░░░███████║██║░░░░░██║╚█████╗░░░░██║░░░
-██║╚██╔╝██║██║░░██║██║░░██║██║░░░██║██║░░░░░██╔══╝░░░░░░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░╚═══██╗░░░██║░░░
-██║░╚═╝░██║╚█████╔╝██████╔╝╚██████╔╝███████╗███████╗██╗██████╔╝░░░██║░░░██║░░██║███████╗██║██████╔╝░░░██║░░░
-╚═╝░░░░░╚═╝░╚════╝░╚═════╝░░╚═════╝░╚══════╝╚══════╝╚═╝╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░░░░╚═╝░░░
+░██████╗████████╗░█████╗░██╗░░░░░██╗░██████╗████████╗
+██╔════╝╚══██╔══╝██╔══██╗██║░░░░░██║██╔════╝╚══██╔══╝
+╚█████╗░░░░██║░░░███████║██║░░░░░██║╚█████╗░░░░██║░░░
+░╚═══██╗░░░██║░░░██╔══██║██║░░░░░██║░╚═══██╗░░░██║░░░
+██████╔╝░░░██║░░░██║░░██║███████╗██║██████╔╝░░░██║░░░
+╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░░░░╚═╝░░░
 
 	Maintainer: Tmv@ja.wikivoyage.org
 	Repository: https://github.com/sousakak/WikivoyageModules/tree/master/stalist
@@ -19,7 +19,9 @@
             title               (args) : The title of the table (Default: `{{BASICPAGENAME}}`)
             wikidata            (args) : Wikidata ID of the route (Default: Wikidata ID for the current page)
             color               (args) : Color of the bottom border of the title (Default: `rgb(200, 204, 209)`)
-            1, 2, ...           (args) : Set Wikidata id of each stations and this can also contains a customized image and name of the station if needed. These args must be in order, and don't remove "Q" in the initial.
+            1, 2, ...           (args) : Set Wikidata id of each stations and this can also contains a customized image
+                                            and name of the station if needed. These args must be in order,
+                                            and don't remove "Q" in the initial.
             image1, image2, ... (args) : Optional. Retrieved from Wikidata by default
             name1, name2, ...   (args) : Optional. Retrieved from Wikidata by default
             spot1, spot2 ...    (args) : Spots around the station; watch out for the order
