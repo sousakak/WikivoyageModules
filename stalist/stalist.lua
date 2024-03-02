@@ -46,6 +46,8 @@ local i18n = {
 }
 
 --[[ utility functions ]]--
+local function isQID(str) if string.match(str, "^[Qq]%d+$") then return true else return false end end
+
 local function tableLength(tbl)
     local n = 0
     for _ in pairs (tbl) do
@@ -55,8 +57,8 @@ local function tableLength(tbl)
 end
 
 local function split(str, ts)
-    if ts == nil then return {} end
     local table = {}
+    if ts == nil then return table end
     i = 1
     for piece in string.gmatch(str, '([^' .. ts .. ']+)') do
         table[i] = piece
@@ -95,14 +97,14 @@ function p.stalist(frame)
     i = 1
     while args[i] ~= nil do
         --[[ define vars ]]--
-        local qid = string.match(args[i], "^[Qq]%d+$") or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+        local qid = (isQID(args[i]) and args[i]) or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
         local item = mw.wikibase.getEntity(qid) -- this is expensive
         local staimage = args["image" .. i] or nil
         local staname = args["name" .. i] or item:getLabel('ja')
         local value_num
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
         local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
-        local value_tfr = ""
+        local value_tfr = args["tfr" .. i] or ""
         local tfr_table = {}
 
         --[[ get data from Wikidata ]]--
@@ -110,10 +112,8 @@ function p.stalist(frame)
             value_num = fileLink {
                 file    = staimage,
                 size    = "50px",
-                link    = "",
                 caption = staname
             }
-            break
         elseif item:getBestStatements(i18n.property_num) ~= nil then
             for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
                 local err, value = pcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
@@ -124,7 +124,6 @@ function p.stalist(frame)
                     value_num = fileLink {
                         file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
-                        link    = "",
                         caption = staname
                     }
                     break
@@ -132,7 +131,6 @@ function p.stalist(frame)
                     value_num = fileLink {
                         file    = item:getBestStatements(i18n.property_num)[1]["mainsnak"]["datavalue"]["value"],
                         size    = "50px",
-                        link    = "",
                         caption = staname
                     }
                     break
@@ -142,25 +140,27 @@ function p.stalist(frame)
             value_num = ""
         end
         local tfr_num = 0
-        for p = 1, tableLength(i18n.property_tfr) do
-            if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
-                for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
-                    local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
-                    local tfr_text
-                    if tfr_id ~= criterion then
-                        if tfr_table[tfr_id] ~= nil then
-                            tfr_text = tfr_table[tfr_id]
-                        else
-                            tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
-                            tfr_table[tfr_id] = tfr_text
+        if value_tfr == "" then -- if args["tfr" .. i] is not nil
+            for p = 1, tableLength(i18n.property_tfr) do
+                if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
+                    for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
+                        local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
+                        local tfr_text
+                        if tfr_id ~= criterion then
+                            if tfr_table[tfr_id] ~= nil then
+                                tfr_text = tfr_table[tfr_id]
+                            else
+                                tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
+                                tfr_table[tfr_id] = tfr_text
+                            end
+                            value_tfr = value_tfr .. tfr_text .. "、"
                         end
-                        value_tfr = value_tfr .. tfr_text .. "、"
                     end
                 end
+                tfr_num = p
             end
-            tfr_num = p
+            if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
         end
-        if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
         wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
             :tag( "td" ):wikitext( value_num ):done()
             :tag( "td" ):wikitext( staname ):done()
