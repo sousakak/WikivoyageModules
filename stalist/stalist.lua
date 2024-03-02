@@ -24,6 +24,7 @@
                                             and don't remove "Q" in the initial.
             image1, image2, ... (args) : Optional. Retrieved from Wikidata by default
             name1, name2, ...   (args) : Optional. Retrieved from Wikidata by default
+            tfr1, tfr2, ...     (args) : Optional. Retrieved from Wikidata by default
             spot1, spot2 ...    (args) : Spots around the station; watch out for the order
 ]]
 local p = {}
