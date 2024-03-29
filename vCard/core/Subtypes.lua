@@ -6,7 +6,7 @@ return {
 	moduleInterface = {
 		suite  = 'vCard',
 		sub    = 'Subtypes',
-		serial = '2023-02-06',
+		serial = '2024-02-06',
 		item   = 65455756
 	},
 
@@ -18,7 +18,7 @@ return {
 	
 	convert = {
 		-- hotelstars = { "1", "2", "3", "4", "5" }, -- hotel stars codes
-		michelin   = { "michelin1", "michelin2", "michelin3" }
+		michelin   = { "ミシュラン1", "ミシュラン2", "ミシュラン3" }
 	},
 
 	-- type list
@@ -350,7 +350,7 @@ return {
 		soup       = { g = 9, wd =    "Q41415", n = "スープ" },
 		steakhouse = { g = 9, wd =  "Q3109696", n = "ステーキハウス" },
 		sushi      = { g = 9, wd =    "Q46383", n = "寿司" },
-		tapas      = { g = 9, wd =   "Q220964", n = "タパス },
+		tapas      = { g = 9, wd =   "Q220964", n = "タパス" },
 		vegan      = { g = 9, wd = { "Q181138", "Q20669090" }, n = "ビーガン" },
 		vegetarian = { g = 9, wd = { "Q83364", "Q638022" }, n = "ベジタリアン" },
 		wild_game  = { g = 9, wd =   "Q223930", n = "ジビエ" },
