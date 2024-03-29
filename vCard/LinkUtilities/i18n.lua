@@ -5,7 +5,7 @@ return {
 	moduleInterface = {
 		suite  = 'Link utilities',
 		sub    = 'i18n',
-		serial = '2023-01-07',
+		serial = '2024-01-07',
 		item   = 104200158
 	},
 
