@@ -34,7 +34,7 @@ return {
         defaultSiteType   = 'type:landmark_globe:earth',
         defaultZoomLevel  = 17,
         maxZoomLevel      = 19,   -- also to set in Module:GeoData, Module:Mapshape utilities/i18n
-    }
+    },
 
 	-- Wikidata properties
 	properties = {
