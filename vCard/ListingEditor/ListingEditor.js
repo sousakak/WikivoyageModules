@@ -121,7 +121,7 @@ var wvListingEditor = ( function( mw, $ ) {
 			licenseText: '変更内容を保存すると、あなたは[https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use/ja Terms of Use]に同意するとともに、自分の投稿内容を[https://creativecommons.org/licenses/by-sa/4.0/deed.ja CC BY-SA 4.0ライセンス]および[https://www.gnu.org/copyleft/fdl.html GFDL]のもとの公開に同意したことになります。この同意は取り消せません。\nまた、あなたはハイパーリンクまたはURLがクリエイティブ・コモンズライセンスにおける帰属表示として十分であると認めたことになります。',
 
 			ifNecessary: '（必要に応じて）',
-			severalGroups: '(empfohlen: verschiedene Gruppen)',
+			severalGroups: '（推奨：複数のグループ）',
 			searchOnMap: '地図で探す',
 			deleteWikidataId: '除去',
 			deleteWikidataIdTitle: 'vCardからウィキデータIDを削除',
@@ -143,20 +143,20 @@ var wvListingEditor = ( function( mw, $ ) {
 			validationName: '名前または記事リンクが間違っています。',
 			validationNames: '名前、住所、道順などの重複した識別子を削除しました。',
 			validationPhone: '電話番号が間違っています。',
-			validationSkype: 'Bitte korrigieren Sie den fehlerhaften Skype-Nutzernamen.',
+			validationSkype: 'Skypeのユーザー名が間違っています。',
 			validationTollfree: 'フリーダイヤルが間違っています。',
-			validationTiktok: 'Bitte korrigieren Sie den fehlerhaften TikTok-Benutzername bzw. -URL.',
-			validationTwitter: 'Bitte korrigieren Sie den fehlerhaften Twitter-Benutzername bzw. -URL.',
+			validationTiktok: 'TikTokのユーザー名またはURLが間違っています。',
+			validationTwitter: 'Twitterのユーザー名またはURLが間違っています。',
 			validationType: 'typeを指定してください。',
 			validationUrl: 'URLが間違っています。',
-			validationYoutube: 'Bitte korrigieren Sie die fehlerhafte YouTube-Kanal-Kennung bzw. -URL.',
+			validationYoutube: 'YoutubeのチャンネルIDまたはURLが間違っています。',
 			validationZoom: 'ズーム（0-19）が間違っています。',
 
 			commonscat: 'カテゴリ',
 			image: 'ファイル|画像', //Local prefix for Image (or File)
 			added: '$1のvCardを追加しました',
 			updated: '$1のvCardを更新しました',
-			removed: '$1のvCardを除去しました',
+			removed: '$1のvCardを削除しました',
 
 			submitApiError: 'Fehler: Der Server lieferte eine Fehlermeldung beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
 			submitBlacklistError: 'Fehler: Eine Angabe wurde als schwarzgelistet ermittelt. Bitte entfernen Sie den Eintrag und versuchen Sie es erneut.',
@@ -164,50 +164,50 @@ var wvListingEditor = ( function( mw, $ ) {
 			submitHttpError: 'Fehler: Der Server lieferte einen HTTP-Fehler beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
 			submitEmptyError: 'Fehler: Der Server lieferte eine leere Antwort beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
 
-			viewCommonsPageTitle: 'Ansicht des Bilds auf Wikimedia Commons',
-			viewCommonscatPageTitle: 'Link zur Bild-Kategorie auf Wikimedia Commons',
-			viewWikidataPage: 'Ansicht des Wikidata-Datensatzes',
-			wikidataShared: 'Nachfolgende Daten wurden im Wikidata-Datensatz gefunden. Sollen die gefundenen Werte übernommen werden?',
-			wikidataSharedNotFound: 'Keine Daten in der Wikidata-Datenbank gefunden.',
+			viewCommonsPageTitle: 'コモンズで画像を表示',
+			viewCommonscatPageTitle: 'コモンズのファイルカテゴリへのリンク',
+			viewWikidataPage: 'ウィキデータの項目を表示',
+			wikidataShared: 'ウィキデータに以下のデータが見つかりました。反映させますか？',
+			wikidataSharedNotFound: 'ウィキデータにはデータが見つかりませんでした。',
 
-			natlCurrencyTitle: 'Währungssymbol in der Landeswährung einfügen',
-			intlCurrencyTitle: 'Internationales Währungssymbol einfügen',
-			callingCodeTitle: 'Vorwahl einfügen',
-			specialCharsTitle: 'Sonderzeichen einfügen',
-			linkTitle: 'Internet-Link',
+			natlCurrencyTitle: '現地通貨の記号を挿入',
+			intlCurrencyTitle: '国際通貨記号を挿入',
+			callingCodeTitle: '市外局番を挿入',
+			specialCharsTitle: '特殊文字を挿入',
+			linkTitle: 'サイトへのリンク',
 			linkText: '<img src="//upload.wikimedia.org/wikipedia/commons/thumb/2/29/OOjs_UI_icon_link-ltr-progressive.svg/64px-OOjs_UI_icon_link-ltr-progressive.svg.png" height="16" width="16" />',
 			contentLimit: 1000,
-			contentStatus: 'Zeichenanzahl: $1',
-			additionalSubtypes: 'Weitere Merkmale aus Wikidata',
-			unknownSubtypes: 'Keine bekannten Merkmale gefunden.',
+			contentStatus: '文字数：$1',
+			additionalSubtypes: 'ウィキデータから追加情報を取得',
+			unknownSubtypes: '既知の追加情報は見当たりませんでした',
 
-			deleteListingLabel: 'Diesen Eintrag löschen?',
-			deleteListingTitle: 'Markiere diese Option, falls diese Einrichtung nicht mehr besteht oder falls der Eintrag aus einem anderen Grund gelöscht werden soll. Der Eintrag wird dann aus dem Artikel entfernt.',
-			minorEditLabel: 'Nur Kleinigkeiten wurden verändert',
-			minorEditTitle: 'Markiere diese Option, falls nur geringfügige Änderungen wie z.&#x202F;B. Schreibfehler ausgeführt wurden.',
-			statusLabel: 'Status',
-			statusTitle: 'Angaben zum Artikelstatus wie Löschung oder Aktualisierung',
-			summaryLabel: 'Zusammenfassung',
-			summaryTitle: 'Kurze Zusammenfassung zum Grund der Änderung oder Erstellung',
-			summaryPlaceholder: 'Grund der Erstellung oder Änderung der vCard',
-			updateLastedit: 'Soll das Datum der letzten Änderung auf das heutige Datum gesetzt werden?',
-			updateTodayLabel: 'Letzte Änderung auf heutigen Tag setzen',
-			updateTodayTitle: 'Markiere diese Option, falls die Angaben als aktuell und fehlerfrei überprüft wurden. Als Update-Datum wird der Eintrag oder das Datum des heutigen Tags verwendet.',
+			deleteListingLabel: 'このvCardを削除',
+			deleteListingTitle: 'このvCardの掲載をやめるべき、削除するべきならば、ボックスにチェックを入れてください。リストが除去されます。',
+			minorEditLabel: '細部の編集',
+			minorEditTitle: '誤字の修正のような小さな編集ならばボックスにチェックを入れてください。',
+			statusLabel: 'ステータス',
+			statusTitle: '削除や更新などの項目のステータスに関する情報',
+			summaryLabel: '編集の要約',
+			summaryTitle: '追加・編集についての簡便な要約',
+			summaryPlaceholder: '編集の要約を入力…',
+			updateLastedit: '最終更新日の更新',
+			updateTodayLabel: '最終更新日を今日に設定',
+			updateTodayTitle: '情報がすべて最新であることを確認したら、ここにチェックを入れてください。入力された日付か今日の日付が保存されます。',
 
-			textPreviewLabel: 'Vorschau',
-			textPreviewTitle: 'Vorschau der vCard mit den aktuellen Formulardaten',
-			syntaxPreviewLabel: 'Wiki-Syntax',
-			syntaxPreviewTitle: 'Wiki-Syntax der vCard mit den aktuellen Formulardaten',
+			textPreviewLabel: 'プレビュー',
+			textPreviewTitle: '現在の内容でプレビュー',
+			syntaxPreviewLabel: 'ウィキ構文',
+			syntaxPreviewTitle: '現在の内容で生成されるウィキ構文',
 			chosenNoResults: 'Keine Übereinstimmung mit',
 
-			yes: [ 'y', 'yes' ],
-			no: [ 'n', 'no' ],
+			yes: [ 'y', 'yes', 'はい' ],
+			no: [ 'n', 'no', 'いいえ' ],
 
 			from: '%sから',
 			fromTo: '%s–%s',
 			to: '%sまで',
 
-			sep: ',|;| and | or ',
+			sep: ',|;| and | or |、|，|；',
 			skypeSep: ';| and | or '
 		};
 
@@ -239,8 +239,8 @@ var wvListingEditor = ( function( mw, $ ) {
 				as long as they have a non-empty value. */
 			AllowUnrecognizedParameters: true,
 			// write empty parameters to listing template text
-			keepItDefault: false,
-			inlineFormat: true,
+			keepItDefault: true,
+			inlineFormat: false,
 
 			CopyToAliases: false,
 			CopyToTypeAliases: false,
@@ -299,33 +299,33 @@ var wvListingEditor = ( function( mw, $ ) {
 			price: 'x'
 		};
 		var PARAMETERS = {
-			name: { label: 'Name/名前', title: 'この場所の名前', ph: '  この場所の名前' },
-			'name-local': { label: 'Name-local/現地語の名前', title: '現地語での名前', ph: '  現地語での名前', cl: 'editor-foreign addLocalLang' },
-			'name-latin': { label: 'Name-latin/ラテン文字名', title: 'ラテン文字での名前', ph: '  ラテン文字での名前' },
-			alt: { label: 'Alt/別名', title: 'この場所の別名', ph: '  この場所の別名' },
-			comment: { label: 'Comment/コメント', title: 'Anmerkung zum Namen oder zur Einrichtung, die nicht oder nicht mehr Namensbestandteil sind. Zum Beispiel frühere Namen.', ph: '  Hinweis zur Bezeichnung' },
+			name: { label: '名前', title: 'この場所の名前', ph: '  この場所の名前' },
+			'name-local': { label: '現地語の名前', title: '現地語での名前', ph: '  現地語での名前', cl: 'editor-foreign addLocalLang' },
+			'name-latin': { label: 'ラテン文字名', title: 'ラテン文字での名前', ph: '  ラテン文字での名前' },
+			alt: { label: '別名', title: 'この場所の別名', ph: '  この場所の別名' },
+			comment: { label: 'コメント', title: '元から、あるいはもはや名前の一部ではない名前や組織についての注記', ph: '  呼称についての注記' },
 
-			type: { label: 'Type/種類', title: 'この場所の種類', ph: 'この場所の種類', tp: 'select', multiple: true, keepIt: true },
-			group: { label: 'Group/グループ', title: '上書き時のみ使用', ph: '訪問の目的；例：see', tp: 'select', cl: 'addGroupHint' },
-			wikidata: { label: 'Wikidata', title: 'ウィキデータID', ph: '  ウィキデータID' },
-			auto: { label: 'Auto', title: 'ウィキデータから全データを自動取得', ph: 'ウィキデータから取得', tp: 'select',
+			type: { label: '種類', title: 'この場所の種類', ph: 'この場所の種類', tp: 'select', multiple: true, keepIt: true },
+			group: { label: 'グループ', title: '上書き時のみ使用', ph: '訪問の目的。例：see', tp: 'select', cl: 'addGroupHint' },
+			wikidata: { label: 'ウィキデータ', title: 'ウィキデータID', ph: '  ウィキデータID' },
+			auto: { label: '自動', title: 'ウィキデータから全データを自動取得', ph: 'ウィキデータから取得', tp: 'select',
 				text: '<option value=""></option>' +
-					'<option value="y">有効</option>' +
-					'<option value="n">無効（既定）</option>' },
+					'<option value="y">自動取得</option>' +
+					'<option value="n">手動取得（既定）</option>' },
 
-			url: { label: 'URL/外部リンク', title: '公式サイトのURL', ph: '  公式サイトのURL', cl: 'addLink' },
-			address: { label: 'Address/住所', title: 'この場所の住所', ph: '  この場所の住所' },
+			url: { label: '外部リンク', title: '公式サイトのURL', ph: '  公式サイトのURL', cl: 'addLink' },
+			address: { label: '住所', title: 'この場所の住所', ph: '  この場所の住所' },
 			'address-local': { label: '現地語の住所', title: '現地語での住所', ph: '  現地語での住所', cl: 'editor-foreign' },
-			directions: { label: 'Directions/道順', title: 'この場所への道順', ph: '  この場所への道順' },
+			directions: { label: '道順', title: 'この場所への道順', ph: '  この場所への道順' },
 			'directions-local': { label: '現地語の道順', title: '現地語での道順', ph: '  現地語での道順', cl: 'editor-foreign' },
 			lat: { aliases: [ 'coord', '緯度' ], label: '緯度', title: 'この場所の緯度', ph: '  この場所の緯度' },
 			long: { aliases: [ '経度' ], label: '経度', title: 'この場所の経度', ph: '  この場所の経度', cl: 'addMaplink' },
 
-			phone: { label: 'Phone/電話番号', title: 'この場所の電話番号', ph: '  この場所の電話番号', cl: 'addCC addLocalCC' },
-			mobile: { label: 'Mobile/携帯電話', title: '携帯電話番号', ph: '  携帯電話番号', cl: 'addCC' },
-			tollfree: { label: 'Tollfree/フリーダイヤル', title: 'フリーダイヤル番号', ph: '  フリーダイヤル番号', cl: 'addCC' },
-			fax: { label: 'Fax/ファックス', title: 'ファックスの番号', ph: '  ファックスの番号', cl: 'addCC addLocalCC' },
-			email: { label: 'Email/メール', title: 'メールアドレス', ph: '  メールアドレス' },
+			phone: { label: '電話番号', title: 'この場所の電話番号', ph: '  この場所の電話番号', cl: 'addCC addLocalCC' },
+			mobile: { label: '携帯電話', title: '携帯電話番号', ph: '  携帯電話番号', cl: 'addCC' },
+			tollfree: { label: 'フリーダイヤル', title: 'フリーダイヤル番号', ph: '  フリーダイヤル番号', cl: 'addCC' },
+			fax: { label: 'ファックス', title: 'ファックスの番号', ph: '  ファックスの番号', cl: 'addCC addLocalCC' },
+			email: { label: 'メール', title: 'メールアドレス', ph: '  メールアドレス' },
 			skype: { label: 'Skype-Name', title: 'Skype-Benutzername der Einrichtung', ph: '  Beispiel: myskype' },
 			facebook: { label: 'Facebook-URL', title: 'Facebook-Profil-ID oder Facebook-Webadresse der Einrichtung', ph: '  Beispiele: myfacebook, https://www.facebook.com/myfacebook', cl: 'addLink' },
 			flickr: { label: 'flickr-Gruppe', title: 'Name der flickr-Gruppe oder flickr-Webadresse der Einrichtung', ph: '  Beispiel: myflickr', cl: 'addLink' },
@@ -334,15 +334,15 @@ var wvListingEditor = ( function( mw, $ ) {
 			twitter: { label: 'Twitter-URL', title: 'Twitter-Benutzername oder Twitter-Webadresse der Einrichtung', ph: '  Beispiel: mytwitter', cl: 'addLink' },
 			youtube: { label: 'YouTube-Kanal', title: 'Kennung oder Webadresse des YouTube-Kanals der Einrichtung', ph: '  Beispiel: myyoutube', cl: 'addLink' },
 
-			hours: { label: 'Hours/営業時間', title: '営業している時間', ph: '  営業している時間' },
-			checkin: { label: 'Checkin', title: 'チェックインの時間', ph: '  チェックインの時間' },
-			checkout: { label: 'Checkout', title: 'チェックアウトの時間', ph: '  チェックアウトの時間' },
-			price: { label: 'Price/値段', title: '利用にかかる値段', ph: '  利用にかかる値段', cl: 'addCurrencies' },
-			payment: { label: 'Payment/支払方法', title: '利用できる支払方法', ph: '  利用できる支払方法' },
-			subtype: { label: 'Subtype', title: '追加の情報', ph: '追加の情報', tp: 'select', multiple: true },
-			image: { label: 'Image/画像', title: '地図上で表示される画像', ph: '  地図上で表示される画像', cl: 'addImgLink' },
+			hours: { label: '営業時間', title: '営業している時間', ph: '  営業している時間' },
+			checkin: { label: 'チェックイン', title: 'チェックインの時間', ph: '  チェックインの時間' },
+			checkout: { label: 'チェックアウト', title: 'チェックアウトの時間', ph: '  チェックアウトの時間' },
+			price: { label: '値段', title: '利用にかかる値段', ph: '  利用にかかる値段', cl: 'addCurrencies' },
+			payment: { label: '支払方法', title: '利用できる支払方法', ph: '  利用できる支払方法' },
+			subtype: { label: '追加情報', title: '追加の細かな情報', ph: '追加の情報', tp: 'select', multiple: true },
+			image: { label: '画像', title: '地図上で表示される画像', ph: '  地図上で表示される画像', cl: 'addImgLink' },
 			commonscat: { label: 'コモンズのカテゴリ', title: 'この場所の画像のカテゴリ', ph: '  この場所の画像のカテゴリ', cl: 'addCommonsLink' },
-			show: { label: 'Show', title: '地図上に表示するもの', ph: '地図上に表示するもの', tp: 'select', multiple: true,
+			show: { label: '表示', title: '地図上に表示するもの', ph: '地図上に表示するもの', tp: 'select', multiple: true,
 				text: '<optgroup label="座標" id="listing-show-coordinate">' +
 					'<option value="all">マーカーと座標</option>' +
 					'<option value="poi">マーカー（既定）</option>' +
@@ -350,11 +350,11 @@ var wvListingEditor = ( function( mw, $ ) {
 					'<option value="none">座標なし</option>' +
 				'</optgroup>' +
 				'<optgroup label="アイコン" id="listing-show-symbol">' +
-					'<option value="copy">Markerkopie</option>' +
+					'<option value="copy">マーカーの複製</option>' +
 					'<option value="symbol">MAKIアイコン</option>' +
 					'<option value="noairport">空港コードなし</option>' +
 					'<option value="nositelinks">外部リンクなし</option>' +
-					'<option value="nosocialmedia">ohne soziale Medien</option>' +
+					'<option value="nosocialmedia">ソーシャルメディアなし</option>' +
 				'</optgroup>' +
 				'<optgroup label="特徴" id="listing-show-subtypes">' +
 					'<option value="nosubtype">サブタイプなし</option>' +
@@ -366,12 +366,12 @@ var wvListingEditor = ( function( mw, $ ) {
 					'<option value="nowikilink">内部リンクなし' +
 					'<option value="noperiod">説明の前にピリオドを付けない</option>' +
 				'</optgroup>' },
-			zoom: { label: 'Zoom/拡大', title: '表示される地図の拡大レベル（0～19）。既定では17。', ph: '  既定：17' },
-			'map-group': { label: 'Map-group', title: 'Name einer Kartengruppe. Die Angabe wird nur gebraucht, wenn Marker auf unterschiedliche Karten verteilt werden sollen. Sie darf nur aus den Zeichen A–Z, a–z und 0–9 bestehen und muss mit einem Buchstaben beginnen.', ph: '  Beispiel: Kartengruppe1' },
-			lastedit: { label: 'Lastedit/最終更新', title: 'Datum der letzten Bearbeitung in der Form jjjj-mm-tt, sog. ISO-Datum. Bei leer gelassenem Feld wird beim Abspeichern das heutige Datum eingetragen.', hideDivIfEmpty: 'div_lastedit', ph: '2020-01-15' },
+			zoom: { label: 'Zoom/縮尺', title: '表示される地図の縮尺レベル（0～19）。', ph: '  既定：17' },
+			'map-group': { label: 'Map-group', title: '地図のグループ名。vCardを既定とは違う地図に表示したい場合に用います。半角英数字のみを用い、先頭の文字は数字ではいけません。', ph: '  例：group1' },
+			lastedit: { label: 'Lastedit/最終更新', title: 'ISO 8601拡張形式（yyyy-mm-dd）で記入。このvCardの最終更新日です。空にした場合、今日の日付が自動挿入されます。', hideDivIfEmpty: 'div_lastedit', ph: '2020-01-15' },
 
-			before: { label: 'Voranstellung', title: 'An den Anfang der vCard vorangestellte Symbole, Textteile usw.', ph: '  Beispiel: [[Datei:Sternchen.jpg]]' },
-			description: { aliases: [ 'content' ], label: 'Beschreibung', title: 'Beschreibung der Einrichtung. Als Richtwert für die Textlänge gelten 1000 Zeichen.', keepIt: true, ph: 'Beschreibung der Einrichtung', tp: 'textarea' }
+			before: { label: '接頭辞', title: 'vCardの前に置かれる文字や記号', ph: '  例：[[ファイル:Sternchen.jpg]]' },
+			description: { aliases: [ 'content' ], label: '内容', title: 'この場所の説明。1000文字以内に収めてください。', keepIt: true, ph: '場所の説明', tp: 'textarea' }
 		};
 
 		// ----------------------- Stop translation here -----------------------
