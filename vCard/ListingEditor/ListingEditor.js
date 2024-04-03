@@ -10,6 +10,8 @@
 	- Andyrom75
 	- Wrh2
 	- RolandUnger
+    Translators and localizers:
+    - Tmv
 	Documentation and version history:
 	- https://de.wikivoyage.org/wiki/Wikivoyage:ListingEditor.js
 */
