@@ -155,16 +155,16 @@ var wvListingEditor = ( function( mw, $ ) {
 			validationZoom: 'ズーム（0-19）が間違っています。',
 
 			commonscat: 'カテゴリ',
-			image: 'ファイル|画像', //Local prefix for Image (or File)
+			image: 'ファイル|画像', // Local prefix for Image (or File)
 			added: '$1のvCardを追加しました',
 			updated: '$1のvCardを更新しました',
 			removed: '$1のvCardを削除しました',
 
-			submitApiError: 'Fehler: Der Server lieferte eine Fehlermeldung beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
-			submitBlacklistError: 'Fehler: Eine Angabe wurde als schwarzgelistet ermittelt. Bitte entfernen Sie den Eintrag und versuchen Sie es erneut.',
-			submitUnknownError: 'Fehler: Ein unbekannter Fehler ist beim Versuch der Speicherung der vCard aufgetreten. Bitte versuchen Sie es erneut.',
-			submitHttpError: 'Fehler: Der Server lieferte einen HTTP-Fehler beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
-			submitEmptyError: 'Fehler: Der Server lieferte eine leere Antwort beim Versuch der Speicherung der vCard. Bitte versuchen Sie es erneut.',
+			submitApiError: 'エラー：リストの保存に失敗しました。再試行してください。',
+			submitBlacklistError: 'エラー：内容がブラックリストに抵触しました。該当部を除去して再度保存してください。',
+			submitUnknownError: 'エラー：予期しないエラーが発生しました。再試行してください。',
+			submitHttpError: 'エラー：サーバーからHTTPエラーが返りました。再試行してください。',
+			submitEmptyError: 'エラー：サーバーが空文字列を返しました。再試行してください。',
 
 			viewCommonsPageTitle: 'コモンズで画像を表示',
 			viewCommonscatPageTitle: 'コモンズのファイルカテゴリへのリンク',
@@ -200,7 +200,7 @@ var wvListingEditor = ( function( mw, $ ) {
 			textPreviewTitle: '現在の内容でプレビュー',
 			syntaxPreviewLabel: 'ウィキ構文',
 			syntaxPreviewTitle: '現在の内容で生成されるウィキ構文',
-			chosenNoResults: 'Keine Übereinstimmung mit',
+			chosenNoResults: '一致なし',
 
 			yes: [ 'y', 'yes', 'はい' ],
 			no: [ 'n', 'no', 'いいえ' ],
