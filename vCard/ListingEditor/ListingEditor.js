@@ -64,7 +64,7 @@ var wvListingEditor = ( function( mw, $ ) {
 		// --------------------------------------------------------------------
 
 		// names of the listing templates
-		var TEMPLATES = [ 'vCard', 'listing', 'see', 'do', 'buy', 'drink', 'eat', 'sleep' ];
+		var TEMPLATES = [ 'vCard', 'listing', 'go', 'see', 'do', 'buy', 'drink', 'eat', 'sleep' ];
 		var MARKERS   = [ 'marker' ];
 
 		// --------------------------------------------------------------------
