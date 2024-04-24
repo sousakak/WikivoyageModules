@@ -13,7 +13,7 @@
     Translators and localizers:
     - Tmv
 	Documentation and version history:
-	- https://de.wikivoyage.org/wiki/Wikivoyage:ListingEditor.js
+	- https://ja.wikivoyage.org/wiki/ヘルプ:Listing_Editor
 */
 /* eslint-disable mediawiki/class-doc */
 
@@ -109,7 +109,7 @@ var wvListingEditor = ( function( mw, $ ) {
 			cancelMessage: 'エディターを閉じると、記述内容は破棄されます。本当によろしいですか？',
 			deleteMessage: 'ウィキデータへのリンクを削除します。よろしいですか？',
 			help: '？',
-			helpPage: '//ja.wikivoyage.org/wiki/ヘルプ:ListingEditor',
+			helpPage: '//ja.wikivoyage.org/wiki/ヘルプ:Listing Editor',
 			helpTitle: 'ヘルプ',
 			preview: 'プレビュー',
 			previewTitle: 'vCardをプレビューします。',
@@ -120,7 +120,7 @@ var wvListingEditor = ( function( mw, $ ) {
 			submit: '送信',
 			submitTitle: '変更を保存',
 			// license text should match MediaWiki:Wikimedia-copyrightwarning
-			licenseText: '変更内容を保存すると、あなたは[https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use/ja Terms of Use]に同意するとともに、自分の投稿内容を[https://creativecommons.org/licenses/by-sa/4.0/deed.ja CC BY-SA 4.0ライセンス]および[https://www.gnu.org/copyleft/fdl.html GFDL]のもとの公開に同意したことになります。この同意は取り消せません。\nまた、あなたはハイパーリンクまたはURLがクリエイティブ・コモンズライセンスにおける帰属表示として十分であると認めたことになります。',
+			licenseText: '変更内容を保存すると、あなたは[https://foundation.wikimedia.org/wiki/Special:MyLanguage/Policy:Terms_of_Use 利用規約]に同意するとともに、自分の投稿内容を[https://creativecommons.org/licenses/by-sa/4.0/deed.ja CC BY-SA 4.0ライセンス]および[https://www.gnu.org/copyleft/fdl.html GFDL]のもとの公開に同意したことになります。この同意は取り消せません。\nまた、あなたはハイパーリンクまたはURLがクリエイティブ・コモンズライセンスにおける帰属表示として十分であると認めたことになります。',
 
 			ifNecessary: '（必要に応じて）',
 			severalGroups: '（推奨：複数のグループ）',
@@ -314,7 +314,6 @@ var wvListingEditor = ( function( mw, $ ) {
 				text: '<option value=""></option>' +
 					'<option value="y">自動取得</option>' +
 					'<option value="n">手動取得（既定）</option>' },
-
 			url: { label: '外部リンク', title: '公式サイトのURL', ph: '  公式サイトのURL', cl: 'addLink' },
 			address: { label: '住所', title: 'この場所の住所', ph: '  この場所の住所' },
 			'address-local': { label: '現地語の住所', title: '現地語での住所', ph: '  現地語での住所', cl: 'editor-foreign' },
@@ -328,13 +327,13 @@ var wvListingEditor = ( function( mw, $ ) {
 			tollfree: { label: 'フリーダイヤル', title: 'フリーダイヤル番号', ph: '  フリーダイヤル番号', cl: 'addCC' },
 			fax: { label: 'ファックス', title: 'ファックスの番号', ph: '  ファックスの番号', cl: 'addCC addLocalCC' },
 			email: { label: 'メール', title: 'メールアドレス', ph: '  メールアドレス' },
-			skype: { label: 'Skype-Name', title: 'Skype-Benutzername der Einrichtung', ph: '  Beispiel: myskype' },
-			facebook: { label: 'Facebook-URL', title: 'Facebook-Profil-ID oder Facebook-Webadresse der Einrichtung', ph: '  Beispiele: myfacebook, https://www.facebook.com/myfacebook', cl: 'addLink' },
-			flickr: { label: 'flickr-Gruppe', title: 'Name der flickr-Gruppe oder flickr-Webadresse der Einrichtung', ph: '  Beispiel: myflickr', cl: 'addLink' },
-			instagram: { label: 'Instagram-Name', title: 'Instagram-Benutzername oder Instagram-Webadresse der Einrichtung', ph: '  Beispiel: myinstagram', cl: 'addLink' },
-			tiktok: { label: 'TikTok-URL', title: 'TikTok-Benutzername ohne „@“ oder TikTok-Webadresse der Einrichtung', ph: '  Beispiel: mytiktok', cl: 'addLink' },
-			twitter: { label: 'Twitter-URL', title: 'Twitter-Benutzername oder Twitter-Webadresse der Einrichtung', ph: '  Beispiel: mytwitter', cl: 'addLink' },
-			youtube: { label: 'YouTube-Kanal', title: 'Kennung oder Webadresse des YouTube-Kanals der Einrichtung', ph: '  Beispiel: myyoutube', cl: 'addLink' },
+			// skype: { label: 'Skype-Name', title: 'Skype-Benutzername der Einrichtung', ph: '  Beispiel: myskype' },
+			// facebook: { label: 'Facebook-URL', title: 'Facebook-Profil-ID oder Facebook-Webadresse der Einrichtung', ph: '  Beispiele: myfacebook, https://www.facebook.com/myfacebook', cl: 'addLink' },
+			// flickr: { label: 'flickr-Gruppe', title: 'Name der flickr-Gruppe oder flickr-Webadresse der Einrichtung', ph: '  Beispiel: myflickr', cl: 'addLink' },
+			// instagram: { label: 'Instagram-Name', title: 'Instagram-Benutzername oder Instagram-Webadresse der Einrichtung', ph: '  Beispiel: myinstagram', cl: 'addLink' },
+			// tiktok: { label: 'TikTok-URL', title: 'TikTok-Benutzername ohne „@“ oder TikTok-Webadresse der Einrichtung', ph: '  Beispiel: mytiktok', cl: 'addLink' },
+			// twitter: { label: 'Twitter-URL', title: 'Twitter-Benutzername oder Twitter-Webadresse der Einrichtung', ph: '  Beispiel: mytwitter', cl: 'addLink' },
+			// youtube: { label: 'YouTube-Kanal', title: 'Kennung oder Webadresse des YouTube-Kanals der Einrichtung', ph: '  Beispiel: myyoutube', cl: 'addLink' },
 
 			hours: { label: '営業時間', title: '営業している時間', ph: '  営業している時間' },
 			checkin: { label: 'チェックイン', title: 'チェックインの時間', ph: '  チェックインの時間' },
@@ -368,9 +367,9 @@ var wvListingEditor = ( function( mw, $ ) {
 					'<option value="nowikilink">内部リンクなし' +
 					'<option value="noperiod">説明の前にピリオドを付けない</option>' +
 				'</optgroup>' },
-			zoom: { label: 'Zoom/縮尺', title: '表示される地図の縮尺レベル（0～19）。', ph: '  既定：17' },
-			'map-group': { label: 'Map-group', title: '地図のグループ名。vCardを既定とは違う地図に表示したい場合に用います。半角英数字のみを用い、先頭の文字は数字ではいけません。', ph: '  例：group1' },
-			lastedit: { label: 'Lastedit/最終更新', title: 'ISO 8601拡張形式（yyyy-mm-dd）で記入。このvCardの最終更新日です。空にした場合、今日の日付が自動挿入されます。', hideDivIfEmpty: 'div_lastedit', ph: '2020-01-15' },
+			zoom: { label: '縮尺', title: '表示される地図の縮尺レベル（0～19）。', ph: '  既定：17' },
+			'map-group': { label: '所属レイヤー', title: '地図のレイヤー名（グループ名）。vCardを既定とは違う地図に表示したい場合に用います。半角英数字のみを用い、先頭の文字は数字ではいけません。', ph: '  例：group1' },
+			lastedit: { label: '最終更新', title: 'ISO 8601拡張形式（yyyy-mm-dd）で記入。このvCardの最終更新日です。空にした場合、今日の日付が自動挿入されます。', hideDivIfEmpty: 'div_lastedit', ph: '2020-01-15' },
 
 			before: { label: '接頭辞', title: 'vCardの前に置かれる文字や記号', ph: '  例：[[ファイル:Sternchen.jpg]]' },
 			description: { aliases: [ 'content' ], label: '内容', title: 'この場所の説明。1000文字以内に収めてください。', keepIt: true, ph: '場所の説明', tp: 'textarea' }
@@ -405,13 +404,13 @@ var wvListingEditor = ( function( mw, $ ) {
 
 			phone:    /^(\+[1-9]|[\d\(])([\dA-Z \-\(\)\.]+[\dA-Z ])(( ([Ee][Xx][Tt]\.? |[Aa][Pp][Pp]\.? |x)\d+)?)( *\([^\)]+\))?$/,
 			email:    /^[^@^\(^\)\s]+@[^@^\(^\)\s]+\.[^@^\(^\)\s]+( *\([^\)]+\))?$/,
-			skype:    /^[a-z][a-z0-9\.,\-_]{5,31}(\?(add|call|chat|sendfile|userinfo|voicemail))?( *\([^\)]+\))?$/,
-			facebook: /^(https:\/\/www\.facebook\.com\/.+|(?!.*\.(?:com|net))[a-z\d.]{5,}|[-.\w\d]+\-\d+)$/i,
-			flickr:   /^(https:\/\/www\.flickr\.com\/.+|\d{5,11}@N\d{2})$/,
-			instagram:/^(https:\/\/www\.instagram\.com\/.+|explore\/locations\/[1-9]\d{0,15}|[0-9a-z_][0-9a-z._]{0,28}[0-9a-z_])$/,
-			tiktok:   /^(https:\/\/www\.tiktok\.com\/@.+|[0-9A-Za-z_][0-9A-Za-z_.]{1,23})$/i,
-			twitter:  /^(https:\/\/twitter\.com\/.+|[0-9a-z_]{1,15})$/i,
-			youtube:  /^(https:\/\/www\.youtube\.com\/.+|UC[-_0-9A-Za-z]{21}[AQgw])$/,
+			// skype:    /^[a-z][a-z0-9\.,\-_]{5,31}(\?(add|call|chat|sendfile|userinfo|voicemail))?( *\([^\)]+\))?$/,
+			// facebook: /^(https:\/\/www\.facebook\.com\/.+|(?!.*\.(?:com|net))[a-z\d.]{5,}|[-.\w\d]+\-\d+)$/i,
+			// flickr:   /^(https:\/\/www\.flickr\.com\/.+|\d{5,11}@N\d{2})$/,
+			// instagram:/^(https:\/\/www\.instagram\.com\/.+|explore\/locations\/[1-9]\d{0,15}|[0-9a-z_][0-9a-z._]{0,28}[0-9a-z_])$/,
+			// tiktok:   /^(https:\/\/www\.tiktok\.com\/@.+|[0-9A-Za-z_][0-9A-Za-z_.]{1,23})$/i,
+			// twitter:  /^(https:\/\/twitter\.com\/.+|[0-9a-z_]{1,15})$/i,
+			// youtube:  /^(https:\/\/www\.youtube\.com\/.+|UC[-_0-9A-Za-z]{21}[AQgw])$/,
 
 			image:    new RegExp( '^(?!([Ff]ile|[Ii]mage|' + STRINGS.image + '):)' + '.+\.(tif|tiff|gif|png|jpg|jpeg|jpe|webp|xcf|ogg|ogv|svg|pdf|stl|djvu|webm|mpg|mpeg)$', 'i' ),
 			commonscat: new RegExp( '^(?!(category|' + STRINGS.commonscat + '):)' + '.+$', 'i' ),
@@ -428,13 +427,13 @@ var wvListingEditor = ( function( mw, $ ) {
 			tollfree:    { regex: REGEX.phone, m: STRINGS.validationTollfree, wd: false, sep: STRINGS.sep },
 			fax:         { regex: REGEX.phone, m: STRINGS.validationFax, wd: true, sep: STRINGS.sep },
 			email:       { regex: REGEX.email, m: STRINGS.validationEmail, wd: true, sep: STRINGS.sep },
-			skype:       { regex: REGEX.skype, m: STRINGS.validationSkype, wd: true, sep: STRINGS.skypeSep },
-			facebook:    { regex: REGEX.facebook, m: STRINGS.validationFacebook, wd: true },
-			flickr:      { regex: REGEX.flickr, m: STRINGS.validationFlickr, wd: true },
-			instagram:   { regex: REGEX.instagram, m: STRINGS.validationInstagram, wd: true },
-			tiktok:      { regex: REGEX.tiktok, m: STRINGS.validationTiktok, wd: true },
-			twitter:     { regex: REGEX.twitter, m: STRINGS.validationTwitter, wd: true },
-			youtube:     { regex: REGEX.youtube, m: STRINGS.validationYoutube, wd: true },
+			// skype:       { regex: REGEX.skype, m: STRINGS.validationSkype, wd: true, sep: STRINGS.skypeSep },
+			// facebook:    { regex: REGEX.facebook, m: STRINGS.validationFacebook, wd: true },
+			// flickr:      { regex: REGEX.flickr, m: STRINGS.validationFlickr, wd: true },
+			// instagram:   { regex: REGEX.instagram, m: STRINGS.validationInstagram, wd: true },
+			// tiktok:      { regex: REGEX.tiktok, m: STRINGS.validationTiktok, wd: true },
+			// twitter:     { regex: REGEX.twitter, m: STRINGS.validationTwitter, wd: true },
+			// youtube:     { regex: REGEX.youtube, m: STRINGS.validationYoutube, wd: true },
 			image:       { regex: REGEX.image, m: STRINGS.validationImage, wd: true },
 			commonscat:  { regex: REGEX.commonscat, m: STRINGS.validationCategory, wd: false },
 			zoom:        { regex: REGEX.zoom, m: STRINGS.validationZoom, wd: false },
@@ -456,13 +455,13 @@ var wvListingEditor = ( function( mw, $ ) {
 			phone:       { p: 'P1329', max: 5, type: 'contact' },
 			fax:         { p: 'P2900', max: 3, type: 'contact' },
 			email:       { p:  'P968', type: 'email', max: 5 },
-			skype:       { p: 'P2893' },
-			facebook:    { p: 'P2013' },
-			flickr:      { p: 'P3267' },
-			instagram:   { p: 'P2003' },
-			tiktok:      { p: 'P7085' },
-			twitter:     { p: 'P2002' },
-			youtube:     { p: 'P2397' },
+			// skype:       { p: 'P2893' },
+			// facebook:    { p: 'P2013' },
+			// flickr:      { p: 'P3267' },
+			// instagram:   { p: 'P2003' },
+			// tiktok:      { p: 'P7085' },
+			// twitter:     { p: 'P2002' },
+			// youtube:     { p: 'P2397' },
 
 			// type:     {}
 			subtype:     { p: [ 'P912', 'P2012', 'P2846', 'P2848', 'P5023', 'P10290' ], label: 'Features', type: 'subtype', table: '', result: 'table', max: 50 },
@@ -618,7 +617,7 @@ var wvListingEditor = ( function( mw, $ ) {
 			'<div class="listingeditor-col">' +
 				// maybe a Callbacks.initFindOnMapLink or Callbacks.initSymbolFormFields update necessary
 				inputs( [ 'name', 'alt', 'comment', 'url', 'address', 'directions', 'lat', 'long',
-					 'phone', 'tollfree', 'mobile', 'fax', 'email', 'skype', 'facebook', 'flickr', 'instagram', 'tiktok', 'twitter', 'youtube' ] ) +
+					 'phone', 'tollfree', 'mobile', 'fax', 'email' ] ) +
 			'</div>' +
 
 			'<div class="listingeditor-col">' +
