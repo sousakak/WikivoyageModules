@@ -6,6 +6,9 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/sousakak/WikivoyageModules)
 
 ----
+This repository might be behind the modules in actual use. See the [documentation](https://w.wiki/FFyE) and modules on Wikivoyage.
+
+----
 In 2023, we Japanese community decided to replace Listing templates to vCard, which is a new version that is fully compatible. You can see the local discussion at the [project chat](https://w.wiki/89x5), and here is the code storage of files of vCard and related ones. This also includes modules' documentation pages and some of JavaScript linked to vCard.
 
 ## Progress
@@ -28,7 +31,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:CountryData](CountryData/CountryData.lua)
   - [x] [Module:CountryData/Geography](CountryData/Geography.lua) ~~*t*~~
   - [x] [Module:CountryData/Currencies](CountryData/Currencies.lua)
-- [ ] Exchange rate
+- [ ] ~~Exchange rate~~
   (*Compete with local ones*)
 - [x] Hours
   - [x] [Module:Hours](Hours/Hours.lua)
@@ -46,7 +49,7 @@ There are many tasks, such as translations, localizations, and so on. The origin
   - [x] [Module:Marker utilities/i18n](MarkerUtilities/i18n.lua) ~~*t*~~
   - [x] [Module:Marker utilities/Maki icons](MarkerUtilities/Maki_icons.lua)
   - [x] [Module:Marker utilities/Types](MarkerUtilities/Types.lua) ~~*t*~~
-- [ ] [Module:PageData](./PageData.lua) *?*
+- [ ] ~~[Module:PageData](./PageData.lua)~~
 - [x] UrlCheck
   - [x] [Module:UrlCheck](UrlCheck/UrlCheck.lua)
   - [x] [Module:UrlCheck/i18n](UrlCheck/i18n.lua)
@@ -65,16 +68,16 @@ Module:Marker utilities/Groups will be localized after the task of Module:Marker
 
 #### Unclearness
 - ~~The system of the statuses in Japanese Wikivoyage is different from German one. How can I fix this? (on l.291 of [Module:Marker Utilities/i18n](MarkerUtilities/i18n.lua))~~
-- We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
-- We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?
-- We do not add links to external services such as X (Twitter), Instagram, Youtube, and so on. What do we need to do to remove this part?
-- We have some original features such as a parameter "link" and a link "detail"; I wonder if these are added to all vCard modules because these features (especially the latter) can be useful for other Wikivoyages?
+- ~~We already have the Exchangerate module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?~~
+- ~~We already have the [LinkPhone](https://ja.wikivoyage.org/w/index.php?title=Module:LinkPhone) module, but the functions are different from German ones. Can they be integrated or do they have to be created separately?~~
+- ~~We do not add links to external services such as X (Twitter), Instagram, Youtube, and so on. What do we need to do to remove this part?~~
+- ~~We have some original features such as a parameter "link" and a link "detail"; I wonder if these are added to all vCard modules because these features (especially the latter) can be useful for other Wikivoyages?~~
 
 ### Script Implementation
 - ListingEditor
-  - [ ] [MediaWiki:Gadget-ListingEditor.js](ListingEditor/ListingEditor.js)
-- Listing Info
-- Edit Toolbar
+  - [x] [MediaWiki:Gadget-ListingEditor.js](ListingEditor/ListingEditor.js)
+- [x] Listing Info
+- [ ] Edit Toolbar
 
 ### Giving Documentation
 

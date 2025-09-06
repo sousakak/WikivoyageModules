@@ -18,7 +18,7 @@ local wu = require( 'Module:Wikidata utilities' )
 local function isQID(str) return (not not string.match(str, "^[Qq]%d+$")) end
 
 -- define class-like objects
--- note: these could be improved in aspect of performance
+-- note: these can be improved in aspect of performance
 --       don't use metatable due to the performance reason
 function tu.Station( id, option, manual )
     local obj = {}

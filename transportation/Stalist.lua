@@ -8,7 +8,7 @@
 ╚═════╝░░░░╚═╝░░░╚═╝░░╚═╝╚══════╝╚═╝╚═════╝░░░░╚═╝░░░
 
 	Maintainer: Tmv@ja.wikivoyage.org
-	Repository: https://github.com/sousakak/WikivoyageModules/tree/master/stalist
+	Repository: https://github.com/sousakak/WikivoyageModules/tree/master/transportation
 
     ----------
 
