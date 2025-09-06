@@ -47,7 +47,7 @@ local i18n = {
 }
 
 --[[ utility functions ]]--
-local function isQID(str) if string.match(str, "^[Qq]%d+$") then return true else return false end end
+local function isQID(str) return (not not string.match(str, "^[Qq]%d+$")) end
 
 local function tableLength(tbl)
     local n = 0

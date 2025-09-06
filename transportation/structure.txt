@@ -1,0 +1,10 @@
+テンプレート
+    駅一覧
+        駅の一覧を表示する
+    Routebox
+        地域を通る交通手段を表示
+
+モジュール
+    Transportation utilities
+    Stalist
+    Routebox
