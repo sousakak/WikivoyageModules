@@ -8,8 +8,9 @@ local tu = {
 }
 
 local i18n = {
-    property_connectingTrain = { "P5051", "P1192" },
-    err_invalidEntity = ""
+    property_connectingTrain = { 'P5051', 'P1192' },
+    property_district = 'P131',
+    err_invalidEntity = ''
 }
 
 local wu = require( 'Module:Wikidata utilities' )
@@ -20,14 +21,18 @@ local function isQID(str) return (not not string.match(str, "^[Qq]%d+$")) end
 -- define class-like objects
 -- note: these can be improved in aspect of performance
 --       don't use metatable due to the performance reason
-function tu.Station( id, option, manual )
+function tu.Station( id, option )
     local obj = {}
 
     -- initialization
-    local valid do
+    local invalid do
+        local option = option or {}
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        if type(manual) == 'table' then
-            --
+        if (option.property or {}) != {} then
+            for _, v in ipairs(option.property) do
+                local p = i18n[ 'property_' .. v ] or (isQID(v) and v or nil)
+                obj[v] = wu.getValues( obj.id, p, 50 )
+            end
         else
             _, obj.entity, invalid = wu.getEntity( obj.id )
         end
@@ -38,8 +43,8 @@ function tu.Station( id, option, manual )
     return obj
 end
 
-function tu.TrainStation( id, option, manual )
-    local obj = tu.Station( id, option, manual )
+function tu.TrainStation( id, option )
+    local obj = tu.Station( id, option )
 
     -- initialization
     do
@@ -47,13 +52,14 @@ function tu.TrainStation( id, option, manual )
     end
 end
 
-function tu.Route( id, option, manual )
+function tu.Route( id, option )
     local obj = {}
 
     -- initialization
-    local valid do
+    local invalid do
+        local option = option or {}
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        if type(manual) == 'table' then
+        if option.property then
             --
         else
             _, obj.entity, invalid = wu.getEntity( obj.id )
@@ -65,8 +71,8 @@ function tu.Route( id, option, manual )
     return obj
 end
 
-function tu.Train( id, option, manual )
-    local obj = tu.Route( id, option, manual )
+function tu.Train( id, option )
+    local obj = tu.Route( id, option )
 
     -- initialization
     do
@@ -97,7 +103,7 @@ function tu.Train( id, option, manual )
         findNextSta( initpoint, true )
 
         for i, v in ipairs( staList ) do
-            staList[i] = tu.Station( v )
+            staList[i] = tu.TrainStation( v, { property = { 'district' } )
     end
 end
 
