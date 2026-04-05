@@ -1,41 +1,96 @@
-local value_tfr = ""
-local tfr_table = {}
-local i18n = {
-    css = '駅一覧/styles.css',
-    header_num = "駅番号",
-    header_name = "駅名",
-    header_tfr = "乗り換え路線",
-    header_spot = "周辺のスポット",
-    property_num = "P154",
-    property_tfr = {"P81", "P1192"},
-    property_filter = "P642",
-    err_nowditem = "ウィキデータIDが指定されていません",
-    err_wrongid = "$1番目のウィキデータIDが不正です"
+local wu = require( 'Module:Wikidata utilities' )
+local obj = {
+    id = 'Q693036' -- Yamanote Line
 }
-local item = mw.wikibase.getEntity("Q124653770")
-local function tableLength(tbl)
-    local n = 0
-    for _ in pairs (tbl) do
-        n = n + 1
-    end
-    return n
-end
-for p = 1, tableLength(i18n.property_tfr) do
-if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
-                for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
-                    local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
-                    local tfr_text
-                    if tfr_table[tfr_id] ~= nil then
-                        tfr_text = tfr_table[tfr_id]
-                    else
-                        tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
-                        tfr_table[tfr_id] = tfr_text
-                    end
-                    value_tfr = value_tfr .. tfr_text .. "、"
+_, obj.entity = wu.getEntity( 'Q693036' )
+obj.staList = {}
+local staList = {}
+local initpoint = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id -- ex. Q801695
+table.insert( staList, initpoint )
+
+local function findNextSta( point, r )
+    pos = r and (#staList + 1) or 0
+    mw.log( pos )
+    local nextSta = wu.getValuesWithQualifiers( point, "P197", nil, { "P5051", "P1192" }, nil, nil )
+    mw.logObject( nextSta )
+    for _, v in ipairs( nextSta ) do
+        mw.logObject( v )
+        for _, p in ipairs( { "P5051", "P1192" } ) do
+            mw.log( p )
+            if v[p][1] then
+                mw.logObject( v[p] )
+                if v[p][1] == obj.id and not contains( staList, v[p][1] ) then
+                    table.insert( staList, pos, v.value )
+                    return findNextSta( v.value )
                 end
             end
-            tfr_num = p
         end
-mw.log(value_tfr)
-mw.log(#value_tfr)
-mw.log(mw.ustring.sub(value_tfr, 1, #value_tfr))
+    end
+    return staList
+end
+findNextSta( initpoint )
+findNextSta( initpoint, true )
+
+mw.logObject( obj.taList )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+do
+    local function shuffle(t)
+        local s = {}
+        for i = 1, #t do s[i] = t[i] end
+        for i = #t, 2, -1 do
+            local j = math.random(i)
+            s[i], s[j] = s[j], s[i]
+        end
+        return s
+    end
+
+    local route = {
+        "a" = {
+            "b"
+        },
+        "b" = {
+            "a",
+            "c"
+        },
+        "c" = {
+            "b", 
+            "d"
+        },
+        "d" = {
+            "c",
+            "e"
+        },
+        "e" = {
+            "d"
+        }
+    }
+    route = shuffle(route)
+end
