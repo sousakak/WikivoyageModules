@@ -8,8 +8,9 @@ local tu = {
 }
 
 local i18n = {
-    property_connectingTrain = { "P5051", "P1192" },
-    err_invalidEntity = ""
+    property_connectingTrain = { 'P5051', 'P1192' },
+    property_district = 'P131',
+    err_invalidEntity = ''
 }
 
 local wu = require( 'Module:Wikidata utilities' )
@@ -29,12 +30,16 @@ end
 --       don't use metatable due to the performance reason
 function tu.Station( id, option )
     local obj = {}
-
+    local option = option or {}
+    
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        if option and option.property then
-            --
+        if (option.property or {}) != {} then
+            for _, v in ipairs(option.property) do
+                local p = i18n[ 'property_' .. v ] or (isQID(v) and v or nil)
+                obj[v] = wu.getValues( obj.id, p, 50 )
+            end
         else
             _, obj.entity, invalid = wu.getEntity( obj.id )
         end
