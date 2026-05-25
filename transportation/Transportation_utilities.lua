@@ -26,16 +26,16 @@ local function contains( tbl, item )
 end
 
 -- define class-like objects
--- note: these can be improved in aspect of performance
---       don't use metatable due to the performance reason
+-- note: These can be improved in aspect of performance
+--       This did not use metatable due to the performance reason
 function tu.Station( id, option )
     local obj = {}
     local option = option or {}
-    
+
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        if (option.property or {}) != {} then
+        if option.property ~= nil then
             for _, v in ipairs(option.property) do
                 local p = i18n[ 'property_' .. v ] or (isQID(v) and v or nil)
                 obj[v] = wu.getValues( obj.id, p, 50 )
@@ -67,13 +67,15 @@ function tu.Route( id, option )
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        if option and option.property then
-            -- 
-        else
-            _, obj.entity, invalid = wu.getEntity( obj.id )
-        end
+        _, obj.entity, invalid = wu.getEntity( obj.id )
         if invalid then error( i18n.err_invalidEntity ) end
     end
+
+    setmetatable( obj, {
+        __mode = "v",
+        __name = "Route",
+        __tostring = function(self) return self.entity.labels[mw.language.getContentLanguage()].value end
+    })
 
     -- return Route instance
     return obj
@@ -84,9 +86,16 @@ function tu.Train( id, option )
 
     -- initialization
     do
-        print("a")
+        mw.log("a")
     end
 
+    local initSta = tu.TrainStation(
+        obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
+    ) -- ex. Q801695
+    obj.stations = { initSta }
+    mw.logObject(initSta)
+
+    --[[
     function obj.getStaList( obj )
         obj.staList = {}
         local staList = {}
@@ -117,6 +126,7 @@ function tu.Train( id, option )
 
         return obj.staList
     end
+    ]]
 
     return obj
 end
