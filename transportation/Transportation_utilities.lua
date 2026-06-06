@@ -82,9 +82,14 @@ function tu.Train( id, option )
     do
     end
 
-    local initStaId = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
+    local initStaId
+    if next(obj.entity:getBestStatements( 'P527' )) then
+        initStaId = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
+    elseif next(obj.entity:getBestStatements( 'P559' )) then
+        initStaId = obj.entity:getBestStatements( 'P559' )[1].mainsnak.datavalue.value.id
+    end
     local initSta = tu.TrainStation(
-        obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
+        initStaId
     ) -- ex. Q801695
     local staIds = { initStaId }
     obj.stations = { initSta }
@@ -122,9 +127,10 @@ function tu.Train( id, option )
     end
 
     obj.stations = getStations(obj.stations)
+    mw.logObject(staIds)
 
     return obj
 end
 
-tu.Train("Q693036")
+tu.Train("Q1197028")
 --return tu
