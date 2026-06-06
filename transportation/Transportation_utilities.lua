@@ -8,8 +8,9 @@ local tu = {
 }
 
 local i18n = {
-    property_connectingTrain = { 'P5051', 'P1192' },
+    property_connectingTrain = { 'P1192', 'P81' },
     property_district = 'P131',
+    property_nextSta = 'P197',
     err_invalidEntity = ''
 }
 
@@ -55,7 +56,6 @@ function tu.TrainStation( id, option )
 
     -- initialization
     do
-        print("a")
     end
 
     return obj
@@ -71,12 +71,6 @@ function tu.Route( id, option )
         if invalid then error( i18n.err_invalidEntity ) end
     end
 
-    setmetatable( obj, {
-        __mode = "v",
-        __name = "Route",
-        __tostring = function(self) return self.entity.labels[mw.language.getContentLanguage()].value end
-    })
-
     -- return Route instance
     return obj
 end
@@ -86,49 +80,51 @@ function tu.Train( id, option )
 
     -- initialization
     do
-        mw.log("a")
     end
 
+    local initStaId = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
     local initSta = tu.TrainStation(
         obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
     ) -- ex. Q801695
+    local staIds = { initStaId }
     obj.stations = { initSta }
-    mw.logObject(initSta)
 
-    --[[
-    function obj.getStaList( obj )
-        obj.staList = {}
-        local staList = {}
-        local initpoint = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id -- ex. Q801695
-        table.insert( staList, initpoint )
+    local function getStations( stas )
+        local nextStas = stas[#stas].entity.claims[ i18n.property_nextSta ]
+        local finished = true
 
-        local function findNextSta( point, r )
-            pos = r and (#staList + 1) or 0
-            local nextSta = wu.getValuesWithQualifiers( point, "P197", nil, i18n.property_connectingTrain, nil, nil )
-            for _, v in ipairs( nextSta ) do
-                for _, p in ipairs( i18n.property_connectingTrain ) do
-                    if v[p][1] then
-                        if v[p][1] == obj.id and not contains( staList, v[p][1] ) then
-                            table.insert( staList, pos, v.value )
-                            return findNextSta( v.value )
-                        end
+        for _, nextSta in ipairs(nextStas) do
+            local q = nextSta.qualifiers
+            if q[ i18n.property_connectingTrain[1] ] ~= nil then
+                if q[ i18n.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
+                    local id = nextSta.mainsnak.datavalue.value.id
+                    if #stas == 1 or not contains(staIds, id) then
+                        table.insert(staIds, id)
+                        table.insert(stas, tu.TrainStation(id))
+                        finished = false
+                        break
+                    end
+                end
+            elseif q[ i18n.property_connectingTrain[2] ] ~= nil then
+                if q[ i18n.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
+                    local id = nextSta.mainsnak.datavalue.value.id
+                    if #stas == 1 or not contains(staIds, id) then
+                        table.insert(staIds, id)
+                        table.insert(stas, tu.TrainStation(id))
+                        finished = false
+                        break
                     end
                 end
             end
-            return staList
-        end
-        findNextSta( initpoint )
-        findNextSta( initpoint, true )
-
-        for i, v in ipairs( staList ) do
-            obj.staList[i] = tu.TrainStation( v )
         end
 
-        return obj.staList
+        if finished then return stas else return getStations( stas ) end
     end
-    ]]
+
+    obj.stations = getStations(obj.stations)
 
     return obj
 end
 
-return tu
+tu.Train("Q693036")
+--return tu
