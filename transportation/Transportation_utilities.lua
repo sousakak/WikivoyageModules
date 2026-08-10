@@ -17,6 +17,8 @@ local i18n = {
 local wu = require( 'Module:Wikidata utilities' )
 
 -- utility functions
+local function isValidProperty() return (not not string.match(str, "^[Pp]%d+$")) end
+
 local function contains( tbl, item )
     for _, v in pairs( tbl ) do
         if v == item then return true end
@@ -48,6 +50,16 @@ function tu.Station( id, option )
             _, obj.entity, invalid = wu.getEntity( obj.id )
         end
         if invalid then error( i18n.err_invalidEntity ) end
+    end
+    
+    ---@param p string Wikidata ID 
+    ---@return string|number
+    function obj.getProperty( p )
+        if not isValidProperty( p ) then return end
+        if obj.entity[p] == nil then
+            obj.entity[p] = mw.wikibase.getAllStatements( obj.id, p )
+        end
+        return obj.entity[p]
     end
 
     ---@return string The name of this station.
@@ -90,7 +102,7 @@ end
 
 ---@class Train
 ---@field entity table
----@field stations Station[]
+---@field stations TrainStation[]
 ---@field id string
 function tu.Train( id, option )
     local obj = tu.Route( id, option )
@@ -111,8 +123,9 @@ function tu.Train( id, option )
     local staIds = { initStaId }
     obj.stations = { initSta }
 
+    ---@param stas TrainStation
     local function getStations( stas )
-        local nextStas = stas[#stas].entity.claims[ i18n.property_nextSta ] or {}
+        local nextStas = stas.getProperty( i18n.property_nextSta ) or {}
         local finished = true
 
         for _, nextSta in ipairs(nextStas) do
