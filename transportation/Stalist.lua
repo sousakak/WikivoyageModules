@@ -89,7 +89,6 @@ function p.stalist(frame)
                     :done()
                 :done()
             :tag( "tr" ):addClass( "voy-stalist-row" )
-                :tag( "th" ):wikitext( i18n.header_num ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_name ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
@@ -102,44 +101,12 @@ function p.stalist(frame)
         local item = mw.wikibase.getEntity(qid) -- this is expensive
         local staimage = args["image" .. i] or nil
         local staname = args["name" .. i] or item:getLabel('ja')
-        local value_num
         local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
         local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
         local value_tfr = args["tfr" .. i] or ""
         local tfr_table = {}
 
         --[[ get data from Wikidata ]]--
-        if staimage ~= nil then
-            value_num = fileLink {
-                file    = staimage,
-                size    = "50px",
-                caption = staname
-            }
-        elseif item:getBestStatements(i18n.property_num) ~= nil then
-            for f = 1, tableLength(item:getBestStatements(i18n.property_num)) do -- check the each value of the logo image
-                local err, value = pcall( -- if the value has P642 in its qualifiers: (true, value); if not: (false, error message)
-                    checkLine,
-                    item:getBestStatements(i18n.property_num)[f]
-                )
-                if err and value == criterion then
-                    value_num = fileLink {
-                        file    = item:getBestStatements(i18n.property_num)[f]["mainsnak"]["datavalue"]["value"],
-                        size    = "50px",
-                        caption = staname
-                    }
-                    break
-                elseif #item:getBestStatements(i18n.property_num) == 1 then
-                    value_num = fileLink {
-                        file    = item:getBestStatements(i18n.property_num)[1]["mainsnak"]["datavalue"]["value"],
-                        size    = "50px",
-                        caption = staname
-                    }
-                    break
-                end
-            end
-        else
-            value_num = ""
-        end
         local tfr_num = 0
         if value_tfr == "" then -- if args["tfr" .. i] is not nil
             for p = 1, tableLength(i18n.property_tfr) do
@@ -163,7 +130,6 @@ function p.stalist(frame)
             if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
         end
         wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
-            :tag( "td" ):wikitext( value_num ):done()
             :tag( "td" ):wikitext( staname ):done()
             :tag( "td" ):wikitext( value_tfr ):done()
             :tag( "td" ):wikitext( args["spot" .. i] ):done()
