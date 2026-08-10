@@ -2,7 +2,7 @@
 local tu = {
     moduleInterface = {
         suite  = 'TransportationUtilities',
-        serial = '2026-06-06',
+        serial = '2026-08-10',
         item   = 0
     }
 }
@@ -17,8 +17,6 @@ local i18n = {
 local wu = require( 'Module:Wikidata utilities' )
 
 -- utility functions
-local function isQID(str) return (not not string.match(str, "^[Qq]%d+$")) end
-
 local function contains( tbl, item )
     for _, v in pairs( tbl ) do
         if v == item then return true end
@@ -26,20 +24,25 @@ local function contains( tbl, item )
     return false
 end
 
--- define class-like objects
--- note: These can be improved in aspect of performance
---       This did not use metatable due to the performance reason
+-- Generate Station class
+---@note: These can be improved in aspect of performance
+---      This did not use metatable due to the performance reason
 function tu.Station( id, option )
-    local obj = {}
     local option = option or {}
+
+    ---@class Station
+    ---@field entity table
+    ---@field id string
+    local obj = {}
 
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
+        obj.entity = {}
         if option.property ~= nil then
             for _, v in ipairs(option.property) do
-                local p = i18n[ 'property_' .. v ] or (isQID(v) and v or nil)
-                obj[v] = wu.getValues( obj.id, p, 50 )
+                local p = i18n[ 'property_' .. v ] or (mw.wikibase.entityExists(v) and v or nil)
+                obj.entity[p] = mw.wikibase.getBestStatements( obj.id, p )
             end
         else
             _, obj.entity, invalid = wu.getEntity( obj.id )
@@ -61,6 +64,9 @@ function tu.TrainStation( id, option )
     return obj
 end
 
+---@class Route
+---@field entity table
+---@field id string
 function tu.Route( id, option )
     local obj = {}
 
@@ -75,6 +81,10 @@ function tu.Route( id, option )
     return obj
 end
 
+---@class Train
+---@field entity table
+---@field stations Station[]
+---@field id string
 function tu.Train( id, option )
     local obj = tu.Route( id, option )
 
@@ -95,11 +105,11 @@ function tu.Train( id, option )
     obj.stations = { initSta }
 
     local function getStations( stas )
-        local nextStas = stas[#stas].entity.claims[ i18n.property_nextSta ]
+        local nextStas = stas[#stas].entity.claims[ i18n.property_nextSta ] or {}
         local finished = true
 
         for _, nextSta in ipairs(nextStas) do
-            local q = nextSta.qualifiers
+            local q = nextSta.qualifiers or {}
             if q[ i18n.property_connectingTrain[1] ] ~= nil then
                 if q[ i18n.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
                     local id = nextSta.mainsnak.datavalue.value.id
@@ -127,10 +137,8 @@ function tu.Train( id, option )
     end
 
     obj.stations = getStations(obj.stations)
-    mw.logObject(staIds)
 
     return obj
 end
 
-tu.Train("Q1197028")
---return tu
+return tu
