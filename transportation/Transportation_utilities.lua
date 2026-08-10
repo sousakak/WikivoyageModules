@@ -50,6 +50,13 @@ function tu.Station( id, option )
         if invalid then error( i18n.err_invalidEntity ) end
     end
 
+    ---@return string The name of this station.
+    function obj.getName()
+        ---@private Do not refer to this property directly
+        obj.name = obj.name or wu.getLabel(obj.id)
+        return obj.name
+    end
+
     -- return Route instance
     return obj
 end

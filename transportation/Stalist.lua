@@ -31,6 +31,7 @@ local p = {}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
 local fileLink = require( 'Module:File_link' )._main
+local tu = require( 'Module:Transportation Utilities' )
 
 --[[ i18n ]]--
 local i18n = {
@@ -76,6 +77,7 @@ end
 function p.stalist(frame)
     local args = getArgs(frame)
     local titletext = args.title or mw.title.getCurrentTitle().text
+    local route = tu.Train(mw.wikibase.getEntityIdForCurrentPage())
 
     local wikitext = mw.html.create()
         :wikitext( frame:extensionTag{ name = 'templatestyles', args = {src = i18n.css} } ):done()
@@ -93,48 +95,57 @@ function p.stalist(frame)
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
                 :done()
-    assert( args[1], i18n.err_nowditem )
     i = 1
-    while args[i] ~= nil do
-        --[[ define vars ]]--
-        local qid = (isQID(args[i]) and args[i]) or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
-        local item = mw.wikibase.getEntity(qid) -- this is expensive
-        local staimage = args["image" .. i] or nil
-        local staname = args["name" .. i] or item:getLabel('ja')
-        local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
-        local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
-        local value_tfr = args["tfr" .. i] or ""
-        local tfr_table = {}
+    if args[1] ~= nil then
+        while args[i] ~= nil do
+            --[[ define vars ]]--
+            local qid = (isQID(args[i]) and args[i]) or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+            local item = mw.wikibase.getEntity(qid) -- this is expensive
+            local staimage = args["image" .. i] or nil
+            local staname = args["name" .. i] or item:getLabel('ja')
+            local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
+            local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
+            local value_tfr = args["tfr" .. i] or ""
+            local tfr_table = {}
 
-        --[[ get data from Wikidata ]]--
-        local tfr_num = 0
-        if value_tfr == "" then -- if args["tfr" .. i] is not nil
-            for p = 1, tableLength(i18n.property_tfr) do
-                if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
-                    for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
-                        local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
-                        local tfr_text
-                        if tfr_id ~= criterion then
-                            if tfr_table[tfr_id] ~= nil then
-                                tfr_text = tfr_table[tfr_id]
-                            else
-                                tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
-                                tfr_table[tfr_id] = tfr_text
+            --[[ get data from Wikidata ]]--
+            local tfr_num = 0
+            if value_tfr == "" then -- if args["tfr" .. i] is not nil
+                for p = 1, tableLength(i18n.property_tfr) do
+                    if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
+                        for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
+                            local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
+                            local tfr_text
+                            if tfr_id ~= criterion then
+                                if tfr_table[tfr_id] ~= nil then
+                                    tfr_text = tfr_table[tfr_id]
+                                else
+                                    tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
+                                    tfr_table[tfr_id] = tfr_text
+                                end
+                                value_tfr = value_tfr .. tfr_text .. "、"
                             end
-                            value_tfr = value_tfr .. tfr_text .. "、"
                         end
                     end
+                    tfr_num = p
                 end
-                tfr_num = p
+                if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
             end
-            if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
+            wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
+                :tag( "td" ):wikitext( staname ):done()
+                :tag( "td" ):wikitext( value_tfr ):done()
+                :tag( "td" ):wikitext( args["spot" .. i] ):done()
+                :done()
+            i = i + 1
         end
-        wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
-            :tag( "td" ):wikitext( staname ):done()
-            :tag( "td" ):wikitext( value_tfr ):done()
-            :tag( "td" ):wikitext( args["spot" .. i] ):done()
-            :done()
-        i = i + 1
+    else
+        for i, sta in route.stations do
+            wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
+                :tag( "td" ):wikitext( sta.getName() ):done()
+                :tag( "td" ):wikitext( args["tfr" .. i] ):done()
+                :tag( "td" ):wikitext( args["spot" .. i] ):done()
+                :done()
+        end
     end
     wikitext = wikitext:done()
     return wikitext
