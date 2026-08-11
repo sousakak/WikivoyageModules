@@ -124,14 +124,49 @@ function tu.TrainStation( id, option )
         end
     end
 
-    ---@param p string Wikidata ID 
-    ---@return string|number
-    function obj:getProperty( p )
+    ---@param p string Wikidata ID
+    ---@param item number Property of which item should be retrieved from.
+    ---                     0: The item of obj.id itself (Default)
+    ---                     1: Parent
+    ---                     2: All children
+    ---                     3: Both parent and all children
+    ---@return table
+    function obj:getProperty( p, item )
+        item = item or 0
         if not isValidProperty( p ) then return end
-        if self.entity[p] == nil then
+        if self.entity[p] ~= nil then return self.entity[p] end
+        if item == 0 then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
+        elseif item == 1 then
+            self.entity[p] = mw.wikibase.getAllStatements( self.parent[1], p )
+        elseif item == 2 then
+            local value = {}
+            for _, child in ipairs( obj.children ) do
+                local r = mw.wikibase.getAllStatements( child, p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end
+            if value[1] ~= nil then self.entity[p] = value end
+        elseif item == 3 then
+            local value = {}
+            -- Add values of the child items
+            for _, child in ipairs( obj.children ) do
+                local r = mw.wikibase.getAllStatements( child, p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end
+            -- Add values of the parent item
+            do
+                local r = mw.wikibase.getAllStatements( self.parent[1], p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end
+            if value[1] ~= nil then self.entity[p] = value end
+        else
+            error( "Invalid item number specified: " .. item )
         end
         return self.entity[p]
+    end
+
+    function obj:getNextStation()
+
     end
 
     ---@return string The name of this station.
@@ -145,7 +180,7 @@ function tu.TrainStation( id, option )
         return self._name
     end
 
-    ---@return string The name of the article to which the item of the station is connected
+    ---@return string The name of the article to which the item of the station is connected.
     function obj:getSitelink()
         ---@private Do not refer to this property directly
         self._link = self._link or (
