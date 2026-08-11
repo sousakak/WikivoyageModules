@@ -9,8 +9,10 @@ local tu = {
 
 local i18n = {
     property_connectingTrain = { 'P1192', 'P81' },
+    property_hasPart = 'P527',
     property_locatedStations = { 'P559', 'P527' },
     property_nextSta = 'P197',
+    peoperty_partOf = 'P361',
     err_invalidEntity = ''
 }
 
@@ -91,7 +93,8 @@ function tu.TrainStation( id, option )
     local obj = tu.Station( id, option )
 
     -- initialization
-    do
+    local invalid do
+        mw.logObject( obj:getProperty( i18n.property_hasPart ) )
     end
 
     return obj

@@ -141,7 +141,7 @@ function p.stalist(frame)
     else
         for i, sta in route.stations do
             wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
-                :tag( "td" ):wikitext( sta.getName() ):done()
+                :tag( "td" ):wikitext( sta:getName() ):done()
                 :tag( "td" ):wikitext( args["tfr" .. i] ):done()
                 :tag( "td" ):wikitext( args["spot" .. i] ):done()
                 :done()

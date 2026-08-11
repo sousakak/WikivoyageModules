@@ -9,8 +9,11 @@ local tu = {
 
 local i18n = {
     property_connectingTrain = { 'P1192', 'P81' },
+    property_hasPart = 'P527',
     property_locatedStations = { 'P559', 'P527' },
     property_nextSta = 'P197',
+    property_partOf = 'P361',
+    type_station = 'Q55488',
     err_invalidEntity = ''
 }
 
@@ -21,7 +24,13 @@ local function isValidProperty(str) return (not not string.match(str, "^[Pp]%d+$
 
 local function contains( tbl, item )
     for _, v in pairs( tbl ) do
-        if v == item then return true end
+        if type( item ) == 'table' then
+            for _, i in ipairs( item ) do
+                if i == item then return i == item end
+            end
+        else
+            if v == item then return true end
+        end
     end
     return false
 end
@@ -88,10 +97,63 @@ function tu.Station( id, option )
 end
 
 function tu.TrainStation( id, option )
+    ---@class TrainsStation
+    ---@field entity table
+    ---@field id string
+    ---@field children table
+    ---@field parent table
     local obj = tu.Station( id, option )
 
     -- initialization
-    do
+    local invalid do
+        -- Process the station items, which are categorized by operating company,
+        -- so that they can be handled.
+        obj.children, obj.parent = {}, {}
+
+        local children = obj:getProperty( i18n.property_hasPart )
+        local parent = obj:getProperty( i18n.property_partOf )
+        if children[1] ~= nil then
+            for i, v in ipairs(children) do
+                local childID = v.mainsnak.datavalue.value.id
+                if contains( wu.getIds( childID, 'P31', 10), i18n.type_station ) then
+                    table.insert(obj.children, childID)
+                end
+            end
+        elseif parent[1] ~= nil then
+            obj.parent = { parent[1].mainsnak.datavalue.value.id }
+        end
+    end
+
+    ---@param p string Wikidata ID 
+    ---@return string|number
+    function obj:getProperty( p )
+        if not isValidProperty( p ) then return end
+        if self.entity[p] == nil then
+            self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
+        end
+        return self.entity[p]
+    end
+
+    ---@return string The name of this station.
+    function obj:getName()
+        ---@private Do not refer to this property directly
+        self._name = self._name or (
+            self.parent[1] ~= nil
+            and wu.getLabel(self.parent[1])
+            or wu.getLabel(self.id)
+        )
+        return self._name
+    end
+
+    ---@return string The name of the article to which the item of the station is connected
+    function obj:getSitelink()
+        ---@private Do not refer to this property directly
+        self._link = self._link or (
+            self.parent[1] ~= nil
+            and wu.getSitelink( self.parent[1], mw.site.wikiId )
+            or wu.getSitelink( self.id, mw.site.wikiId )
+        )
+        return obj._link
     end
 
     return obj
@@ -223,7 +285,6 @@ for k, v in pairs(Yama.stations) do
     mw.log(v.id)
     table.insert(keys, k)
 end
-mw.logObject(keys)
 mw.logObject(Yama.entity)
 
 --return tu
