@@ -9,7 +9,7 @@ local tu = {
 
 local i18n = {
     property_connectingTrain = { 'P1192', 'P81' },
-    property_district = 'P131',
+    property_locatedStations = { 'P559', 'P527' },
     property_nextSta = 'P197',
     err_invalidEntity = ''
 }
@@ -41,32 +41,46 @@ function tu.Station( id, option )
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
         obj.entity = {}
-        if option.property ~= nil then
-            for _, v in ipairs(option.property) do
-                local p = i18n[ 'property_' .. v ] or (mw.wikibase.entityExists(v) and v or nil)
-                obj.entity[p] = mw.wikibase.getBestStatements( obj.id, p )
-            end
-        else
-            _, obj.entity, invalid = wu.getEntity( obj.id )
-        end
         if invalid then error( i18n.err_invalidEntity ) end
     end
     
     ---@param p string Wikidata ID 
     ---@return string|number
-    function obj.getProperty( p )
+    function obj:getProperty( p )
         if not isValidProperty( p ) then return end
-        if obj.entity[p] == nil then
-            obj.entity[p] = mw.wikibase.getAllStatements( obj.id, p )
+        if self.entity[p] == nil then
+            self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
         end
-        return obj.entity[p]
+        return self.entity[p]
     end
 
     ---@return string The name of this station.
-    function obj.getName()
+    function obj:getName()
         ---@private Do not refer to this property directly
-        obj.name = obj.name or wu.getLabel(obj.id)
-        return obj.name
+        self._name = self._name or wu.getLabel(self.id)
+        return self._name
+    end
+
+    ---@return string The name of the article to which the item of the station is connected
+    function obj:getSitelink()
+        ---@private Do not refer to this property directly
+        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId )
+        return obj._link
+    end
+
+    ---@return string Wikitext of a link to the station
+    function obj:getLinkText()
+        ---@private Do not refer to this property directly
+        if self._linkText then return self._linkText end
+        local sitelink = self:getSitelink()
+        local name = self:getName()
+        local title = mw.title.getCurrentTitle().fullText
+        if sitelink == title then return "'''" .. sitelink .. "'''" end
+        if name == sitelink then
+            return "[[" .. sitelink .."]]"
+        else
+            return "[[" .. sitelink .. "|" .. name .. "]]"
+        end
     end
 
     -- return Route instance
@@ -83,28 +97,68 @@ function tu.TrainStation( id, option )
     return obj
 end
 
----@class Route
----@field entity table
----@field id string
 function tu.Route( id, option )
+    ---@class Route
+    ---@field entity table
+    ---@field id string
     local obj = {}
 
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
-        _, obj.entity, invalid = wu.getEntity( obj.id )
+        obj.entity = {}
         if invalid then error( i18n.err_invalidEntity ) end
+    end
+    
+    ---@param p string Wikidata ID 
+    ---@return string|number
+    function obj:getProperty( p )
+        if not isValidProperty( p ) then return end
+        if self.entity[p] == nil then
+            self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
+        end
+        return self.entity[p]
+    end
+
+    ---@return string The name of this route.
+    function obj:getName()
+        ---@private Do not refer to this property directly
+        self._name = self._name or wu.getLabel(self.id)
+        return self._name
+    end
+
+    ---@return string The name of the article to which the item of the route is connected
+    function obj:getSitelink()
+        ---@private Do not refer to this property directly
+        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId )
+        return obj._link
+    end
+
+    ---@return string Wikitext of a link to the route
+    function obj:getLinkText()
+        ---@private Do not refer to this property directly
+        if self._linkText then return self._linkText end
+        local sitelink = self:getSitelink()
+        local name = self:getName()
+        local title = mw.title.getCurrentTitle().fullText
+        if sitelink == title then return "'''" .. sitelink .. "'''" end
+        if name == sitelink then
+            return "[[" .. sitelink .."]]"
+        else
+            return "[[" .. sitelink .. "|" .. name .. "]]"
+        end
     end
 
     -- return Route instance
     return obj
 end
 
----@class Train
----@field entity table
----@field stations TrainStation[]
----@field id string
 function tu.Train( id, option )
+
+    ---@class Train
+    ---@field entity table
+    ---@field stations TrainStation[]
+    ---@field id string
     local obj = tu.Route( id, option )
 
     -- initialization
@@ -112,10 +166,10 @@ function tu.Train( id, option )
     end
 
     local initStaId
-    if next(obj.entity:getBestStatements( 'P527' )) then
-        initStaId = obj.entity:getBestStatements( 'P527' )[1].mainsnak.datavalue.value.id
-    elseif next(obj.entity:getBestStatements( 'P559' )) then
-        initStaId = obj.entity:getBestStatements( 'P559' )[1].mainsnak.datavalue.value.id
+    if next(obj:getProperty( i18n.property_locatedStations[1] )) then
+        initStaId = obj:getProperty( i18n.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
+    elseif next(obj:getProperty( i18n.property_locatedStations[2] )) then
+        initStaId = obj:getProperty( i18n.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
     end
     local initSta = tu.TrainStation(
         initStaId
@@ -123,9 +177,10 @@ function tu.Train( id, option )
     local staIds = { initStaId }
     obj.stations = { initSta }
 
-    ---@param stas TrainStation
+    ---@param stas TrainStation[]
+    ---@return TrainStation[]
     local function getStations( stas )
-        local nextStas = stas[#stas].getProperty( i18n.property_nextSta ) or {}
+        local nextStas = stas[#stas]:getProperty( i18n.property_nextSta ) or {}
         local finished = true
 
         for _, nextSta in ipairs(nextStas) do
