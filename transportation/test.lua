@@ -17,11 +17,17 @@ local i18n = {
     err_invalidEntity = ''
 }
 
+local cd = require( 'Module:Coordinates' )
 local wu = require( 'Module:Wikidata utilities' )
 
--- utility functions
+--[[
+    Utility Functions
+]]
 local function isValidProperty(str) return (not not string.match(str, "^[Pp]%d+$")) end
 
+---@param tbl table
+---@param item *
+---@return boolean
 local function contains( tbl, item )
     for _, v in pairs( tbl ) do
         if type( item ) == 'table' then
@@ -34,6 +40,25 @@ local function contains( tbl, item )
     end
     return false
 end
+
+---@param coord number[]|string[]
+---@return number[]
+local function toDec( coord, prec )
+    prec = prec or 6
+    local lat, latE = cd.toDec( coord[1], '', prec )
+    local long, longE = cd.toDec( coord[2], '', prec )
+    if latE + longE ~= 0 then error("Invalid coordinate: " .. coord) end
+    return { lat, long }
+end
+
+--Calculate cotangent.
+---@param x number
+---@return number
+local function cotan(x) return 1 / math.tan(x) end
+
+--[[
+    Main Functions
+]]
 
 -- Generate Station class
 ---@note: These can be improved in aspect of performance
@@ -54,13 +79,19 @@ function tu.Station( id, option )
     end
     
     ---@param p string Wikidata ID 
-    ---@return string|number
+    ---@return table
     function obj:getProperty( p )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
         end
         return self.entity[p]
+    end
+
+    --This is a shortcut for getProperty() to get next stations
+    ---@return table List of next stations.
+    function obj:getNextStation()
+        return self:getProperty( i18n.property_nextSta ) or {}
     end
 
     ---@return string The name of this station.
@@ -126,27 +157,27 @@ function tu.TrainStation( id, option )
 
     ---@param p string Wikidata ID
     ---@param item number Property of which item should be retrieved from.
-    ---                     0: The item of obj.id itself (Default)
-    ---                     1: Parent
-    ---                     2: All children
-    ---                     3: Both parent and all children
+    ---                     1: The item of obj.id itself (Default)
+    ---                     2: Parent
+    ---                     3: All children
+    ---                     4: Both parent and all children
     ---@return table
     function obj:getProperty( p, item )
-        item = item or 0
+        item = item or 1
         if not isValidProperty( p ) then return end
         if self.entity[p] ~= nil then return self.entity[p] end
-        if item == 0 then
+        if item == 1 then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
-        elseif item == 1 then
-            self.entity[p] = mw.wikibase.getAllStatements( self.parent[1], p )
         elseif item == 2 then
+            self.entity[p] = mw.wikibase.getAllStatements( self.parent[1], p )
+        elseif item == 3 then
             local value = {}
             for _, child in ipairs( obj.children ) do
                 local r = mw.wikibase.getAllStatements( child, p )
                 for _, v in ipairs( r ) do table.insert( value, v ) end
             end
             if value[1] ~= nil then self.entity[p] = value end
-        elseif item == 3 then
+        elseif item == 4 then
             local value = {}
             -- Add values of the child items
             for _, child in ipairs( obj.children ) do
@@ -163,10 +194,6 @@ function tu.TrainStation( id, option )
             error( "Invalid item number specified: " .. item )
         end
         return self.entity[p]
-    end
-
-    function obj:getNextStation()
-
     end
 
     ---@return string The name of this station.
@@ -208,7 +235,7 @@ function tu.Route( id, option )
     end
     
     ---@param p string Wikidata ID 
-    ---@return string|number
+    ---@return table
     function obj:getProperty( p )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
@@ -277,7 +304,7 @@ function tu.Train( id, option )
     ---@param stas TrainStation[]
     ---@return TrainStation[]
     local function getStations( stas )
-        local nextStas = stas[#stas]:getProperty( i18n.property_nextSta ) or {}
+        local nextStas = stas[#stas]:getNextStation() or {}
         local finished = true
 
         for _, nextSta in ipairs(nextStas) do
@@ -313,13 +340,75 @@ function tu.Train( id, option )
     return obj
 end
 
+---@param from string[]|number[] Reference coordinates
+---@param to string[]|number[] Coordinates to check
+---@param parts number How many equal parts the direction
+---                     will be divided into.
+---@return number The direction from the coordinate of `from`
+---                 to the coordinate of `to`. The numbers
+---                 are assigned from 1 to 8, starting
+---                 from the north and proceeding clockwise.
+function tu.getDirection( from, to, parts )
+    from = toDec( from )
+    to = toDec( to )
+    parts = parts or 8
+
+    local latDiff = to[1] - from[1]
+    local longDiff = to[2] - from[2]
+
+    local latDiffIsNeg = latDiff < 0
+    local longDiffIsNeg = longDiff < 0
+    local coordCotan = latDiff == 0
+        and (longDiffIsNeg and -1 * math.huge or math.huge)
+        or longDiff / latDiff
+    local angle = 2 * math.pi / parts
+
+    for i = 1, parts do
+        local fromAngle = angle * ( i - 1 )
+        local toAngle = angle * i
+        local straddlingPi = fromAngle < math.pi and toAngle > math.pi
+        local fromCotan
+        local toCotan
+        local fromSin = math.sin( fromAngle )
+        local toSin = math.sin( toAngle )
+
+        if fromAngle == 0 or fromAngle == math.pi then
+            fromCotan = math.huge
+        else
+            fromCotan = cotan( fromAngle )
+        end
+        if toAngle == math.pi or toAngle == 2 * math.pi then
+            toCotan = -1 * math.huge
+        else
+            toCotan = cotan( toAngle )
+        end
+        local withinCotan = (
+            function()
+                if straddlingPi then
+                    return (fromCotan >= coordCotan and coordCotan >= -1 * math.huge)
+                        or (math.huge >= coordCotan and coordCotan > toCotan)
+                end
+                return fromCotan >= coordCotan and coordCotan > toCotan
+            end
+        )()
+        local withinSin = (
+            function()
+                if fromSin >= toSin then
+                    return toSin <= latDiffIsNeg and latDiffIsNeg <= fromSin
+                else
+                    return fromSin <= latDiffIsNeg and latDiffIsNeg <= toSin
+                end
+            end
+        )()
+        if withinCotan and withinSin then
+            return i
+        end
+    end
+end
+
 local Yama = tu.Train("Q1197028")
 
-local keys = {}
-for k, v in pairs(Yama.stations) do
-    mw.log(v.id)
-    table.insert(keys, k)
-end
+for _, v in pairs(Yama.stations) do mw.log(v.id) end
 mw.logObject(Yama.entity)
 
 --return tu
