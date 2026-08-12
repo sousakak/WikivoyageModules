@@ -23,6 +23,8 @@ local wu = require( 'Module:Wikidata utilities' )
 --[[
     Utility Functions
 ]]
+---@param str string
+---@return boolean
 local function isValidProperty(str) return (not not string.match(str, "^[Pp]%d+$")) end
 
 ---@param tbl table
@@ -50,11 +52,6 @@ local function toDec( coord, prec )
     if latE + longE ~= 0 then error("Invalid coordinate: " .. coord) end
     return { lat, long }
 end
-
---Calculate cotangent.
----@param x number
----@return number
-local function cotan(x) return 1 / math.tan(x) end
 
 --[[
     Main Functions
@@ -346,8 +343,8 @@ end
 ---                     will be divided into.
 ---@return number The direction from the coordinate of `from`
 ---                 to the coordinate of `to`. The numbers
----                 are assigned from 1 to 8, starting
----                 from the north and proceeding clockwise.
+---                 are assigned from 1 to the number of `parts`,
+---                 starting from the north and proceeding clockwise.
 function tu.getDirection( from, to, parts )
     from = toDec( from )
     to = toDec( to )
@@ -356,54 +353,19 @@ function tu.getDirection( from, to, parts )
     local latDiff = to[1] - from[1]
     local longDiff = to[2] - from[2]
 
-    local latDiffIsNeg = latDiff < 0
-    local longDiffIsNeg = longDiff < 0
-    local coordCotan = latDiff == 0
-        and (longDiffIsNeg and -1 * math.huge or math.huge)
-        or longDiff / latDiff
-    local angle = 2 * math.pi / parts
+    local coordAngle = math.atan( latDiff, longDiff )
+    local angleUnit = 2 * math.pi / parts
 
     for i = 1, parts do
-        local fromAngle = angle * ( i - 1 )
-        local toAngle = angle * i
-        local straddlingPi = fromAngle < math.pi and toAngle > math.pi
-        local fromCotan
-        local toCotan
-        local fromSin = math.sin( fromAngle )
-        local toSin = math.sin( toAngle )
+        local fromAngle = angleUnit * ( i - 1 )
+        local toAngle = angleUnit * i
 
-        if fromAngle == 0 or fromAngle == math.pi then
-            fromCotan = math.huge
-        else
-            fromCotan = cotan( fromAngle )
-        end
-        if toAngle == math.pi or toAngle == 2 * math.pi then
-            toCotan = -1 * math.huge
-        else
-            toCotan = cotan( toAngle )
-        end
-        local withinCotan = (
-            function()
-                if straddlingPi then
-                    return (fromCotan >= coordCotan and coordCotan >= -1 * math.huge)
-                        or (math.huge >= coordCotan and coordCotan > toCotan)
-                end
-                return fromCotan >= coordCotan and coordCotan > toCotan
-            end
-        )()
-        local withinSin = (
-            function()
-                if fromSin >= toSin then
-                    return toSin <= latDiffIsNeg and latDiffIsNeg <= fromSin
-                else
-                    return fromSin <= latDiffIsNeg and latDiffIsNeg <= toSin
-                end
-            end
-        )()
-        if withinCotan and withinSin then
+        if fromAngle <= coordAngle and coordAngle <= toAngle then
             return i
         end
     end
+    
+    error("No part of direction hit to the coord")
 end
 
 local Yama = tu.Train("Q1197028")
