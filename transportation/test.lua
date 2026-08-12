@@ -77,7 +77,7 @@ function tu.Station( id, option )
         obj.entity = {}
         if invalid then error( i18n.err_invalidEntity ) end
     end
-    
+
     ---@param p string Wikidata ID 
     ---@return table
     function obj:getProperty( p )
@@ -233,7 +233,7 @@ function tu.Route( id, option )
         obj.entity = {}
         if invalid then error( i18n.err_invalidEntity ) end
     end
-    
+
     ---@param p string Wikidata ID 
     ---@return table
     function obj:getProperty( p )
