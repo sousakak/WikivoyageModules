@@ -2,7 +2,7 @@
 local tu = {
     moduleInterface = {
         suite  = 'TransportationUtilities',
-        serial = '2026-08-10',
+        serial = '2026-08-12',
         item   = 0
     }
 }
@@ -13,8 +13,7 @@ local i18n = {
     property_locatedStations = { 'P559', 'P527' },
     property_nextSta = 'P197',
     property_partOf = 'P361',
-    type_station = 'Q55488',
-    err_invalidEntity = ''
+    type_station = 'Q55488'
 }
 
 local cd = require( 'Module:Coordinates' )
@@ -72,7 +71,7 @@ function tu.Station( id, option )
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
         obj.entity = {}
-        if invalid then error( i18n.err_invalidEntity ) end
+        if invalid then error( "Invalid entity" ) end
     end
 
     ---@param p string Wikidata ID 
@@ -228,7 +227,7 @@ function tu.Route( id, option )
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
         obj.entity = {}
-        if invalid then error( i18n.err_invalidEntity ) end
+        if invalid then error( "Invalid entity" ) end
     end
 
     ---@param p string Wikidata ID 
