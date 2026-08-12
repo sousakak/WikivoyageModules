@@ -60,7 +60,7 @@ end
 ---@note: These can be improved in aspect of performance
 ---      This did not use metatable due to the performance reason
 function tu.Station( id, option )
-    local option = option or {}
+    option = option or {}
 
     ---@class Station
     ---@field entity table
@@ -218,6 +218,8 @@ function tu.TrainStation( id, option )
 end
 
 function tu.Route( id, option )
+    option = option or {}
+
     ---@class Route
     ---@field entity table
     ---@field id string
