@@ -46,10 +46,10 @@ end
 ---@return number[]
 local function toDec( coord, prec )
     prec = prec or 6
-    local lat, latE = cd.toDec( coord[1], '', prec )
-    local long, longE = cd.toDec( coord[2], '', prec )
-    if latE + longE ~= 0 then error("Invalid coordinate: " .. coord) end
-    return { lat, long }
+    local lat = cd.toDec( coord[1], '', prec )
+    local long = cd.toDec( coord[2], '', prec )
+    if lat.error + long.error ~= 0 then error("Invalid coordinate: " .. coord) end
+    return { lat.dec, long.dec }
 end
 
 --[[
@@ -368,10 +368,10 @@ function tu.getDirection( from, to, parts, adj )
     local latDiff = to[1] - from[1]
     local longDiff = to[2] - from[2]
 
-    local coordAngle = math.atan( latDiff, longDiff )
+    local coordAngle = math.atan2( latDiff, longDiff )
     local angleUnit = 2 * math.pi / parts
 
-    adjAngle = adj and angleUnit / 2 or 0
+    adjAngle = adj and (angleUnit / 2) or 0
 
     local targetAngle = coordAngle + adjAngle
 
@@ -383,7 +383,7 @@ function tu.getDirection( from, to, parts, adj )
             return i
         end
     end
-    
+
     error("No part of direction hit to the coord")
 end
 

@@ -48,8 +48,6 @@ local i18n = {
 }
 
 --[[ utility functions ]]--
-local function isQID(str) return (not not string.match(str, "^[Qq]%d+$")) end
-
 local function tableLength(tbl)
     local n = 0
     for _ in pairs (tbl) do
@@ -99,7 +97,8 @@ function p.stalist(frame)
     if args[1] ~= nil then
         while args[i] ~= nil do
             --[[ define vars ]]--
-            local qid = (isQID(args[i]) and args[i]) or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
+            local qid = (mw.wikibase.isValidEntityId(args[i]) and args[i])
+                        or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
             local item = mw.wikibase.getEntity(qid) -- this is expensive
             local staimage = args["image" .. i] or nil
             local staname = args["name" .. i] or item:getLabel('ja')
