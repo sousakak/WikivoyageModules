@@ -90,7 +90,6 @@ function tu.Station( id, option )
         return self:getProperty( i18n.property_nextSta ) or {}
     end
 
-    --This is a shortcut for getProperty() to get name
     ---@return string The name of this station.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -101,21 +100,21 @@ function tu.Station( id, option )
     ---@return string The name of the article to which the item of the station is connected
     function obj:getSitelink()
         ---@private Do not refer to this property directly
-        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId )
+        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId ) or ''
         return obj._link
     end
 
     ---@param fallback string The fallback string used when sitelink not exist
     ---@return string Wikitext of a link to the route
-    function obj:getLinkText(fallback)
+    function obj:getLinkText( fallback )
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
         local title = mw.title.getCurrentTitle().fullText
         if not sitelink then
-            self._linkText = string.gsub(fallback, '$1', sitelink) or sitelink
+            self._linkText = string.gsub(fallback, '$1', name) or name
         elseif sitelink == title then
-            self._linkText = "'''" .. sitelink .. "'''"
+            self._linkText = "'''" .. name .. "'''"
         elseif name == sitelink then
             self._linkText = "[[" .. sitelink .."]]"
         else
@@ -197,7 +196,6 @@ function tu.TrainStation( id, option )
         return self.entity[p]
     end
 
-    --This is a shortcut for getProperty() to get name
     ---@return string The name of this station.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -214,8 +212,8 @@ function tu.TrainStation( id, option )
         ---@private Do not refer to this property directly
         self._link = self._link or (
             self.parent[1] ~= nil
-            and wu.getSitelink( self.parent[1], mw.site.wikiId )
-            or wu.getSitelink( self.id, mw.site.wikiId )
+            and (wu.getSitelink( self.parent[1], mw.site.wikiId ) or '')
+            or (wu.getSitelink( self.id, mw.site.wikiId ) or '')
         )
         return obj._link
     end
@@ -248,7 +246,6 @@ function tu.Route( id, option )
         return self.entity[p]
     end
 
-    --This is a shortcut for getProperty() to get name
     ---@return string The name of this route.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -259,14 +256,14 @@ function tu.Route( id, option )
     ---@return string The name of the article to which the item of the route is connected
     function obj:getSitelink()
         ---@private Do not refer to this property directly
-        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId )
+        self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId ) or ''
         return obj._link
     end
 
 
     ---@param fallback string The fallback string used when sitelink not exist
     ---@return string Wikitext of a link to the route
-    function obj:getLinkText(fallback)
+    function obj:getLinkText( fallback )
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
@@ -353,11 +350,11 @@ end
 ---@param to string[]|number[] Coordinates to check
 ---@param parts number How many equal parts the direction
 ---                     will be divided into.
----@param adj number Azimuths are measured with 0 degrees
+---@param adj boolean Azimuths are measured with 0 degrees
 ---                     as the center, not as the boundary.
 ---                     To accommodate this classification,
----                     specify an adjustment angle to be added
----                     to the angle of the coordinates being mapped.
+---                     pass true to this argument in order to
+---                     adjust the angle of the coordinates being mapped.
 ---@return number The direction from the coordinate of `from`
 ---                 to the coordinate of `to`. The numbers
 ---                 are assigned from 1 to the number of `parts`,
@@ -366,6 +363,7 @@ function tu.getDirection( from, to, parts, adj )
     from = toDec( from )
     to = toDec( to )
     parts = parts or 8
+    if adj == nil then adj = true end
 
     local latDiff = to[1] - from[1]
     local longDiff = to[2] - from[2]
@@ -373,16 +371,15 @@ function tu.getDirection( from, to, parts, adj )
     local coordAngle = math.atan( latDiff, longDiff )
     local angleUnit = 2 * math.pi / parts
 
-    adj = adj or angleUnit / 2
+    adjAngle = adj and angleUnit / 2 or 0
 
-    local targetAngle = coordAngle + adj
+    local targetAngle = coordAngle + adjAngle
 
     for i = 1, parts do
         local fromAngle = angleUnit * ( i - 1 )
         local toAngle = angleUnit * i
-        
 
-        if fromAngle <= coordAngle and coordAngle <= toAngle then
+        if fromAngle <= targetAngle and targetAngle <= toAngle then
             return i
         end
     end

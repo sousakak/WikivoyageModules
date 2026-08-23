@@ -1,0 +1,108 @@
+{{lua|Coordinates|Wikidata utilities}}
+
+旅の交通手段全般に関わるユーティリティ関数を提供します。
+
+{{モジュールのバージョン}}
+
+== 使用状況 ==
+
+== 関数 ==
+; 疑似クラス生成
+このモジュールにはいくつかの疑似クラスを生成する関数が用意されています。Luaには正確にクラスという概念が存在せず、当然そのような実装もないため、クラスとしては不完全ですが、それでも用意されたメソッドは末端モジュールでの記述をはるかに簡単にするはずです。
+
+クラスの継承時、子クラスが対応する駅の種類によっては、ウィキデータ項目が特殊な構造を持っている場合があります。そういったときには親クラスのメソッドが正しく動作しない場合も考えられますので、必要に応じてメソッドを上書きしてください。
+
+<syntaxhighlight lang="lua">function tu.Station( id, option )</syntaxhighlight>
+* <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
+* <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
+全ての駅・港の疑似クラスを生成します。この疑似クラスは抽象クラスとして設計されており、そのままインスタンスを生成するのではなくこれを継承したクラスを用いるべきです。
+: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
+: <syntaxhighlight lang="lua">function obj:getNextStation()</syntaxhighlight>
+: 隣の駅 <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
+
+: <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
+: 駅／港の名前を返します。
+
+: <syntaxhighlight lang="lua">function obj:getSitelink()</syntaxhighlight>
+: 同じウィキ上に当該駅／港の記事がある場合、そのページ名を返します。なかった場合、空文字列（<syntaxhighlight lang="lua" inline>''</syntaxhighlight>）が返ります。
+
+: <syntaxhighlight lang="lua">function obj:getLinkText( fallback )</syntaxhighlight>
+:* <code>fallback</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）サイトリンクが存在しなかった場合に返す文字列。文字列内の<code>$1</code>は駅の名前に置換されます。指定しなかった場合、駅の名前が返ります。
+: 当該駅／港の記事へとリンクするウィキテキストの文字列を返します。モジュールを読み込んでいる記事が当該駅／港の記事であった場合、駅名／港名が太字で返ります。駅／港の記事が見つからなかった場合、<code>fallback</code>か駅名／港名が返ります。
+
+<syntaxhighlight lang="lua">function tu.TrainStation( id, option )</syntaxhighlight>
+* <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
+* <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
+鉄道駅の疑似クラスを生成します。この疑似クラスは<syntaxhighlight lang="lua" inline>tu.Station( id, option )</syntaxhighlight>を継承しています。
+
+鉄道駅のウィキデータ項目は、会社ごとに細分化されています。駅自体のウィキデータ項目に加え、その駅を通る路線を運営している全ての会社についてそれぞれ細分化されたウィキデータ項目が用意されており、会社ごとの項目に路線などの情報が格納されています。例えば、''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> には他に''JR東日本大宮駅'' <sub>([[:d:Q124413523|Q124413523]])</sub>、''東武鉄道大宮駅'' <sub>([[:d:Q124416659|Q124416659]])</sub>、''埼玉新都市交通大宮駅'' <sub>([[:d:Q124416862|Q124416862]])</sub> という項目があり、''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub> や''所属正式路線'' <sub>([[:d:Property:P81|P81]])</sub>は細分化された各項目にはあれど''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> にはありません。そのため、このクラスは部分的に他の駅と少し仕様が異なる部分があります。
+: <syntaxhighlight lang="lua">function obj:getProperty( p, item )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+:* <code>item</code>（<syntaxhighlight lang="lua" inline>number</syntaxhighlight>）プロパティを検索する項目を指定するためのフラグ。<code>1</code>（既定値）はクラス生成時にIDで指定されたウィキデータ項目のみを検索。<code>2</code>は駅の親項目（上記の例で言う''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> ）のみを検索。<code>3</code>は会社ごとに分たれた子項目のすべてを検索。<code>4</code>は親項目と子項目の全てを検索。
+: 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。駅のウィキデータ項目会が会社ごとに細分化されているため、プロパティを検索するウィキデータ項目を<code>item</code>で選択できます。
+
+: <syntaxhighlight lang="lua">function obj:getNextStation()</syntaxhighlight>
+: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
+
+: <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
+: 駅の名前を返します。
+
+: <syntaxhighlight lang="lua">function obj:getSitelink()</syntaxhighlight>
+: 同じウィキ上に当該駅の記事がある場合、そのページ名を返します。なかった場合、空文字列（<syntaxhighlight lang="lua" inline>''</syntaxhighlight>）が返ります。
+
+: <syntaxhighlight lang="lua">function obj:getLinkText( fallback )</syntaxhighlight>
+:* <code>fallback</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）サイトリンクが存在しなかった場合に返す文字列。文字列内の<code>$1</code>は駅の名前に置換されます。指定しなかった場合、駅の名前が返ります。
+: 当該駅の記事へとリンクするウィキテキストの文字列を返します。モジュールを読み込んでいる記事が当該駅の記事であった場合、駅名が太字で返ります。駅の記事が見つからなかった場合、<code>fallback</code>か駅名が返ります。
+
+<syntaxhighlight lang="lua">function tu.Route( id, option )</syntaxhighlight>
+* <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
+* <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
+全ての路線・道の疑似クラスを生成します。この疑似クラスは抽象クラスとして設計されており、そのままインスタンスを生成するのではなくこれを継承したクラスを用いるべきです。
+
+クラスの継承時、子クラスが対応する路線・道の種類によっては、ウィキデータ項目が特殊な構造を持っている場合があります。そういったときには親クラスのメソッドが正しく動作しない場合も考えられますので、必要に応じてメソッドを上書きしてください。
+: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
+: <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
+: 路線／道の名前を返します。
+
+: <syntaxhighlight lang="lua">function obj:getSitelink()</syntaxhighlight>
+: 同じウィキ上に当該路線／道の記事がある場合、そのページ名を返します。なかった場合、空文字列（<syntaxhighlight lang="lua" inline>''</syntaxhighlight>）が返ります。
+
+: <syntaxhighlight lang="lua">function obj:getLinkText( fallback )</syntaxhighlight>
+:* <code>fallback</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）サイトリンクが存在しなかった場合に返す文字列。文字列内の<code>$1</code>は駅の名前に置換されます。指定しなかった場合、駅の名前が返ります。
+: 当該路線／道の記事へとリンクするウィキテキストの文字列を返します。モジュールを読み込んでいる記事が当該路線／道の記事であった場合、路線名／道名が太字で返ります。路線／道の記事が見つからなかった場合、<code>fallback</code>か路線名／道名が返ります。
+
+<syntaxhighlight lang="lua">function tu.Train( id, option )</syntaxhighlight>
+* <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
+* <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
+鉄道路線の疑似クラスを生成します。この疑似クラスは<syntaxhighlight lang="lua" inline>tu.Route( id, option )</syntaxhighlight>を継承しています。
+: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
+: <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
+: 路線の名前を返します。
+
+: <syntaxhighlight lang="lua">function obj:getSitelink()</syntaxhighlight>
+: 同じウィキ上に当該路線の記事がある場合、そのページ名を返します。なかった場合、空文字列（<syntaxhighlight lang="lua" inline>''</syntaxhighlight>）が返ります。
+
+: <syntaxhighlight lang="lua">function obj:getLinkText( fallback )</syntaxhighlight>
+:* <code>fallback</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）サイトリンクが存在しなかった場合に返す文字列。文字列内の<code>$1</code>は駅の名前に置換されます。指定しなかった場合、駅の名前が返ります。
+: 当該路線の記事へとリンクするウィキテキストの文字列を返します。モジュールを読み込んでいる記事が当該路線の記事であった場合、路線名が太字で返ります。路線の記事が見つからなかった場合、<code>fallback</code>か路線名が返ります。
+
+; その他
+<syntaxhighlight lang="lua">function tu.getDirection( from, to, parts, adj )</syntaxhighlight>
+* <code>from</code>（<syntaxhighlight lang="lua" inline>string[]|number[]</syntaxhighlight>）基準となる座標が入ったテーブル（例：<syntaxhighlight lang="lua" inline>{ 37.789222, -122.40341 }</syntaxhighlight>）
+* <code>to</code>（<syntaxhighlight lang="lua" inline>string[]|number[]</syntaxhighlight>）対象となる座標が入ったテーブル（例：<syntaxhighlight lang="lua" inline>{ 37.789222, -122.40341 }</syntaxhighlight>）
+* <code>part</code>（<syntaxhighlight lang="lua" inline>number</syntaxhighlight>）方角判定をいくつのブロックに分けて行うか。例えば四方位を判定したいならば<syntaxhighlight lang="lua" inline>4</syntaxhighlight>、八方位を判定したいならば<syntaxhighlight lang="lua" inline>8</syntaxhighlight>を指定します。
+* <code>adj</code>（<syntaxhighlight lang="lua" inline>boolean</syntaxhighlight>）この関数は真東方向を基準にした弧度で方角を調べています。しかし、方位は実際には基準となる方向を中心にした方角を指し（東に当たる方角の中で真東はちょうど中央に当たります）、真東を1つ目の方角の始点とする方法では測れません。<code>adj</code>が<syntaxhighlight lang="lua" inline>true</syntaxhighlight>のとき、これを自動的に調整し、真東の方向を1つめの方角の中心に位置するように設定します。
+<code>from</code>の座標を基準に<code>to</code>の座標がどちらの方向にあるのかを判定します。判定は基準座標の真東方向から反時計回りに割り振られた角度の範囲の内、該当する方角が何番目の範囲に入るかを調べることによって行われ、その数字が返されます。360度をいくつのパーツに分けるかは<code>part</code>で指定できます。例えば<code>part</code>が<syntaxhighlight lang="lua" inline>4</syntaxhighlight>のときには基準座標から見て対象座標が四方位のうちどの方角にあるかを判定でき、返り値が1の場合は東にあることがわかります。また、<code>part</code>が<syntaxhighlight lang="lua" inline>8</syntaxhighlight>のときには基準座標から見て対象座標が八方位のうちどの方角にあるかを判定でき、返り値が4の場合は北西にあることがわかります。
+
+== 関連項目 ==
+* [[モジュール:駅一覧]]
+* [[モジュール:Coordinates]]
