@@ -90,6 +90,7 @@ function tu.Station( id, option )
         return self:getProperty( i18n.property_nextSta ) or {}
     end
 
+    --This is a shortcut for getProperty() to get name
     ---@return string The name of this station.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -104,19 +105,23 @@ function tu.Station( id, option )
         return obj._link
     end
 
-    ---@return string Wikitext of a link to the station
-    function obj:getLinkText()
-        ---@private Do not refer to this property directly
+    ---@param fallback string The fallback string used when sitelink not exist
+    ---@return string Wikitext of a link to the route
+    function obj:getLinkText(fallback)
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
         local title = mw.title.getCurrentTitle().fullText
-        if sitelink == title then return "'''" .. sitelink .. "'''" end
-        if name == sitelink then
-            return "[[" .. sitelink .."]]"
+        if not sitelink then
+            self._linkText = string.gsub(fallback, '$1', sitelink) or sitelink
+        elseif sitelink == title then
+            self._linkText = "'''" .. sitelink .. "'''"
+        elseif name == sitelink then
+            self._linkText = "[[" .. sitelink .."]]"
         else
-            return "[[" .. sitelink .. "|" .. name .. "]]"
+            self._linkText = "[[" .. sitelink .. "|" .. name .. "]]"
         end
+        return self._linkText
     end
 
     -- return Route instance
@@ -192,6 +197,7 @@ function tu.TrainStation( id, option )
         return self.entity[p]
     end
 
+    --This is a shortcut for getProperty() to get name
     ---@return string The name of this station.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -242,6 +248,7 @@ function tu.Route( id, option )
         return self.entity[p]
     end
 
+    --This is a shortcut for getProperty() to get name
     ---@return string The name of this route.
     function obj:getName()
         ---@private Do not refer to this property directly
@@ -256,19 +263,24 @@ function tu.Route( id, option )
         return obj._link
     end
 
+
+    ---@param fallback string The fallback string used when sitelink not exist
     ---@return string Wikitext of a link to the route
-    function obj:getLinkText()
-        ---@private Do not refer to this property directly
+    function obj:getLinkText(fallback)
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
         local title = mw.title.getCurrentTitle().fullText
-        if sitelink == title then return "'''" .. sitelink .. "'''" end
-        if name == sitelink then
-            return "[[" .. sitelink .."]]"
+        if not sitelink then
+            self._linkText = string.gsub(fallback, '$1', sitelink) or sitelink
+        elseif sitelink == title then
+            self._linkText = "'''" .. sitelink .. "'''"
+        elseif name == sitelink then
+            self._linkText = "[[" .. sitelink .."]]"
         else
-            return "[[" .. sitelink .. "|" .. name .. "]]"
+            self._linkText = "[[" .. sitelink .. "|" .. name .. "]]"
         end
+        return self._linkText
     end
 
     -- return Route instance
@@ -285,55 +297,54 @@ function tu.Train( id, option )
 
     -- initialization
     do
-    end
+        local initStaId
+        if next(obj:getProperty( i18n.property_locatedStations[1] )) then
+            initStaId = obj:getProperty( i18n.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
+        elseif next(obj:getProperty( i18n.property_locatedStations[2] )) then
+            initStaId = obj:getProperty( i18n.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
+        end
+        local initSta = tu.TrainStation(
+            initStaId
+        ) -- ex. Q801695
+        local staIds = { initStaId }
+        obj.stations = { initSta }
 
-    local initStaId
-    if next(obj:getProperty( i18n.property_locatedStations[1] )) then
-        initStaId = obj:getProperty( i18n.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
-    elseif next(obj:getProperty( i18n.property_locatedStations[2] )) then
-        initStaId = obj:getProperty( i18n.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
-    end
-    local initSta = tu.TrainStation(
-        initStaId
-    ) -- ex. Q801695
-    local staIds = { initStaId }
-    obj.stations = { initSta }
+        ---@param stas TrainStation[]
+        ---@return TrainStation[]
+        local function getStations( stas )
+            local nextStas = stas[#stas]:getNextStation() or {}
+            local finished = true
 
-    ---@param stas TrainStation[]
-    ---@return TrainStation[]
-    local function getStations( stas )
-        local nextStas = stas[#stas]:getNextStation() or {}
-        local finished = true
-
-        for _, nextSta in ipairs(nextStas) do
-            local q = nextSta.qualifiers or {}
-            if q[ i18n.property_connectingTrain[1] ] ~= nil then
-                if q[ i18n.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
-                    local id = nextSta.mainsnak.datavalue.value.id
-                    if #stas == 1 or not contains(staIds, id) then
-                        table.insert(staIds, id)
-                        table.insert(stas, tu.TrainStation(id))
-                        finished = false
-                        break
+            for _, nextSta in ipairs(nextStas) do
+                local q = nextSta.qualifiers or {}
+                if q[ i18n.property_connectingTrain[1] ] ~= nil then
+                    if q[ i18n.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
+                        local id = nextSta.mainsnak.datavalue.value.id
+                        if #stas == 1 or not contains(staIds, id) then
+                            table.insert(staIds, id)
+                            table.insert(stas, tu.TrainStation(id))
+                            finished = false
+                            break
+                        end
                     end
-                end
-            elseif q[ i18n.property_connectingTrain[2] ] ~= nil then
-                if q[ i18n.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
-                    local id = nextSta.mainsnak.datavalue.value.id
-                    if #stas == 1 or not contains(staIds, id) then
-                        table.insert(staIds, id)
-                        table.insert(stas, tu.TrainStation(id))
-                        finished = false
-                        break
+                elseif q[ i18n.property_connectingTrain[2] ] ~= nil then
+                    if q[ i18n.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
+                        local id = nextSta.mainsnak.datavalue.value.id
+                        if #stas == 1 or not contains(staIds, id) then
+                            table.insert(staIds, id)
+                            table.insert(stas, tu.TrainStation(id))
+                            finished = false
+                            break
+                        end
                     end
                 end
             end
+
+            if finished then return stas else return getStations( stas ) end
         end
 
-        if finished then return stas else return getStations( stas ) end
+        obj.stations = getStations(obj.stations)
     end
-
-    obj.stations = getStations(obj.stations)
 
     return obj
 end
@@ -342,11 +353,16 @@ end
 ---@param to string[]|number[] Coordinates to check
 ---@param parts number How many equal parts the direction
 ---                     will be divided into.
+---@param adj number Azimuths are measured with 0 degrees
+---                     as the center, not as the boundary.
+---                     To accommodate this classification,
+---                     specify an adjustment angle to be added
+---                     to the angle of the coordinates being mapped.
 ---@return number The direction from the coordinate of `from`
 ---                 to the coordinate of `to`. The numbers
 ---                 are assigned from 1 to the number of `parts`,
----                 starting from the north and proceeding clockwise.
-function tu.getDirection( from, to, parts )
+---                 starting from the east and proceeding counter-clockwise.
+function tu.getDirection( from, to, parts, adj )
     from = toDec( from )
     to = toDec( to )
     parts = parts or 8
@@ -357,9 +373,14 @@ function tu.getDirection( from, to, parts )
     local coordAngle = math.atan( latDiff, longDiff )
     local angleUnit = 2 * math.pi / parts
 
+    adj = adj or angleUnit / 2
+
+    local targetAngle = coordAngle + adj
+
     for i = 1, parts do
         local fromAngle = angleUnit * ( i - 1 )
         local toAngle = angleUnit * i
+        
 
         if fromAngle <= coordAngle and coordAngle <= toAngle then
             return i
