@@ -27,7 +27,13 @@
             tfr1, tfr2, ...     (args) : Optional. Retrieved from Wikidata by default
             spot1, spot2 ...    (args) : Spots around the station; watch out for the order
 ]]
-local p = {}
+local p = {
+    moduleInterface = {
+		suite  = 'Stalist',
+		serial = '2026-08-24',
+		item   = 58187507
+	}
+}
 local getArgs = require( 'Module:Arguments' ).getArgs
 local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
 local fileLink = require( 'Module:File_link' )._main
