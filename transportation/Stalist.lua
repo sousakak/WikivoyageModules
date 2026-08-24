@@ -35,7 +35,7 @@ local p = {
 	}
 }
 local getArgs = require( 'Module:Arguments' ).getArgs
-local title = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
+local BASICPAGENAME = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
 local fileLink = require( 'Module:File_link' )._main
 local tu = require( 'Module:Transportation Utilities' )
 
@@ -62,17 +62,6 @@ local function tableLength(tbl)
     return n
 end
 
-local function split(str, ts)
-    local table = {}
-    if ts == nil then return table end
-    i = 1
-    for piece in string.gmatch(str, '([^' .. ts .. ']+)') do
-        table[i] = piece
-        i = i + 1
-    end
-    return table
-end
-
 --[[ main functions ]]--
 function p.main(frame)
     return p.stalist(frame)
@@ -80,7 +69,7 @@ end
 
 function p.stalist(frame)
     local args = getArgs(frame)
-    local titletext = args.title or mw.title.getCurrentTitle().text
+    local title = args.title or BASICPAGENAME
     local route = tu.Train(mw.wikibase.getEntityIdForCurrentPage())
 
     local wikitext = mw.html.create()
@@ -91,7 +80,7 @@ function p.stalist(frame)
                     :attr( "colspan", 4 )
                     :addClass( "wikitable voy-stalist-title" )
                     :css( "border-bottom-color", args.color )
-                    :wikitext( titletext )
+                    :wikitext( title )
                     :done()
                 :done()
             :tag( "tr" ):addClass( "voy-stalist-row" )
@@ -99,22 +88,20 @@ function p.stalist(frame)
                 :tag( "th" ):wikitext( i18n.header_tfr ):addClass( "wikitable voy-stalist-header" ):done()
                 :tag( "th" ):wikitext( i18n.header_spot ):addClass( "wikitable voy-stalist-header" ):done()
                 :done()
-    i = 1
     if args[1] ~= nil then
+        local i = 1
         while args[i] ~= nil do
             --[[ define vars ]]--
             local qid = (mw.wikibase.isValidEntityId(args[i]) and args[i])
                         or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
             local item = mw.wikibase.getEntity(qid) -- this is expensive
-            local staimage = args["image" .. i] or nil
-            local staname = args["name" .. i] or item:getLabel('ja')
+            local staname = args["name" .. i] or route:getName()
             local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
-            local criterion = args.wikidata or mw.wikibase.getEntityIdForCurrentPage()
+            local criterion = args.wikidata or route.id
             local value_tfr = args["tfr" .. i] or ""
             local tfr_table = {}
 
             --[[ get data from Wikidata ]]--
-            local tfr_num = 0
             if value_tfr == "" then -- if args["tfr" .. i] is not nil
                 for p = 1, tableLength(i18n.property_tfr) do
                     if item:getBestStatements(i18n.property_tfr[p]) ~= nil then

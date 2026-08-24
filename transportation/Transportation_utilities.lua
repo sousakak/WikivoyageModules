@@ -75,9 +75,9 @@ function tu.Station( id, option )
         if invalid then error( "Invalid entity specified: " .. obj.id ) end
     end
 
-    ---@param p string Wikidata ID 
+    ---@param p string Wikidata ID
     ---@return table
-    function obj:getProperty( p )
+    function obj:getValues( p )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
@@ -85,10 +85,20 @@ function tu.Station( id, option )
         return self.entity[p]
     end
 
-    --This is a shortcut for getProperty() to get next stations
+    ---@param p string Wikidata ID
+    ---@return table
+    function obj:getValue( p )
+        if not isValidProperty( p ) then return end
+        if self.entity[p] == nil then
+            self.entity[p] = mw.wikibase.getBestStatements( self.id, p )
+        end
+        return self.entity[p]
+    end
+
+    --This is a shortcut for getValues() to get next stations
     ---@return table List of next stations.
     function obj:getNextStation()
-        return self:getProperty( config.property_nextSta ) or {}
+        return self:getValues( config.property_nextSta ) or {}
     end
 
     ---@return string The name of this station.
@@ -142,8 +152,8 @@ function tu.TrainStation( id, option )
         -- so that they can be handled.
         obj.children, obj.parent = {}, {}
 
-        local children = obj:getProperty( config.property_hasPart )
-        local parent = obj:getProperty( config.property_partOf )
+        local children = obj:getValues( config.property_hasPart )
+        local parent = obj:getValues( config.property_partOf )
         if children[1] ~= nil then
             for i, v in ipairs(children) do
                 local childID = v.mainsnak.datavalue.value.id
@@ -163,7 +173,7 @@ function tu.TrainStation( id, option )
     ---                     3: All children
     ---                     4: Both parent and all children
     ---@return table
-    function obj:getProperty( p, item )
+    function obj:getValues( p, item )
         item = item or 1
         if not isValidProperty( p ) then return end
         if self.entity[p] ~= nil then return self.entity[p] end
@@ -202,6 +212,61 @@ function tu.TrainStation( id, option )
             -- Add values of the parent item
             if self.parent[1] then do
                 local r = mw.wikibase.getAllStatements( self.parent[1], p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end end
+            if value[1] ~= nil then self.entity[p] = value end
+        else
+            error( "Invalid item number specified: " .. item )
+        end
+        return self.entity[p]
+    end
+
+    ---@param p string Wikidata ID
+    ---@param item number Property of which item should be retrieved from.
+    ---                     1: The item of obj.id itself (Default)
+    ---                     2: Parent
+    ---                     3: All children
+    ---                     4: Both parent and all children
+    ---@return table
+    function obj:getValue( p, item )
+        item = item or 1
+        if not isValidProperty( p ) then return end
+        if self.entity[p] ~= nil then return self.entity[p] end
+        if item == 1 then
+            self.entity[p] = mw.wikibase.getBestStatements( self.id, p )
+        elseif item == 2 then
+            if not self.parent[1] then
+                error("Attempted to get values for the property " .. p .. " from a parent item,"
+                    .. "but the item was not found.")
+            end
+            self.entity[p] = mw.wikibase.getBestStatements( self.parent[1], p )
+        elseif item == 3 then
+            if not self.children[1] then
+                error("Attempted to get values for the property " .. p .. " from child items,"
+                    .. "but no item was found.")
+            end
+
+            local value = {}
+            for _, child in ipairs( self.children ) do
+                local r = mw.wikibase.getBestStatements( child, p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end
+            if value[1] ~= nil then self.entity[p] = value end
+        elseif item == 4 then
+            if not self.parent[1] and not self.children[1] then
+                error("Attempted to get values for the property " .. p
+                    .. "from parent and child items, but no item was found.")
+            end
+
+            local value = {}
+            -- Add values of the child items
+            for _, child in ipairs( self.children ) do
+                local r = mw.wikibase.getBestStatements( child, p )
+                for _, v in ipairs( r ) do table.insert( value, v ) end
+            end
+            -- Add values of the parent item
+            if self.parent[1] then do
+                local r = mw.wikibase.getBestStatements( self.parent[1], p )
                 for _, v in ipairs( r ) do table.insert( value, v ) end
             end end
             if value[1] ~= nil then self.entity[p] = value end
@@ -254,10 +319,20 @@ function tu.Route( id, option )
 
     ---@param p string Wikidata ID 
     ---@return table
-    function obj:getProperty( p )
+    function obj:getValues( p )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
+        end
+        return self.entity[p]
+    end
+
+    ---@param p string Wikidata ID
+    ---@return table
+    function obj:getValue( p )
+        if not isValidProperty( p ) then return end
+        if self.entity[p] == nil then
+            self.entity[p] = mw.wikibase.getBestStatements( self.id, p )
         end
         return self.entity[p]
     end
@@ -311,10 +386,10 @@ function tu.Train( id, option )
     -- initialization
     do
         local initStaId
-        if next(obj:getProperty( config.property_locatedStations[1] )) then
-            initStaId = obj:getProperty( config.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
-        elseif next(obj:getProperty( config.property_locatedStations[2] )) then
-            initStaId = obj:getProperty( config.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
+        if next(obj:getValues( config.property_locatedStations[1] )) then
+            initStaId = obj:getValues( config.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
+        elseif next(obj:getValues( config.property_locatedStations[2] )) then
+            initStaId = obj:getValues( config.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
         end
         local initSta = tu.TrainStation(
             initStaId

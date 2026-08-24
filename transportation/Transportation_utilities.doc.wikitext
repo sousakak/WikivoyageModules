@@ -21,15 +21,19 @@
 : <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；駅・港のウィキデータID。
 
 : <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
-: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
-: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
 
-: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+: <syntaxhighlight lang="lua">function obj:getValues( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
 
+: <syntaxhighlight lang="lua">function obj:getValue( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティから[[:d:Special:MyLanguage/Help:Ranking|ランク]]ができるだけ高い値を1つ返します。非推奨ランクの文は決して返しません。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
 : <syntaxhighlight lang="lua">function obj:getNextStation()</syntaxhighlight>
-: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
+: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>のショートカットです。
 
 : <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
 : 駅／港の名前を返します。
@@ -51,8 +55,8 @@
 : <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；鉄道駅のウィキデータID。インスタンス生成時に取得される、最も関連性の高いウィキデータIDが入ります。駅に複数の会社が運営する路線が通っている場合、これは通常、会社ごとに細分化された子項目の1つです。
 
 : <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
-: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
-: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
 
 : <syntaxhighlight lang="lua">obj.children</syntaxhighlight>
 : <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；駅に複数の会社が運営する路線が通っている場合、会社ごとに細分化された子項目の一覧です。子項目のウィキデータIDが<syntaxhighlight lang="lua" inline>string</syntaxhighlight>型で入っています。
@@ -60,13 +64,19 @@
 : <syntaxhighlight lang="lua">obj.parent</syntaxhighlight>
 : <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；駅に複数の会社が運営する路線が通っている場合、駅全体を表す親項目の一覧です。通常親項目は1つなので、<syntaxhighlight lang="lua" inline>string</syntaxhighlight>型のウィキデータIDが1つだけ入っているはずです。
 
-: <syntaxhighlight lang="lua">function obj:getProperty( p, item )</syntaxhighlight>
+: <syntaxhighlight lang="lua">function obj:getValues( p, item )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 :* <code>item</code>（<syntaxhighlight lang="lua" inline>number</syntaxhighlight>）プロパティを検索する項目を指定するためのフラグ。<code>1</code>（既定値）はクラス生成時にIDで指定されたウィキデータ項目のみを検索。<code>2</code>は駅の親項目（上記の例で言う''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> ）のみを検索。<code>3</code>は会社ごとに分たれた子項目のすべてを検索。<code>4</code>は親項目と子項目の全てを検索。
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。駅のウィキデータ項目会が会社ごとに細分化されているため、プロパティを検索するウィキデータ項目を<code>item</code>で選択できます。
 
+: <syntaxhighlight lang="lua">function obj:getValues( p, item )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+:* <code>item</code>（<syntaxhighlight lang="lua" inline>number</syntaxhighlight>）プロパティを検索する項目を指定するためのフラグ。<code>1</code>（既定値）はクラス生成時にIDで指定されたウィキデータ項目のみを検索。<code>2</code>は駅の親項目（上記の例で言う''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> ）のみを検索。<code>3</code>は会社ごとに分たれた子項目のすべてを検索。<code>4</code>は親項目と子項目の全てを検索。
+: 指定されたプロパティから[[:d:Special:MyLanguage/Help:Ranking|ランク]]ができるだけ高い値を1つ返します。非推奨ランクの文は決して返しません。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。駅のウィキデータ項目会が会社ごとに細分化されているため、プロパティを検索するウィキデータ項目を<code>item</code>で選択できます。
+
+
 : <syntaxhighlight lang="lua">function obj:getNextStation()</syntaxhighlight>
-: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
+: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>のショートカットです。
 
 : <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
 : 駅の名前を返します。
@@ -88,12 +98,16 @@
 : <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；路線・道のウィキデータID。
 
 : <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
-: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
-: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
 
-: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+: <syntaxhighlight lang="lua">function obj:getValues( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
+: <syntaxhighlight lang="lua">function obj:getValue( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティから[[:d:Special:MyLanguage/Help:Ranking|ランク]]ができるだけ高い値を1つ返します。非推奨ランクの文は決して返しません。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
 
 : <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
 : 路線／道の名前を返します。
@@ -113,15 +127,19 @@
 : <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；鉄道路線のウィキデータID。
 
 : <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
-: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
-: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getValues( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
 
 : <syntaxhighlight lang="lua">obj.stations</syntaxhighlight>
 : <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；当該路線の駅のリストです。各要素は<syntaxhighlight lang="lua" inline>tu.TrainStation( id, option )</syntaxhighlight>により生成された疑似クラスです。
 
-: <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
+: <syntaxhighlight lang="lua">function obj:getValues( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
+
+: <syntaxhighlight lang="lua">function obj:getValue( p )</syntaxhighlight>
+:* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
+: 指定されたプロパティから[[:d:Special:MyLanguage/Help:Ranking|ランク]]ができるだけ高い値を1つ返します。非推奨ランクの文は決して返しません。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
 
 : <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
 : 路線の名前を返します。
