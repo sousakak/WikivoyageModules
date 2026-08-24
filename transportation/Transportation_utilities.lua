@@ -7,7 +7,7 @@ local tu = {
     }
 }
 
-local i18n = {
+local config = {
     property_connectingTrain = { 'P1192', 'P81' },
     property_hasPart = 'P527',
     property_locatedStations = { 'P559', 'P527' },
@@ -87,7 +87,7 @@ function tu.Station( id, option )
     --This is a shortcut for getProperty() to get next stations
     ---@return table List of next stations.
     function obj:getNextStation()
-        return self:getProperty( i18n.property_nextSta ) or {}
+        return self:getProperty( config.property_nextSta ) or {}
     end
 
     ---@return string The name of this station.
@@ -141,12 +141,12 @@ function tu.TrainStation( id, option )
         -- so that they can be handled.
         obj.children, obj.parent = {}, {}
 
-        local children = obj:getProperty( i18n.property_hasPart )
-        local parent = obj:getProperty( i18n.property_partOf )
+        local children = obj:getProperty( config.property_hasPart )
+        local parent = obj:getProperty( config.property_partOf )
         if children[1] ~= nil then
             for i, v in ipairs(children) do
                 local childID = v.mainsnak.datavalue.value.id
-                if contains( wu.getIds( childID, 'P31', 10), i18n.type_station ) then
+                if contains( wu.getIds( childID, 'P31', 10), config.type_station ) then
                     table.insert(obj.children, childID)
                 end
             end
@@ -295,10 +295,10 @@ function tu.Train( id, option )
     -- initialization
     do
         local initStaId
-        if next(obj:getProperty( i18n.property_locatedStations[1] )) then
-            initStaId = obj:getProperty( i18n.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
-        elseif next(obj:getProperty( i18n.property_locatedStations[2] )) then
-            initStaId = obj:getProperty( i18n.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
+        if next(obj:getProperty( config.property_locatedStations[1] )) then
+            initStaId = obj:getProperty( config.property_locatedStations[1] )[1].mainsnak.datavalue.value.id
+        elseif next(obj:getProperty( config.property_locatedStations[2] )) then
+            initStaId = obj:getProperty( config.property_locatedStations[2] )[1].mainsnak.datavalue.value.id
         end
         local initSta = tu.TrainStation(
             initStaId
@@ -314,8 +314,8 @@ function tu.Train( id, option )
 
             for _, nextSta in ipairs(nextStas) do
                 local q = nextSta.qualifiers or {}
-                if q[ i18n.property_connectingTrain[1] ] ~= nil then
-                    if q[ i18n.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
+                if q[ config.property_connectingTrain[1] ] ~= nil then
+                    if q[ config.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
                         local id = nextSta.mainsnak.datavalue.value.id
                         if #stas == 1 or not contains(staIds, id) then
                             table.insert(staIds, id)
@@ -324,8 +324,8 @@ function tu.Train( id, option )
                             break
                         end
                     end
-                elseif q[ i18n.property_connectingTrain[2] ] ~= nil then
-                    if q[ i18n.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
+                elseif q[ config.property_connectingTrain[2] ] ~= nil then
+                    if q[ config.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
                         local id = nextSta.mainsnak.datavalue.value.id
                         if #stas == 1 or not contains(staIds, id) then
                             table.insert(staIds, id)
