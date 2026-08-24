@@ -54,12 +54,20 @@ local i18n = {
 }
 
 --[[ utility functions ]]--
-local function tableLength(tbl)
-    local n = 0
-    for _ in pairs (tbl) do
-        n = n + 1
+---@param tbl table
+---@param item *
+---@return boolean
+local function contains( tbl, item )
+    for _, v in pairs( tbl ) do
+        if type( item ) == 'table' then
+            for _, i in ipairs( item ) do
+                if i == item then return i == item end
+            end
+        else
+            if v == item then return true end
+        end
     end
-    return n
+    return false
 end
 
 --[[ main functions ]]--
@@ -94,33 +102,27 @@ function p.stalist(frame)
             --[[ define vars ]]--
             local qid = (mw.wikibase.isValidEntityId(args[i]) and args[i])
                         or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
-            local item = mw.wikibase.getEntity( qid ) -- this is expensive
-            local staname = args["name" .. i] or wu.getLabel( item )
+            local sta = tu.TrainStation( qid )
+            local staname = args["name" .. i] or sta:getName()
             local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
             local criterion = args.wikidata or route.id
             local value_tfr = args["tfr" .. i] or ""
             local tfr_table = {}
 
             --[[ get data from Wikidata ]]--
-            if value_tfr == "" then -- if args["tfr" .. i] is not nil
-                -- route.stations[i]:getValues(i18n.property_tfr[p])
-                for p = 1, tableLength(i18n.property_tfr) do
-                    if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
-                        for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
-                            local tfr_id = item:getBestStatements(i18n.property_tfr[p])[value]["mainsnak"]["datavalue"]["value"]["id"]
+            if value_tfr == "" then
+                for p = 1, #i18n.property_tfr do
+                    local statements = sta:getValues( i18n.property_tfr[p], 3 )
+                    if statements[1] ~= nil then
+                        for j = 1, #statements do
+                            local tfr_id = statements[j]["mainsnak"]["datavalue"]["value"]["id"]
                             local tfr_text
-                            if tfr_id ~= criterion then
-                                if tfr_table[tfr_id] ~= nil then
-                                    tfr_text = tfr_table[tfr_id]
-                                else
-                                    tfr_text = mw.wikibase.getEntity(tfr_id):getLabel( mw.language.getContentLanguage():getCode() )
-                                    tfr_table[tfr_id] = tfr_text
-                                end
-                                value_tfr = value_tfr .. tfr_text .. "、"
+                            if tfr_id ~= criterion and not contains( tfr_table, tfr_id ) then
+                                value_tfr = value_tfr .. wu.getLabel( tfr_id ) .. "、"
+                                table.insert( tfr_table, tfr_id )
                             end
                         end
                     end
-                    tfr_num = p
                 end
                 if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
             end
