@@ -142,7 +142,7 @@
 <code>from</code>の座標を基準に<code>to</code>の座標がどちらの方向にあるのかを判定します。判定は基準座標の真東方向から反時計回りに割り振られた角度の範囲の内、該当する方角が何番目の範囲に入るかを調べることによって行われ、その数字が返されます。360度をいくつのパーツに分けるかは<code>part</code>で指定できます。例えば<code>part</code>が<syntaxhighlight lang="lua" inline>4</syntaxhighlight>のときには基準座標から見て対象座標が四方位のうちどの方角にあるかを判定でき、返り値が1の場合は東にあることがわかります。また、<code>part</code>が<syntaxhighlight lang="lua" inline>8</syntaxhighlight>のときには基準座標から見て対象座標が八方位のうちどの方角にあるかを判定でき、返り値が4の場合は北西にあることがわかります。
 
 == 関連項目 ==
-* [[モジュール:駅一覧]]
+* [[モジュール:Stalist]]
 * [[モジュール:Coordinates]]
 
 <includeonly>{{デフォルトソート:transportation utilities}}[[カテゴリ:交通のテンプレート]]</includeonly>
