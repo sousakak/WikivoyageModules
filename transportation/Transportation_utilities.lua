@@ -7,6 +7,10 @@ local tu = {
     }
 }
 
+local libraryUtil = require( 'libraryUtil' )
+local cd = require( 'Module:Coordinates' )
+local wu = require( 'Module:Wikidata utilities' )
+
 local config = {
     property_connectingTrain = { 'P1192', 'P81' },
     property_hasPart = 'P527',
@@ -15,9 +19,6 @@ local config = {
     property_partOf = 'P361',
     type_station = 'Q55488'
 }
-
-local cd = require( 'Module:Coordinates' )
-local wu = require( 'Module:Wikidata utilities' )
 
 --[[
     Utility Functions
@@ -66,6 +67,7 @@ function tu.Station( id, option )
     ---@field entity table
     ---@field id string
     local obj = {}
+    local checkSelf = libraryUtil.makeCheckSelfFunction( 'TransportationUtilities', 'Station', obj, 'Station pseudo-class' )
 
     -- initialization
     local invalid do
@@ -78,6 +80,7 @@ function tu.Station( id, option )
     ---@param p string Wikidata ID
     ---@return table
     function obj:getValues( p )
+        checkSelf( self, 'getValues' )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
@@ -88,6 +91,7 @@ function tu.Station( id, option )
     ---@param p string Wikidata ID
     ---@return table
     function obj:getValue( p )
+        checkSelf( self, 'getValue' )
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getBestStatements( self.id, p )
@@ -98,11 +102,14 @@ function tu.Station( id, option )
     --This is a shortcut for getValues() to get next stations
     ---@return table List of next stations.
     function obj:getNextStation()
+        checkSelf( self, 'getNextStation' )
         return self:getValues( config.property_nextSta ) or {}
     end
 
     ---@return string The name of this station.
     function obj:getName()
+        checkSelf( self, 'getName' )
+
         ---@private Do not refer to this property directly
         self._name = self._name or wu.getLabel(self.id)
         return self._name
@@ -110,6 +117,8 @@ function tu.Station( id, option )
 
     ---@return string The name of the article to which the item of the station is connected
     function obj:getSitelink()
+        checkSelf( self, 'getSitelink' )
+
         ---@private Do not refer to this property directly
         self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId ) or ''
         return obj._link
@@ -118,6 +127,8 @@ function tu.Station( id, option )
     ---@param fallback string The fallback string used when sitelink not exist
     ---@return string Wikitext of a link to the route
     function obj:getLinkText( fallback )
+        checkSelf( self, 'getLinkText' )
+
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
@@ -145,6 +156,7 @@ function tu.TrainStation( id, option )
     ---@field children table
     ---@field parent table
     local obj = tu.Station( id, option )
+    local checkSelf = libraryUtil.makeCheckSelfFunction( 'TransportationUtilities', 'TrainStation', obj, 'TrainStation pseudo-class' )
 
     -- initialization
     do
@@ -174,6 +186,8 @@ function tu.TrainStation( id, option )
     ---                     4: Both parent and all children
     ---@return table
     function obj:getValues( p, item )
+        checkSelf( self, 'getValues' )
+
         item = item or 1
         if not isValidProperty( p ) then return end
         if self.entity[p] ~= nil then return self.entity[p] end
@@ -229,6 +243,8 @@ function tu.TrainStation( id, option )
     ---                     4: Both parent and all children
     ---@return table
     function obj:getValue( p, item )
+        checkSelf( self, 'getValue' )
+
         item = item or 1
         if not isValidProperty( p ) then return end
         if self.entity[p] ~= nil then return self.entity[p] end
@@ -278,6 +294,8 @@ function tu.TrainStation( id, option )
 
     ---@return string The name of this station.
     function obj:getName()
+        checkSelf( self, 'getName' )
+
         ---@private Do not refer to this property directly
         self._name = self._name or (
             self.parent[1] ~= nil
@@ -289,6 +307,8 @@ function tu.TrainStation( id, option )
 
     ---@return string The name of the article to which the item of the station is connected.
     function obj:getSitelink()
+        checkSelf( self, 'getSitelink' )
+
         ---@private Do not refer to this property directly
         self._link = self._link or (
             self.parent[1] ~= nil
@@ -308,6 +328,7 @@ function tu.Route( id, option )
     ---@field entity table
     ---@field id string
     local obj = {}
+    local checkSelf = libraryUtil.makeCheckSelfFunction( 'TransportationUtilities', 'Route', obj, 'Route pseudo-class' )
 
     -- initialization
     local invalid do
@@ -320,6 +341,8 @@ function tu.Route( id, option )
     ---@param p string Wikidata ID 
     ---@return table
     function obj:getValues( p )
+        checkSelf( self, 'getValues' )
+
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
@@ -330,6 +353,8 @@ function tu.Route( id, option )
     ---@param p string Wikidata ID
     ---@return table
     function obj:getValue( p )
+        checkSelf( self, 'getValue' )
+
         if not isValidProperty( p ) then return end
         if self.entity[p] == nil then
             self.entity[p] = mw.wikibase.getBestStatements( self.id, p )
@@ -339,6 +364,8 @@ function tu.Route( id, option )
 
     ---@return string The name of this route.
     function obj:getName()
+        checkSelf( self, 'getName' )
+
         ---@private Do not refer to this property directly
         self._name = self._name or wu.getLabel(self.id)
         return self._name
@@ -346,6 +373,8 @@ function tu.Route( id, option )
 
     ---@return string The name of the article to which the item of the route is connected
     function obj:getSitelink()
+        checkSelf( self, 'getSitelink' )
+
         ---@private Do not refer to this property directly
         self._link = self._link or wu.getSitelink( self.id, mw.site.wikiId ) or ''
         return obj._link
@@ -355,6 +384,8 @@ function tu.Route( id, option )
     ---@param fallback string The fallback string used when sitelink not exist
     ---@return string Wikitext of a link to the route
     function obj:getLinkText( fallback )
+        checkSelf( self, 'getLinkText' )
+
         if self._linkText then return self._linkText end
         local sitelink = self:getSitelink()
         local name = self:getName()
@@ -382,6 +413,7 @@ function tu.Train( id, option )
     ---@field stations TrainStation[]
     ---@field id string
     local obj = tu.Route( id, option )
+    local checkSelf = libraryUtil.makeCheckSelfFunction( 'TransportationUtilities', 'Train', obj, 'Train pseudo-class' )
 
     -- initialization
     do

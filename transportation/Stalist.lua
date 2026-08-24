@@ -77,7 +77,8 @@ function p.main( frame )
     return p.stalist( frame )
 end
 
----@param frame
+---@param frame frame
+---@return mw.html
 function p.stalist( frame )
     local args = getArgs( frame )
     local title = args.title or BASICPAGENAME
