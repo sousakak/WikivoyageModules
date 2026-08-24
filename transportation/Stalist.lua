@@ -71,14 +71,17 @@ local function contains( tbl, item )
 end
 
 --[[ main functions ]]--
-function p.main(frame)
-    return p.stalist(frame)
+function get
+
+function p.main( frame )
+    return p.stalist( frame )
 end
 
-function p.stalist(frame)
-    local args = getArgs(frame)
+---@param frame
+function p.stalist( frame )
+    local args = getArgs( frame )
     local title = args.title or BASICPAGENAME
-    local route = tu.Train(mw.wikibase.getEntityIdForCurrentPage())
+    local route = tu.Train( mw.wikibase.getEntityIdForCurrentPage() )
 
     local wikitext = mw.html.create()
         :wikitext( frame:extensionTag{ name = 'templatestyles', args = {src = i18n.css} } ):done()
@@ -103,32 +106,32 @@ function p.stalist(frame)
             local qid = (mw.wikibase.isValidEntityId(args[i]) and args[i])
                         or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
             local sta = tu.TrainStation( qid )
-            local staname = args["name" .. i] or sta:getName()
-            local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
+            local staname = args["name" .. i] or sta:getLinkText()
             local criterion = args.wikidata or route.id
-            local value_tfr = args["tfr" .. i] or ""
-            local tfr_table = {}
+            local valueTfr = args["tfr" .. i] or ""
+            local tfrTable = {}
 
             --[[ get data from Wikidata ]]--
-            if value_tfr == "" then
+            if valueTfr == "" then
                 for p = 1, #i18n.property_tfr do
                     local statements = sta:getValues( i18n.property_tfr[p], 3 )
                     if statements[1] ~= nil then
                         for j = 1, #statements do
-                            local tfr_id = statements[j]["mainsnak"]["datavalue"]["value"]["id"]
-                            local tfr_text
-                            if tfr_id ~= criterion and not contains( tfr_table, tfr_id ) then
-                                value_tfr = value_tfr .. wu.getLabel( tfr_id ) .. "、"
-                                table.insert( tfr_table, tfr_id )
+                            local tfrId = statements[j]["mainsnak"]["datavalue"]["value"]["id"]
+                            if tfrId ~= criterion and not contains( tfrTable, tfrId ) then
+                                valueTfr = valueTfr .. wu.getLabel( tfrId ) .. "、"
+                                table.insert( tfrTable, tfrId )
                             end
                         end
                     end
                 end
-                if value_tfr then value_tfr = mw.ustring.sub(value_tfr, 1, mw.ustring.len(value_tfr) - 1) end -- remove the last punctuation mark
+                if valueTfr then -- remove the last punctuation mark
+                    valueTfr = mw.ustring.sub( valueTfr, 1, mw.ustring.len(valueTfr) - 1 )
+                end
             end
             wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
                 :tag( "td" ):wikitext( staname ):done()
-                :tag( "td" ):wikitext( value_tfr ):done()
+                :tag( "td" ):wikitext( valueTfr ):done()
                 :tag( "td" ):wikitext( args["spot" .. i] ):done()
                 :done()
             i = i + 1
