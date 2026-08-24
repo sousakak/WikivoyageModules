@@ -36,8 +36,8 @@ local p = {
 }
 local getArgs = require( 'Module:Arguments' ).getArgs
 local BASICPAGENAME = require( 'Module:BASICPAGENAME' ).BASICPAGENAME
-local fileLink = require( 'Module:File_link' )._main
-local tu = require( 'Module:Transportation Utilities' )
+local tu = require( 'Module:Transportation utilities' )
+local wu = require( 'Module:Wikidata utilities' )
 
 --[[ i18n ]]--
 local i18n = {
@@ -94,8 +94,8 @@ function p.stalist(frame)
             --[[ define vars ]]--
             local qid = (mw.wikibase.isValidEntityId(args[i]) and args[i])
                         or error(string.gsub(i18n.err_wrongid, "$1", i)) -- Wikidata id
-            local item = mw.wikibase.getEntity(qid) -- this is expensive
-            local staname = args["name" .. i] or route:getName()
+            local item = mw.wikibase.getEntity( qid ) -- this is expensive
+            local staname = args["name" .. i] or wu.getLabel( item )
             local function checkLine(statement) return statement["qualifiers"][i18n.property_filter][1]["datavalue"]["value"]["id"] end
             local criterion = args.wikidata or route.id
             local value_tfr = args["tfr" .. i] or ""
@@ -103,6 +103,7 @@ function p.stalist(frame)
 
             --[[ get data from Wikidata ]]--
             if value_tfr == "" then -- if args["tfr" .. i] is not nil
+                -- route.stations[i]:getValues(i18n.property_tfr[p])
                 for p = 1, tableLength(i18n.property_tfr) do
                     if item:getBestStatements(i18n.property_tfr[p]) ~= nil then
                         for value = 1, tableLength(item:getBestStatements(i18n.property_tfr[p])) do
@@ -133,7 +134,7 @@ function p.stalist(frame)
     else
         for i, sta in route.stations do
             wikitext = wikitext:tag( "tr" ):addClass( "voy-stalist-unit voy-stalist-row" )
-                :tag( "td" ):wikitext( sta:getName() ):done()
+                :tag( "td" ):wikitext( sta:getLinkText() ):done()
                 :tag( "td" ):wikitext( args["tfr" .. i] ):done()
                 :tag( "td" ):wikitext( args["spot" .. i] ):done()
                 :done()
