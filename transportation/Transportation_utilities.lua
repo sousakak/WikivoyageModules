@@ -332,20 +332,20 @@ function tu.Train( id, option )
                 local q = nextSta.qualifiers or {}
                 if q[ config.property_connectingTrain[1] ] ~= nil then
                     if q[ config.property_connectingTrain[1] ][1].datavalue.value.id == obj.id then
-                        local id = nextSta.mainsnak.datavalue.value.id
-                        if #stas == 1 or not contains(staIds, id) then
-                            table.insert(staIds, id)
-                            table.insert(stas, tu.TrainStation(id))
+                        local staId = nextSta.mainsnak.datavalue.value.id
+                        if #stas == 1 or not contains(staIds, staId) then
+                            table.insert(staIds, staId)
+                            table.insert(stas, tu.TrainStation(staId))
                             finished = false
                             break
                         end
                     end
                 elseif q[ config.property_connectingTrain[2] ] ~= nil then
                     if q[ config.property_connectingTrain[2] ][1].datavalue.value.id == obj.id then
-                        local id = nextSta.mainsnak.datavalue.value.id
-                        if #stas == 1 or not contains(staIds, id) then
-                            table.insert(staIds, id)
-                            table.insert(stas, tu.TrainStation(id))
+                        local staId = nextSta.mainsnak.datavalue.value.id
+                        if #stas == 1 or not contains(staIds, staId) then
+                            table.insert(staIds, staId)
+                            table.insert(stas, tu.TrainStation(staId))
                             finished = false
                             break
                         end
@@ -387,7 +387,7 @@ function tu.getDirection( from, to, parts, adj )
     local coordAngle = math.atan2( latDiff, longDiff )
     local angleUnit = 2 * math.pi / parts
 
-    adjAngle = adj and (angleUnit / 2) or 0
+    local adjAngle = adj and (angleUnit / 2) or 0
 
     local targetAngle = coordAngle + adjAngle
 
