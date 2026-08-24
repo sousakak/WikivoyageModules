@@ -2,7 +2,7 @@
 local tu = {
     moduleInterface = {
         suite  = 'TransportationUtilities',
-        serial = '2026-08-12',
+        serial = '2026-08-24',
         item   = 0
     }
 }
