@@ -70,8 +70,9 @@ function tu.Station( id, option )
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
+        if not mw.wikibase.isValidEntityId( obj.id ) then invalid = true end
         obj.entity = {}
-        if invalid then error( "Invalid entity" ) end
+        if invalid then error( "Invalid entity specified: " .. obj.id ) end
     end
 
     ---@param p string Wikidata ID 
@@ -136,7 +137,7 @@ function tu.TrainStation( id, option )
     local obj = tu.Station( id, option )
 
     -- initialization
-    local invalid do
+    do
         -- Process the station items, which are categorized by operating company,
         -- so that they can be handled.
         obj.children, obj.parent = {}, {}
@@ -169,26 +170,40 @@ function tu.TrainStation( id, option )
         if item == 1 then
             self.entity[p] = mw.wikibase.getAllStatements( self.id, p )
         elseif item == 2 then
+            if not self.parent[1] then
+                error("Attempted to get values for the property " .. p .. " from a parent item,"
+                    .. "but the item was not found.")
+            end
             self.entity[p] = mw.wikibase.getAllStatements( self.parent[1], p )
         elseif item == 3 then
+            if not self.children[1] then
+                error("Attempted to get values for the property " .. p .. " from child items,"
+                    .. "but no item was found.")
+            end
+
             local value = {}
-            for _, child in ipairs( obj.children ) do
+            for _, child in ipairs( self.children ) do
                 local r = mw.wikibase.getAllStatements( child, p )
                 for _, v in ipairs( r ) do table.insert( value, v ) end
             end
             if value[1] ~= nil then self.entity[p] = value end
         elseif item == 4 then
+            if not self.parent[1] and not self.children[1] then
+                error("Attempted to get values for the property " .. p
+                    .. "from parent and child items, but no item was found.")
+            end
+
             local value = {}
             -- Add values of the child items
-            for _, child in ipairs( obj.children ) do
+            for _, child in ipairs( self.children ) do
                 local r = mw.wikibase.getAllStatements( child, p )
                 for _, v in ipairs( r ) do table.insert( value, v ) end
             end
             -- Add values of the parent item
-            do
+            if self.parent[1] then do
                 local r = mw.wikibase.getAllStatements( self.parent[1], p )
                 for _, v in ipairs( r ) do table.insert( value, v ) end
-            end
+            end end
             if value[1] ~= nil then self.entity[p] = value end
         else
             error( "Invalid item number specified: " .. item )
@@ -232,8 +247,9 @@ function tu.Route( id, option )
     -- initialization
     local invalid do
         obj.id = id or mw.wikibase.getEntityIdForCurrentPage()
+        if not mw.wikibase.isValidEntityId( obj.id ) then invalid = true end
         obj.entity = {}
-        if invalid then error( "Invalid entity" ) end
+        if invalid then error( "Invalid entity specified: " .. obj.id ) end
     end
 
     ---@param p string Wikidata ID 

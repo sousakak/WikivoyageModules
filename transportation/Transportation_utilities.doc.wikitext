@@ -1,4 +1,5 @@
 {{lua|Coordinates|Wikidata utilities}}
+{{作成中}}
 
 旅の交通手段全般に関わるユーティリティ関数を提供します。
 
@@ -16,12 +17,19 @@
 * <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
 * <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
 全ての駅・港の疑似クラスを生成します。この疑似クラスは抽象クラスとして設計されており、そのままインスタンスを生成するのではなくこれを継承したクラスを用いるべきです。
+: <syntaxhighlight lang="lua">obj.id</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；駅・港のウィキデータID。
+
+: <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+
 : <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
 
 : <syntaxhighlight lang="lua">function obj:getNextStation()</syntaxhighlight>
-: 隣の駅 <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
+: ''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub>に特化した<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>のショートカットです。
 
 : <syntaxhighlight lang="lua">function obj:getName()</syntaxhighlight>
 : 駅／港の名前を返します。
@@ -39,6 +47,19 @@
 鉄道駅の疑似クラスを生成します。この疑似クラスは<syntaxhighlight lang="lua" inline>tu.Station( id, option )</syntaxhighlight>を継承しています。
 
 鉄道駅のウィキデータ項目は、会社ごとに細分化されています。駅自体のウィキデータ項目に加え、その駅を通る路線を運営している全ての会社についてそれぞれ細分化されたウィキデータ項目が用意されており、会社ごとの項目に路線などの情報が格納されています。例えば、''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> には他に''JR東日本大宮駅'' <sub>([[:d:Q124413523|Q124413523]])</sub>、''東武鉄道大宮駅'' <sub>([[:d:Q124416659|Q124416659]])</sub>、''埼玉新都市交通大宮駅'' <sub>([[:d:Q124416862|Q124416862]])</sub> という項目があり、''隣の駅'' <sub>([[:d:Property:P197|P197]])</sub> や''所属正式路線'' <sub>([[:d:Property:P81|P81]])</sub>は細分化された各項目にはあれど''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> にはありません。そのため、このクラスは部分的に他の駅と少し仕様が異なる部分があります。
+: <syntaxhighlight lang="lua">obj.id</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；鉄道駅のウィキデータID。インスタンス生成時に取得される、最も関連性の高いウィキデータIDが入ります。駅に複数の会社が運営する路線が通っている場合、これは通常、会社ごとに細分化された子項目の1つです。
+
+: <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+
+: <syntaxhighlight lang="lua">obj.children</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；駅に複数の会社が運営する路線が通っている場合、会社ごとに細分化された子項目の一覧です。子項目のウィキデータIDが<syntaxhighlight lang="lua" inline>string</syntaxhighlight>型で入っています。
+
+: <syntaxhighlight lang="lua">obj.parent</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；駅に複数の会社が運営する路線が通っている場合、駅全体を表す親項目の一覧です。通常親項目は1つなので、<syntaxhighlight lang="lua" inline>string</syntaxhighlight>型のウィキデータIDが1つだけ入っているはずです。
+
 : <syntaxhighlight lang="lua">function obj:getProperty( p, item )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 :* <code>item</code>（<syntaxhighlight lang="lua" inline>number</syntaxhighlight>）プロパティを検索する項目を指定するためのフラグ。<code>1</code>（既定値）はクラス生成時にIDで指定されたウィキデータ項目のみを検索。<code>2</code>は駅の親項目（上記の例で言う''大宮駅'' <sub>([[:d:Q801692|Q801692]])</sub> ）のみを検索。<code>3</code>は会社ごとに分たれた子項目のすべてを検索。<code>4</code>は親項目と子項目の全てを検索。
@@ -63,6 +84,13 @@
 全ての路線・道の疑似クラスを生成します。この疑似クラスは抽象クラスとして設計されており、そのままインスタンスを生成するのではなくこれを継承したクラスを用いるべきです。
 
 クラスの継承時、子クラスが対応する路線・道の種類によっては、ウィキデータ項目が特殊な構造を持っている場合があります。そういったときには親クラスのメソッドが正しく動作しない場合も考えられますので、必要に応じてメソッドを上書きしてください。
+: <syntaxhighlight lang="lua">obj.id</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；路線・道のウィキデータID。
+
+: <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+
 : <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
@@ -81,6 +109,16 @@
 * <code>id</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）駅のウィキデータ項目のID
 * <code>option</code>（<syntaxhighlight lang="lua" inline>table</syntaxhighlight>）生成されるクラスのオプション変数
 鉄道路線の疑似クラスを生成します。この疑似クラスは<syntaxhighlight lang="lua" inline>tu.Route( id, option )</syntaxhighlight>を継承しています。
+: <syntaxhighlight lang="lua">obj.id</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>string</syntaxhighlight>；鉄道路線のウィキデータID。
+
+: <syntaxhighlight lang="lua">obj.entity</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；該当するウィキデータ項目から取得したプロパティの値が格納されます。キーにプロパティ名、値に<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>の返り値が入ります。
+: ウィキデータ項目から特定のプロパティの値を取得したい場合、後述の<syntaxhighlight lang="lua" inline>obj:getProperty( p )</syntaxhighlight>を使用してください。<syntaxhighlight lang="lua" inline>obj.entity</syntaxhighlight>は過去に取得したプロパティのキャッシュであり、プロパティの参照には向いていません。
+
+: <syntaxhighlight lang="lua">obj.stations</syntaxhighlight>
+: <syntaxhighlight lang="lua" inline>table</syntaxhighlight>；当該路線の駅のリストです。各要素は<syntaxhighlight lang="lua" inline>tu.TrainStation( id, option )</syntaxhighlight>により生成された疑似クラスです。
+
 : <syntaxhighlight lang="lua">function obj:getProperty( p )</syntaxhighlight>
 :* <code>p</code>（<syntaxhighlight lang="lua" inline>string</syntaxhighlight>）検索するプロパティ。例：<syntaxhighlight lang="lua" inline>'P31'</syntaxhighlight>
 : 指定されたプロパティのすべての値を返します。返されるデータの構造については、[https://doc.wikimedia.org/Wikibase/master/php/docs_topics_lua.html#autotoc_md303 WikibaseのLuaドキュメント]をご確認ください。
@@ -106,3 +144,5 @@
 == 関連項目 ==
 * [[モジュール:駅一覧]]
 * [[モジュール:Coordinates]]
+
+<includeonly>{{デフォルトソート:transportation utilities}}[[カテゴリ:交通のテンプレート]]</includeonly>
