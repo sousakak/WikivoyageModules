@@ -317,7 +317,7 @@ function tu.TrainStation( id, option )
     ---@return table The list of wikidata IDs of train routes
     ---                 passing this station.
     function obj:getTransfer( route )
-        if self.transfers then return self.transfers end
+        if self._transfers then return self._transfers end
         if not mw.wikibase.isValidEntityId( route ) then
             error( 'Invalid wikidata ID: ' .. route )
         end
@@ -337,7 +337,7 @@ function tu.TrainStation( id, option )
                 end
             end
         end
-        self.transfers = transfers
+        self._transfers = transfers
         return transfers
     end
 
