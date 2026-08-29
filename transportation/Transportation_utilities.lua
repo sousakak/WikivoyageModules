@@ -17,6 +17,7 @@ local config = {
     property_locatedStations = { 'P559', 'P527' },
     property_nextSta = 'P197',
     property_partOf = 'P361',
+    property_transfer = { 'P1192', 'P81' },
     type_station = 'Q55488'
 }
 
@@ -41,6 +42,26 @@ local function contains( tbl, item )
         end
     end
     return false
+end
+
+---@param tbl The target table to purify.
+---@return table The table which has no duplication
+local function unique( tbl )
+    local seen = {}
+    local result = {}
+ 
+    for k, v in pairs( tbl ) do
+        if not (type( k ) == "number" and k % 1 == 0) then
+            result[k] = v
+        else
+            if not seen[v] then
+                seen[v] = true
+                table.insert( result, v )
+            end
+        end
+    end
+
+    return result
 end
 
 ---@param coord number[]|string[]
@@ -290,6 +311,34 @@ function tu.TrainStation( id, option )
             error( "Invalid item number specified: " .. item )
         end
         return self.entity[p]
+    end
+
+    ---@param route The train which an user took to this station.
+    ---@return table The list of wikidata IDs of train routes
+    ---                 passing this station.
+    function obj:getTransfer( route )
+        if self.transfers then return self.transfers end
+        if not mw.wikibase.isValidEntityId( route ) then
+            error( 'Invalid wikidata ID: ' .. route )
+        end
+        local transfers = {}
+        for _, p in ipairs( i18n.property_transfer ) do
+            local rawValues = self:getValues( '' )
+            for _, rawValue in ipairs( rawValues ) do
+                table.insert( transfers, rawValue.mainsnak.datavalue.value.id )
+            end
+        end
+        transfers = unique( transfers )
+        if route then
+            for i = #transfers, 1, -1 do
+                if transfers[i] == route then
+                    table.remove(transfers, i)
+                    break
+                end
+            end
+        end
+        self.transfers = transfers
+        return transfers
     end
 
     ---@return string The name of this station.
